@@ -12,7 +12,9 @@ public class HelloController {
     public static URL getViewURL(){ return HelloController.class.getResource("hello-view.fxml"); }
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    protected void onConnectionButtonClick() {
+        welcomeText.setText("Bientôt une page de connexion!");
     }
+
+
 }
