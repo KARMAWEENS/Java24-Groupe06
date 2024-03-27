@@ -1,4 +1,6 @@
 package org.example.java24groupe06.models;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Date;
 
 public class Movie {
@@ -60,7 +62,7 @@ public int getDuration(){
             this.producer = producer;
             return this;
         }
-
+//a enlebver
         public MovieBuilder setPathImg(String pathImg) {
             this.pathImg = pathImg;
             return this;
