@@ -62,7 +62,7 @@ public int getDuration(){
             this.producer = producer;
             return this;
         }
-//a enlebver
+
         public MovieBuilder setPathImg(String pathImg) {
             this.pathImg = pathImg;
             return this;
