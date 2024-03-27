@@ -4,6 +4,7 @@ module org.example.java24groupe06 {
 
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
 
     exports org.example.java24groupe06.views;
