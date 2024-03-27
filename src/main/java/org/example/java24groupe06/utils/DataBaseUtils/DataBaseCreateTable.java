@@ -27,6 +27,29 @@ public class DataBaseCreateTable {
             throw e;
         }
     }
+    public static void InsertTable(Connection conn, String tableName, String... attributes) throws SQLException {
+        StringBuilder query = new StringBuilder("INSERT INTO");
+        query.append(tableName).append(" (");
+
+        // Ajoute les attributs à la requête
+        for (int i = 0; i < attributes.length; i++) {
+            query.append(attributes[i]);
+            if (i < attributes.length - 1) {
+                query.append(", ");
+            }
+        }
+
+        query.append(")");
+
+        // Exécute la requête pour créer la table
+        try (Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(query.toString());
+            System.out.println("Table " + tableName + " created successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error creating table: " + e.getMessage());
+            throw e;
+        }
+    }
     public static void deleteTable(Connection conn, String tableName) {
         try {
             Statement statement = conn.createStatement();
