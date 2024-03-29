@@ -1,10 +1,10 @@
-package org.example.java24groupe06.utils.DataBaseUtils;
+package org.example.java24groupe06.utils.DataBase.Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataBaseConnection {
+public class ConnectionDB {
     public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseCinema.db";
 
     public static Connection openDatabase() throws SQLException, ClassNotFoundException {

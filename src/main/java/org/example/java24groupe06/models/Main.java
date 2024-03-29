@@ -9,5 +9,7 @@ public class Main {
                 .setTitle("fd")
                 .build();
         System.out.println(movie.getTitle() + movie.getDuration());
+
+
     }
 }
