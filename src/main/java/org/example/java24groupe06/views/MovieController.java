@@ -2,7 +2,8 @@ package org.example.java24groupe06.views;
 
 import org.example.java24groupe06.models.Movie;
 import org.example.java24groupe06.utils.DataBase.CRUD.MovieRepository;
-import org.example.java24groupe06.utils.DataBase.Utils.ConnectionDB;
+
+import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ public class MovieController {
     }
 
     public void showMovies() throws SQLException, ClassNotFoundException, ParseException {
-        Connection conn = ConnectionDB.openDatabase();
+        ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
         List<Movie> movies = movieRepository.getShowingMovies(conn);
         // On passe les movies a la vue
 
@@ -26,6 +27,5 @@ public class MovieController {
             System.out.println(movie.getTitle());
             System.out.println(movie.getDuration());
         }
-        ConnectionDB.closeDatabase(conn);
     }
 }

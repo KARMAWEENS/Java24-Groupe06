@@ -1,7 +1,8 @@
 package org.example.java24groupe06.utils.DataBase.CRUD;
 
 import org.example.java24groupe06.models.Movie;
-import org.example.java24groupe06.utils.DataBase.Utils.ConnectionDB;
+
+import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,10 +17,11 @@ import java.util.List;
 public class CreateMoviesFromDB implements MovieRepository {
 
     @Override
-    public List<Movie> getShowingMovies(Connection conn) throws SQLException, ParseException {
+    public List<Movie> getShowingMovies(ConnectionSingletonDB conn) throws SQLException, ParseException {
 
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movies WHERE isShowing = true";
+        // ! C'est un try with ressources pas un try catch
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {

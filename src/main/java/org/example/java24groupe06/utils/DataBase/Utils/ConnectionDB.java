@@ -1,3 +1,4 @@
+/*
 package org.example.java24groupe06.utils.DataBase.Utils;
 
 import java.sql.Connection;
@@ -14,7 +15,7 @@ public class ConnectionDB {
         // Établir une connexion à la base de données
         Connection conn = DriverManager.getConnection(DB_URL);
 
-        System.out.println("Connexion à la base de données établie avec succès.");
+        System.out.println("Connexion à la base de données établie avec succèsssssssssssssssssss.");
 
         return conn;
     }
@@ -23,10 +24,11 @@ public class ConnectionDB {
         try {
             if (conn != null) {
                 conn.close();
-                System.out.println("Connexion à la base de données fermée avec succès.");
+                System.out.println("Connexion à la base de données fermée avec succèsssssssssssssssss.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
+*/

@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 import org.example.java24groupe06.models.Movie;
 import org.example.java24groupe06.utils.DataBase.CRUD.CreateMoviesFromDB;
 import org.example.java24groupe06.utils.DataBase.CRUD.MovieRepository;
-import org.example.java24groupe06.utils.DataBase.Utils.ConnectionDB;
+
+import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 import org.example.java24groupe06.views.HelloController;
 import org.example.java24groupe06.views.MovieController;
 
@@ -31,11 +32,11 @@ public class HelloApplication extends Application {
         ShowMovies View*/
 
         try {
-            Connection conn = ConnectionDB.openDatabase();
+            ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
             MovieRepository movieRepository = new CreateMoviesFromDB();
             MovieController movieController = new MovieController(movieRepository);
             movieController.showMovies();
-            ConnectionDB.closeDatabase(conn);
+            conn.closeDatabase();
         } catch (SQLException | ClassNotFoundException | ParseException e) {
             e.printStackTrace();
         }
