@@ -1,10 +1,7 @@
-package org.example.java24groupe06.utils.DataBase.CRUD;
+package org.example.java24groupe06.models;
 
-import org.example.java24groupe06.models.Movie;
 
 import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,20 +11,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CreateMoviesFromDB implements MovieRepository {
+/**
+ * The Movie class represents a movie in the cinema system.
+ * It contains details about the movie such as title, duration, synopsis, release date, producer, image path and showing status.
+ * The Movie class uses the Builder pattern for its creation, which allows for more readable and flexible construction of the Movie object.
+ */
+public class CreateMovies {
 
-    @Override
-    public List<Movie> getShowingMovies(ConnectionSingletonDB conn) throws SQLException, ParseException {
 
+    public List<Movie> getShowingMovies() throws SQLException, ParseException {
+
+        ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movies WHERE isShowing = true";
         // ! C'est un try with ressources pas un try catch
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
+                System.out.println();
                 movies.add(createMovieObject(rs));
             }
         }
+        conn.closeDatabase();
         return movies;
     }
     private static Movie createMovieObject(ResultSet rs) throws SQLException, ParseException {

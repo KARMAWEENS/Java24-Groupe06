@@ -1,22 +1,19 @@
 package org.example.java24groupe06.controllers;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.java24groupe06.models.Movie;
-import org.example.java24groupe06.utils.DataBase.CRUD.CreateMoviesFromDB;
-import org.example.java24groupe06.utils.DataBase.CRUD.MovieRepository;
+import org.example.java24groupe06.models.CreateMovies;
 
-import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 import org.example.java24groupe06.views.HelloController;
 import org.example.java24groupe06.views.MovieController;
 
 import java.io.IOException;
+import java.util.List;
 
 public class HelloApplication extends Application {
     @Override
@@ -32,16 +29,18 @@ public class HelloApplication extends Application {
         ShowMovies View*/
 
         try {
-            ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
-            MovieRepository movieRepository = new CreateMoviesFromDB();
-            MovieController movieController = new MovieController(movieRepository);
-            movieController.showMovies();
-            conn.closeDatabase();
+
+            CreateMovies movieRepository = new CreateMovies();
+            List<Movie> movies = movieRepository.getShowingMovies();
+
+            MovieController movieController = new MovieController();
+
+            movieController.showMovies(movies);
+
+
         } catch (SQLException | ClassNotFoundException | ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public static void main(String[] args) {

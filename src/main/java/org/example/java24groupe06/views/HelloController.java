@@ -2,7 +2,6 @@ package org.example.java24groupe06.views;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
 import java.net.URL;
 
 public class HelloController {
