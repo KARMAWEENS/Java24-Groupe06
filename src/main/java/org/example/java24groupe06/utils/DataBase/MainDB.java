@@ -2,33 +2,27 @@ package org.example.java24groupe06.utils.DataBase;
 
 import org.example.java24groupe06.models.Movie;
 import org.example.java24groupe06.utils.DataBase.CRUD.CreateDB;
-import org.example.java24groupe06.utils.DataBase.CRUD.ReadDB;
+import org.example.java24groupe06.utils.DataBase.CRUD.CreateMoviesFromDB;
+import org.example.java24groupe06.utils.DataBase.CRUD.MovieRepository;
 import org.example.java24groupe06.utils.DataBase.Utils.ConnectionDB;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainDB {
+    private MovieRepository movieRepository;
+
     public static void main(String[] args) {
+
         Connection conn = null;
-        try {
+/*        try {
             conn = ConnectionDB.openDatabase();
 
             try {
           //TableCreationAndInsert(conn);
-                List <Movie> movies = ReadDB.getShowingMoviesData(conn);
 
-                for(Movie movie : movies){
-                    System.out.println(movie.getTitle());
-                    System.out.println(movie.getDuration());
-                }
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -42,9 +36,9 @@ public class MainDB {
 
             ConnectionDB.closeDatabase(conn);
         }
-    }
+    }*/
 
-    private static void createAndInsertTables(Connection conn) throws SQLException {
+/*    private static void createAndInsertTables(Connection conn) throws SQLException {
         createTable(conn, "Movies", "movieID INT PRIMARY KEY", "pathImg VARCHAR(255)", "title VARCHAR(255)", "duration INT", "synopsis TEXT", "isShowing BOOLEAN", "ReleaseDate DATE", "Producer VARCHAR(255)");
         createTable(conn, "Genres", "genreId INT PRIMARY KEY", "genre VARCHAR(255)");
         createTable(conn, "MoviesGenres", "movieID INT", "genreID INT", "FOREIGN KEY (movieID) REFERENCES Movies(movieID)", "FOREIGN KEY (genreID) REFERENCES Genres(genreID)", "PRIMARY KEY (movieID, genreID)");
@@ -60,5 +54,7 @@ public class MainDB {
     }
     private static void insertIntoTable(Connection conn, String tableName, String values) throws SQLException {
         CreateDB.insertIntoTable(conn, tableName, values);
+    }*/
+
     }
 }

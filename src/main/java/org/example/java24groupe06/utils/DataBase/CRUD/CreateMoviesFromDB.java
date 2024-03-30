@@ -1,6 +1,7 @@
 package org.example.java24groupe06.utils.DataBase.CRUD;
 
 import org.example.java24groupe06.models.Movie;
+import org.example.java24groupe06.utils.DataBase.Utils.ConnectionDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ReadDB {
+public class CreateMoviesFromDB implements MovieRepository {
 
-    public static List<Movie> getShowingMoviesData(Connection conn) throws SQLException, ParseException {
+    @Override
+    public List<Movie> getShowingMovies(Connection conn) throws SQLException, ParseException {
+
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movies WHERE isShowing = true";
         try (PreparedStatement stmt = conn.prepareStatement(query);
@@ -46,3 +49,4 @@ public class ReadDB {
 
 
 }
+
