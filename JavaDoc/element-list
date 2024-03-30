@@ -1,0 +1,7 @@
+module:org.example.java24groupe06
+org.example.java24groupe06.controllers
+org.example.java24groupe06.models
+org.example.java24groupe06.utils.DataBase
+org.example.java24groupe06.utils.DataBase.CRUD
+org.example.java24groupe06.utils.DataBase.Utils
+org.example.java24groupe06.views

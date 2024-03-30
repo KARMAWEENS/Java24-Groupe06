@@ -6,6 +6,8 @@ import org.example.java24groupe06.utils.DataBase.CRUD.CreateDB;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+
+// PAS UTILISER DONC PAS DE JAVADOC MTN
 public class MainDB {
 
     public static void main(String[] args) {

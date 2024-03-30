@@ -2,12 +2,29 @@ package org.example.java24groupe06.utils.DataBase.Utils;
 
 import java.sql.*;
 
+/**
+ * The ConnectionSingletonDB class provides a singleton instance of a database connection.
+ *
+ * This class uses the Singleton design pattern to ensure that only one instance of the database connection is created.
+ * The database connection is established using the JDBC API.
+ * The database URL is specified as a constant.
+ *
+ * The class provides methods for getting the singleton instance, closing the database connection, and preparing SQL statements.
+ */
 public class ConnectionSingletonDB {
 
     public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseCinema.db";
     private static ConnectionSingletonDB instance = null;
     private Connection connection = null;
 
+    /**
+     * Private constructor for the ConnectionSingletonDB class.
+     *
+     * This constructor is private to prevent other classes from creating new instances of the ConnectionSingletonDB class.
+     * It establishes a connection to the database using the JDBC API.
+     *
+     * @throws RuntimeException If there is an error loading the JDBC driver or establishing the database connection.
+     */
     private  ConnectionSingletonDB() {
         try {
 
@@ -22,6 +39,13 @@ public class ConnectionSingletonDB {
 
     }
 
+    /**
+     * Retrieves the singleton instance of the ConnectionSingletonDB class.
+     *
+     * If the singleton instance has not been created yet, this method creates it.
+     *
+     * @return The singleton instance of the ConnectionSingletonDB class.
+     */
     public static ConnectionSingletonDB getInstance(){
         if(instance == null){
             instance = new ConnectionSingletonDB();
@@ -29,6 +53,11 @@ public class ConnectionSingletonDB {
         return instance;
     }
 
+    /**
+     * Closes the database connection.
+     *
+     * @throws RuntimeException If there is an error closing the database connection.
+     */
     public void closeDatabase(){
         try{
             if(this.connection != null){
@@ -40,9 +69,19 @@ public class ConnectionSingletonDB {
         }
     }
 
+    /**
+     * Retrieves the Connection object.
+     *
+     * @return The Connection object.
+     */
     public Connection getConnection() {
         return this.connection;
     }
+
+
+
+/////// METHODE PREPARED STATEMENT AMENER A EVOLUER
+// DONC PAS DE JAVADOC MTN
 
     // Ici c'est pas un override, ca porte le meme nom mais on appelle pas
     // prepareStatement dans les memes classes
