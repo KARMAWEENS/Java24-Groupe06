@@ -28,18 +28,14 @@ public class HelloApplication extends Application {
             CreateMovies createMovies = new CreateMovies();
             List<Movie> movies = createMovies.getShowingMovies();
 
-
-            // On crée le controller et on lui donne la list de film
-            MovieController movieController = new MovieController();
-            movieController.createPosterList(movies);
-
             // FXML shits
             FXMLLoader fxmlLoader = new FXMLLoader(HelloController.getViewURL());
             Scene scene = new Scene(fxmlLoader.load());
             HelloController helloController = fxmlLoader.getController();
 
-            Presentation presentation = new Presentation(movieController.getPosterList());
+            Presentation presentation = new Presentation(movies);
 
+            helloController.setMovieList(movies);
             helloController.setPresentation(presentation);
             helloController.show();
 
