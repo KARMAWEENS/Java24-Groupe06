@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.example.java24groupe06.models.Movie;
-import org.example.java24groupe06.models.Presentation;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,25 +16,24 @@ public class HelloController {
     @FXML
     private Pane paneMoovie;
     private List<Movie> moviesList;
-    private Presentation presentation;
+
 
     public void setMovieList(List<Movie> moviesList) {
         this.moviesList = moviesList;
     }
 
-    public void setPresentation(Presentation presentation) {
-        this.presentation = presentation;
-    }
 
     public static URL getViewURL() {
         return HelloController.class.getResource("hello-view.fxml");
     }
 
+    private int nbRow;
+    private final int nbColumn = 4;
 
 
     public void show() throws FileNotFoundException {
 
-        GridPane gridPane = new GridPane( presentation.getNbRow(),presentation.getNbColumn());
+        GridPane gridPane = new GridPane( nbRow,nbColumn);
 
         gridPane.setHgap(10);
         gridPane.setVgap(10);
@@ -43,8 +41,9 @@ public class HelloController {
         paneMoovie.setStyle("-fx-background-color: #050505;");
         paneMoovie.getChildren().add(gridPane);
 
-
-        for(int row = 0; row<= presentation.getNbRow();row++){
+      //  this.nbRow = (int) Math.ceil((double) moviesList.size() / nbColumn);
+        this.nbRow = moviesList.size();
+        for(int row = 0; row< nbRow;row++){
             // TODO faire double boucle
             System.out.println("FAUDRA RAJOUTER UNE DOUBLE BOUCLE SI PAS TOUS LES FILMS");
             Movie movie = moviesList.get(row);

@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import org.example.java24groupe06.models.CreateMovies;
 
 import org.example.java24groupe06.models.Movie;
-import org.example.java24groupe06.models.Presentation;
 import org.example.java24groupe06.views.HelloController;
 
 import java.io.IOException;
@@ -33,10 +32,8 @@ public class HelloApplication extends Application {
             Scene scene = new Scene(fxmlLoader.load());
             HelloController helloController = fxmlLoader.getController();
 
-            Presentation presentation = new Presentation(movies);
 
             helloController.setMovieList(movies);
-            helloController.setPresentation(presentation);
             helloController.show();
 
             stage.setTitle("Hello!");
