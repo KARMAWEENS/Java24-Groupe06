@@ -1,7 +1,9 @@
 package org.example.java24groupe06.utils.DataBase.CRUD;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 
 /**
  * The CreateDB class provides methods for creating tables and inserting data into tables in a database.
@@ -25,8 +27,8 @@ public class CreateDB {
     //!!!! Y A MOYEN QU ON DOIVE CHANGER CONNECTION CONN EN CONNECTIONSINGLETON A VOIR PAS SUR
     public static void createTable(Connection conn, String tableName, String... attributes) throws SQLException {
         String query = String.format("CREATE TABLE IF NOT EXISTS %s (%s)", tableName, String.join(", ", attributes));
-
         try (Statement stmt = conn.createStatement()) {
+
             stmt.executeUpdate(query);
             System.out.println("Table " + tableName + " created successfully.");
         } catch (SQLException e) {
@@ -43,20 +45,30 @@ public class CreateDB {
      *
      * @param conn The Connection object to use for executing the SQL statement.
      * @param tableName The name of the table to insert data into.
-     * @param attributes The data to insert into the table, specified as a varargs parameter.
+
      * @throws SQLException If there is an error executing the SQL statement.
      */
-    public static void insertIntoTable(Connection conn, String tableName, String... attributes) throws SQLException {
-        String query = String.format("INSERT INTO %s (%s)", tableName, String.join(", ", attributes));
+    public static void insertIntoTable(Connection conn, String tableName, String... values) throws SQLException {
+        // Construire la partie de la requête pour les valeurs
+        String placeholders = String.join(", ", Collections.nCopies(values.length, "?"));
+        // Construire la requête SQL avec des paramètres de requête préparée
+        String query = String.format("INSERT INTO %s VALUES (%s)", tableName, placeholders);
 
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(query);
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            // Remplacer les paramètres de requête préparée par les valeurs réelles
+            for (int i = 0; i < values.length; i++) {
+                pstmt.setString(i + 1, values[i]);
+            }
+            // Exécuter la requête
+            pstmt.executeUpdate();
             System.out.println("Data inserted into table " + tableName + " successfully.");
         } catch (SQLException e) {
             System.out.println("Error inserting data into table: " + e.getMessage());
             throw e;
         }
     }
+
+
 
 
 

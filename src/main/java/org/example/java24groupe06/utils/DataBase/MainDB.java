@@ -16,7 +16,18 @@ public class MainDB {
 
     ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
         try {
-            UpdateDB.updateTable(conn.getConnection(), "Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/téléchargement(2).png"}, "movieID = 1");
+
+            String movieID ="9";
+            String pathImg = "src/main/java/org/example/java24groupe06/views/img/Sleeping Dogs.png";
+            String title = "Sleeping Dogs";
+            String duration = "110";
+            String releaseDate = "2024-03-27";
+            String synopsis = "L'ancien inspecteur de la criminelle, Roy Freeman, suit un traitement contre la maladie d'Alzheimer. En effet, il est chargé de réexaminer une affaire de meurtre. Un condamné à mort que Roy a arrêté dix ans auparavant qui clame aujourd'hui son innocence.";
+            String isShowing = "1";
+            String producer = "Adam Cooper";
+
+            //CreateDB.insertIntoTable(conn.getConnection(), "Movies", movieID,pathImg, title, duration, synopsis, isShowing, releaseDate, producer);
+            UpdateDB.updateTable(conn.getConnection(), "Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/Sleeping Dogs.png"}, "movieID = 9");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
