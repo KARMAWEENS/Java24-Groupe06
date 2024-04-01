@@ -4,7 +4,7 @@ public class Poster {
 private Position position;
 private final int heightSize=80;
 private final int withSize = 60;
-private Moovies moovie;
+private Movie movie;
 
     public int getHeightSize() {
         return heightSize;
@@ -13,15 +13,15 @@ private Moovies moovie;
     public int getWithSize() {
         return withSize;
     }
-    public Poster(Position position, Moovies moovie){
+    public Poster(Position position, Movie movie){
         this.position = position;
-        this.moovie = moovie;
+        this.movie = movie;
     }
-    public Moovies getFilm(){
-        return moovie;
+    public Movie getFilm(){
+        return this.movie;
     }
     public String getPathImgPoster(){
-       return moovie.getPathImg();
+       return movie.getPathImg();
     }
     public int getPositionColumn(){
         return position.getColumn();

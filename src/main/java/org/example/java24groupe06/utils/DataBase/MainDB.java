@@ -1,6 +1,8 @@
 package org.example.java24groupe06.utils.DataBase;
 
 import org.example.java24groupe06.utils.DataBase.CRUD.CreateDB;
+import org.example.java24groupe06.utils.DataBase.CRUD.UpdateDB;
+import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 
 
 import java.sql.Connection;
@@ -12,12 +14,12 @@ public class MainDB {
 
     public static void main(String[] args) {
 
-/*    ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
+    ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
         try {
-            createAndInsertTables(conn.getConnection());
+            UpdateDB.updateTable(conn.getConnection(), "Movies", new String[]{"pathImg"}, new String[]{"src/main/java/org/example/java24groupe06/views/img/téléchargement(2).png"}, "movieID = 1");
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }*/
+        }
 
     }
    private static void createAndInsertTables(Connection conn) throws SQLException {

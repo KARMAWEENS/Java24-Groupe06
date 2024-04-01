@@ -7,6 +7,10 @@ public class Presentation {
     private final int nbColumn = 4;
     private int nbRow;
 
+    public Presentation(List<Poster> posterList){
+        this.posterList = posterList;
+    }
+
     public void setNbRow() {
         int nbMoovies = posterList.size();
         this.nbRow = (int) Math.ceil((double) nbMoovies / nbColumn);
@@ -32,7 +36,5 @@ public class Presentation {
     public List<Poster> getPosterList() {
         return posterList;
     }
-    public Presentation(List<Poster> posterList){
-        this.posterList = posterList;
-    }
+
 }

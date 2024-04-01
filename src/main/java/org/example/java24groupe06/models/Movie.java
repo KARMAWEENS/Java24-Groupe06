@@ -36,6 +36,10 @@ public class Movie {
     }
     // Getters and possibly setters if needed
 
+    public String getPathImg() {
+        return this.pathImg;
+    }
+
     /**
      * This is a Builder class for the Movie class.
      * The Builder pattern is used to construct a complex object step by step.
