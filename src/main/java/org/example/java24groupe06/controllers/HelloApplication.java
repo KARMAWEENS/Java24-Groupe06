@@ -24,30 +24,26 @@ public class HelloApplication extends Application {
 
         try {
 
+            // On recupere la db et on crée une list d'objet Movie
             CreateMovies createMovies = new CreateMovies();
             List<Movie> movies = createMovies.getShowingMovies();
 
-
-            MoovieController moovieController = new MoovieController();
-            moovieController.createPosterList(movies);
-
-
-
+            // FXML shits
             FXMLLoader fxmlLoader = new FXMLLoader(HelloController.getViewURL());
             Scene scene = new Scene(fxmlLoader.load());
-
-            Presentation presentation = new Presentation(moovieController.getPosterList());
             HelloController helloController = fxmlLoader.getController();
+
+            Presentation presentation = new Presentation(movies);
+
+            helloController.setMovieList(movies);
             helloController.setPresentation(presentation);
-
-          //  fxmlLoader.setControllerFactory(controller -> new HelloController());
-
+            helloController.show();
 
             stage.setTitle("Hello!");
             stage.setScene(scene);
             stage.show();
 
-            helloController.show();
+
 
         } catch (SQLException |  ParseException e) {
             e.printStackTrace();
