@@ -16,7 +16,7 @@ public class MainDB {
 
     ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
         try {
-            UpdateDB.updateTable(conn.getConnection(), "Movies", new String[]{"pathImg"}, new String[]{"src/main/java/org/example/java24groupe06/views/img/téléchargement(2).png"}, "movieID = 1");
+            UpdateDB.updateTable(conn.getConnection(), "Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/téléchargement(2).png"}, "movieID = 1");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
