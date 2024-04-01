@@ -8,7 +8,7 @@ import org.example.java24groupe06.models.Poster;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoovieController {
+public class MovieController {
     private List<Poster> posterList = new ArrayList<>();
     private List<Movie> mooviesList;
 

@@ -4,7 +4,7 @@ public class Poster {
 private Position position;
 private final int heightSize=80;
 private final int withSize = 60;
-private Movie movie;
+    private Movie movie;
 
     public int getHeightSize() {
         return heightSize;
