@@ -1,18 +1,18 @@
-package org.example.java24groupe06.views;
+package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import org.example.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.Movie;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 
-public class HelloController {
+public class MainPageViewController {
     @FXML
     private Pane paneMoovie;
     private List<Movie> moviesList;
@@ -24,7 +24,7 @@ public class HelloController {
 
 
     public static URL getViewURL() {
-        return HelloController.class.getResource("hello-view.fxml");
+        return MainPageViewController.class.getResource("mainPage-View.fxml");
     }
 
     private int nbRow;

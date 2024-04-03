@@ -1,4 +1,4 @@
-package org.example.java24groupe06.controllers;
+package org.movieTheatre.java24groupe06.controllers;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -7,15 +7,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.java24groupe06.models.CreateMovies;
+import org.movieTheatre.java24groupe06.models.CreateMovies;
 
-import org.example.java24groupe06.models.Movie;
-import org.example.java24groupe06.views.HelloController;
+import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.views.MainPageViewController;
 
 import java.io.IOException;
 import java.util.List;
 
-public class HelloApplication extends Application {
+public class MovieApplication extends Application {
 
 
     @Override
@@ -28,13 +28,13 @@ public class HelloApplication extends Application {
             List<Movie> movies = createMovies.getShowingMovies();
 
             // FXML shits
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloController.getViewURL());
+            FXMLLoader fxmlLoader = new FXMLLoader(MainPageViewController.getViewURL());
             Scene scene = new Scene(fxmlLoader.load());
-            HelloController helloController = fxmlLoader.getController();
+            MainPageViewController mainPageViewController = fxmlLoader.getController();
 
 
-            helloController.setMovieList(movies);
-            helloController.show();
+            mainPageViewController.setMovieList(movies);
+            mainPageViewController.show();
 
             stage.setTitle("Hello!");
             stage.setScene(scene);
@@ -52,7 +52,7 @@ public class HelloApplication extends Application {
 
 
     public static void main(String[] args) {
-        Application.launch(HelloApplication.class,args);
+        Application.launch(MovieApplication.class,args);
 
     }
 }

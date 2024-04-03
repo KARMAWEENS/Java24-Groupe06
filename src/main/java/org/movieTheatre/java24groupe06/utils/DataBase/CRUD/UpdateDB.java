@@ -1,6 +1,6 @@
-package org.example.java24groupe06.utils.DataBase.CRUD;
+package org.movieTheatre.java24groupe06.utils.DataBase.CRUD;
 
-import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,22 @@ import java.sql.SQLException;
 
 public class UpdateDB {
 
-    public static void updateTable(Connection conn, String tableName, String[] columnName, String[] value, String condition) throws SQLException {
+    private static UpdateDB instance;
+    private ConnectionSingletonDB connectionSingletonDB ;
+
+    public UpdateDB(){
+        this.connectionSingletonDB = ConnectionSingletonDB.getInstance();
+    }
+
+    public static UpdateDB getInstance(){
+        if(instance == null){
+            instance = new UpdateDB();
+        }
+        return instance;
+    }
+
+    public void updateTable( String tableName, String[] columnName, String[] value, String condition) throws SQLException {
+        Connection conn = connectionSingletonDB.getConnection();
         if(columnName.length != value.length){
             throw new IllegalArgumentException("The number of columns must have the same lentgh");
         }

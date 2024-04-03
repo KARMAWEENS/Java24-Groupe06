@@ -1,4 +1,4 @@
-package org.example.java24groupe06.models;
+package org.movieTheatre.java24groupe06.models;
 
 
 import java.util.Date;

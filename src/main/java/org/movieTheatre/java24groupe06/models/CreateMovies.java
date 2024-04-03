@@ -1,7 +1,8 @@
-package org.example.java24groupe06.models;
+package org.movieTheatre.java24groupe06.models;
 
 
-import org.example.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

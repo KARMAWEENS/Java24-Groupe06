@@ -27,7 +27,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>org.example.java24groupe06.controllers.Launcher</mainClass>
+                  <mainClass>org.movieTheatre.java24groupe06.controllers.Launcher</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -42,7 +42,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>org.example.java24groupe06/org.example.java24groupe06.controllers.HelloApplication</mainClass>
+              <mainClass>org.example.java24groupe06/org.movieTheatre.java24groupe06.controllers.MovieApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

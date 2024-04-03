@@ -1,4 +1,4 @@
-package org.example.java24groupe06.utils.DataBase.Utils;
+package org.movieTheatre.java24groupe06.utils.DataBase.Utils;
 
 import java.sql.*;
 
@@ -13,7 +13,7 @@ import java.sql.*;
  */
 public class ConnectionSingletonDB {
 
-    public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseCinema.db";
+    public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseMovieT.db";
     private static ConnectionSingletonDB instance = null;
     private Connection connection = null;
 
