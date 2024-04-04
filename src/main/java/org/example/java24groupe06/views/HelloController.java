@@ -9,14 +9,25 @@ import org.example.java24groupe06.models.Movie;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 public class HelloController {
     @FXML
     private Pane paneMoovie;
     private List<Movie> moviesList;
+    private Listener listener;
 
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+       void OnclickImage(Movie movie) throws IOException, SQLException, ParseException;
+    };
 
     public void setMovieList(List<Movie> moviesList) {
         this.moviesList = moviesList;
@@ -54,8 +65,16 @@ public class HelloController {
 
             imageView.setOnMouseClicked(event -> {
 
-                // Utiliser le poster comme nécessaire (par exemple, afficher des détails)
-                System.out.println("Vous avez cliqué sur : " + movie.getTitle());
+                try {
+                    this.listener.OnclickImage(movie);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
             });
             gridPane.add(imageView,row, 0);
         }
