@@ -7,16 +7,18 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.java24groupe06.models.CreateMovies;
+import org.movieTheatre.java24groupe06.models.CreateMovies;
 
-import org.example.java24groupe06.models.Movie;
-import org.example.java24groupe06.views.HelloController;
-import org.example.java24groupe06.views.MovieDetailsViewController;
+import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.views.MainPageView;
+import org.movieTheatre.java24groupe06.views.MainPageViewController;
+import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
+import org.movieTheatre.java24groupe06.views.MainPageViewController;
 
 import java.io.IOException;
 import java.util.List;
 
-public class HelloApplication extends Application implements HelloController.Listener, MovieDetailsViewController.Listener {
+public class HelloApplication extends Application implements MovieDetailsViewController.Listener, MainPageViewController.Listener {
 
     private Stage stage;
     private Scene scene1;
@@ -32,13 +34,13 @@ public class HelloApplication extends Application implements HelloController.Lis
             List<Movie> movies = createMovies.getShowingMovies();
 
             // FXML shits
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloController.getViewURL());
+            FXMLLoader fxmlLoader = new FXMLLoader(MainPageViewController.getViewURL());
            scene1 = new Scene(fxmlLoader.load());
-            HelloController helloController = fxmlLoader.getController();
-            helloController.setListener(this);
+            MainPageViewController mainPageViewController = fxmlLoader.getController();
+            mainPageViewController.setListener(this);
 
-            helloController.setMovieList(movies);
-            helloController.show();
+            mainPageViewController.setMovieList(movies);
+            mainPageViewController.show();
 
             stage.setTitle("Hello!");
             stage.setScene(scene1);
@@ -59,7 +61,7 @@ public class HelloApplication extends Application implements HelloController.Lis
     }
 
     @Override
-    public void OnclickImage(Movie movie) throws IOException, SQLException, ParseException {
+    public void OnClickImage(Movie movie) throws IOException, SQLException, ParseException {
         FXMLLoader fxmlLoader = new FXMLLoader(MovieDetailsViewController.getViewURL());
         Scene scene2 = new Scene(fxmlLoader.load());
         MovieDetailsViewController movieDetailsViewController = fxmlLoader.getController();

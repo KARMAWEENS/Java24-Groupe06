@@ -12,22 +12,6 @@ public class Movie {
     private String title;
     private int duration;
 
-    public String getSynopsis() {
-        return synopsis;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public String getProducer() {
-        return producer;
-    }
-
-    public boolean isShowing() {
-        return isShowing;
-    }
-
     private String synopsis;
     private Date releaseDate;
     private String producer;

@@ -23,13 +23,6 @@ public class MainPageViewController implements MainPageController{
     private List<Movie> moviesList;
     private Listener listener;
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-    public interface Listener {
-       void OnclickImage(Movie movie) throws IOException, SQLException, ParseException;
-    };
     private MainPageView view;
     private MovieModel model;
 
@@ -80,7 +73,7 @@ public class MainPageViewController implements MainPageController{
             imageView.setOnMouseClicked(event -> {
 
                 try {
-                    this.listener.OnclickImage(movie);
+                    this.listener.OnClickImage(movie);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (SQLException e) {
@@ -100,6 +93,16 @@ public class MainPageViewController implements MainPageController{
         imageView.setFitWidth(desiredWidth);
         imageView.setFitHeight(desiredHeight);
     }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void OnClickImage(Movie movie) throws IOException, SQLException, ParseException;
+    };
+
+
 }
 
 
