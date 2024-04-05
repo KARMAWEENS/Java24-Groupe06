@@ -7,7 +7,7 @@ module org.example.java24groupe06 {
     requires java.sql;
 
 
-    exports org.example.java24groupe06.views;
-    opens org.example.java24groupe06.views to javafx.fxml;
-    exports org.example.java24groupe06.controllers;
+    exports org.movieTheatre.java24groupe06.views;
+    opens org.movieTheatre.java24groupe06.views to javafx.fxml;
+    exports org.movieTheatre.java24groupe06.controllers;
 }

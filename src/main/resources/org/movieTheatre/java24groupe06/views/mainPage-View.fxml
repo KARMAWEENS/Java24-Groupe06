@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.*?>
 
 <Pane fx:id="acc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.java24groupe06.views.HelloController">
+      fx:controller="org.movieTheatre.java24groupe06.views.MainPageViewController">
 
    <children>
       <ToolBar prefHeight="80.0" prefWidth="600.0" />
-      <Pane fx:id="paneMoovie" layoutY="80.0" prefHeight="720.0" prefWidth="600.0" />
+      <Pane fx:id="paneMovie" layoutY="80.0" prefHeight="720.0" prefWidth="600.0" />
 
    </children>
 </Pane>

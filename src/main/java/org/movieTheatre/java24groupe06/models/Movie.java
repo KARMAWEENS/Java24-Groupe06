@@ -1,4 +1,4 @@
-package org.example.java24groupe06.models;
+package org.movieTheatre.java24groupe06.models;
 
 
 import java.util.Date;
@@ -53,9 +53,26 @@ public class Movie {
     }
     // Getters and possibly setters if needed
 
+    public String getSynopsis() {
+        return this.synopsis;
+    }
+
+    public Date getReleaseDate() {
+        return this.releaseDate;
+    }
+
+    public String getProducer() {
+        return this.producer;
+    }
+
     public String getPathImg() {
         return this.pathImg;
     }
+
+    public boolean getIsShowing() {
+        return this.isShowing;
+    }
+
 
     /**
      * This is a Builder class for the Movie class.
