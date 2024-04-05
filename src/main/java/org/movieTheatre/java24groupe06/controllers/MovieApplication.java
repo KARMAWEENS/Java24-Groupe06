@@ -22,37 +22,42 @@ public class MovieApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-
-            // On recupere la db et on crée une list d'objet Movie
-            CreateMovies createMovies = new CreateMovies();
-            List<Movie> movies = createMovies.getShowingMovies();
-
-            // FXML shits
-            FXMLLoader fxmlLoader = new FXMLLoader(MainPageViewController.getViewURL());
-            Scene scene = new Scene(fxmlLoader.load());
-            MainPageViewController mainPageViewController = fxmlLoader.getController();
-
-
-            mainPageViewController.setMovieList(movies);
-            mainPageViewController.show();
-
-            stage.setTitle("Hello!");
-            stage.setScene(scene);
-            stage.show();
-
-
-
-        } catch (SQLException |  ParseException e) {
-            e.printStackTrace();
+            // Retrieve movies from the database and display the main page
+            List<Movie> movies = retrieveMovieFromDB();
+            displayMainPage(stage, movies);
+        } catch (SQLException |  ParseException | IOException e) {
+            handleInitilizationError(e);
         }
+    }
 
 
+    //logic to retrieve movie from db + more modularity
+    private List<Movie> retrieveMovieFromDB() throws SQLException, ParseException {
+        CreateMovies createMovies = new CreateMovies();
+        return createMovies.getShowingMovies();
+    }
 
+
+    //logic to display main page
+    private void displayMainPage(Stage stage, List<Movie> movies) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainPageViewController.getViewURL());
+        Scene scene = new Scene(fxmlLoader.load());
+        MainPageViewController mainPageViewController = fxmlLoader.getController();
+        mainPageViewController.setMovieList(movies);
+        mainPageViewController.show();
+        stage.setTitle("Movie Theatre");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    //function to handle initialization error (we can extend this to handle other errors)
+    private void handleInitilizationError(Exception e){
+        e.printStackTrace();
     }
 
 
     public static void main(String[] args) {
-        Application.launch(MovieApplication.class,args);
-
+        launch(args);
     }
 }
