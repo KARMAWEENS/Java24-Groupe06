@@ -21,7 +21,7 @@ public class MainScenePosterTemplateController {
     private Label titleLabel;
 
     public void setListener(Listener listener) {
-        this.listener = listener;
+          this.listener = listener;
     }
 
     private Listener listener;
@@ -31,21 +31,18 @@ public class MainScenePosterTemplateController {
         FXMLLoader loader = new FXMLLoader(MainScenePosterTemplateController.class.getResource("mainScenePosterTemplate.fxml"));
         return loader;
     }
-
     public void setPoster(Movie movie) throws FileNotFoundException {
 
         Image image = new Image(new FileInputStream(movie.getPathImg()));
         imageView.setImage(image);
-
         titleLabel.setText(movie.getTitle());
 
     }
 
     public void onPosterClicked(MouseEvent mouseEvent) {
-        //this.listener.OnClickImage();
-        System.out.println("in posterClicked");
-    }
+   listener.OnClickImage();
 
+    }
     public interface Listener {
         void OnClickImage();
     }

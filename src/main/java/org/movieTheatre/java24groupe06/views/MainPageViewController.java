@@ -3,6 +3,7 @@ package org.movieTheatre.java24groupe06.views;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -22,7 +23,7 @@ public class MainPageViewController implements MainPageController{
     @FXML
     private MainScenePosterTemplateController mainScenePosterTemplateController;
     @FXML
-    private Pane postersContainer;
+    private ScrollPane scrollPane;
     private List<Movie> moviesList;
     private Listener listener;
 
@@ -64,8 +65,8 @@ public class MainPageViewController implements MainPageController{
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        postersContainer.setStyle("-fx-background-color: #050505;");
-        postersContainer.getChildren().add(gridPane);
+
+        scrollPane.setContent(gridPane);
 
 
 
@@ -76,8 +77,27 @@ public class MainPageViewController implements MainPageController{
 
                     FXMLLoader loader =  MainScenePosterTemplateController.getFXMLLoader();
                     final Parent root = loader.load();
+                    root.setStyle("-fx-background-color: red;");
+                    gridPane.setStyle("-fx-background-color: black;");
                     final MainScenePosterTemplateController controller = loader.getController();
                     controller.setPoster(moviesList.get(index));
+                    int finalIndex = index;
+                    controller.setListener(() -> {
+                        if (listener != null) {
+                            try {
+                                System.out.println(listener);
+                                listener.OnClickImage(moviesList.get(finalIndex));
+
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+
                     gridPane.add(root, column, row);
 
 
@@ -120,6 +140,7 @@ public class MainPageViewController implements MainPageController{
 
     public void setListener(Listener listener) {
         this.listener = listener;
+        System.out.println(listener);
     }
 
     public interface Listener {
