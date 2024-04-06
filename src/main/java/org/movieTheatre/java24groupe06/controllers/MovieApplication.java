@@ -16,7 +16,7 @@ import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 import java.io.IOException;
 import java.util.List;
 
-public class MovieApplication extends Application implements MovieDetailsViewController.Listener, MainPageViewController.Listener {
+public class MovieApplication extends Application implements MovieDetailsViewController.Listener, MainPageViewController.Listener{
 
     private Stage mainStage;
     private Scene mainScene;
@@ -61,17 +61,22 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
     public void OnClickImage(Movie movie) throws IOException, SQLException, ParseException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MovieDetailsViewController.getViewURL());
-        System.out.println("1" + movie.getDuration());
+
         Scene movieDetailsScene = new Scene(fxmlLoader.load());
-        System.out.println("2" + movie.getDuration());
+
         MovieDetailsViewController movieDetailsViewController = fxmlLoader.getController();
-        System.out.println("3" + movie.getDuration());
+
         movieDetailsViewController.displayMovieDetails(movie);
-        System.out.println("4" + movie.getDuration());
+
         movieDetailsViewController.setListener(this);
         mainStage.setTitle("Hello!");
         mainStage.setScene(movieDetailsScene);
     }
+
+    public static void test(Movie movie) {
+        System.out.println(movie);
+    }
+
 
     @Override
     public void previousBtnClicked() {

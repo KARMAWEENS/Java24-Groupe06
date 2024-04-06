@@ -1,15 +1,16 @@
 package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.movieTheatre.java24groupe06.controllers.MainPageController;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.MovieModel;
+import org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +20,9 @@ import java.util.List;
 
 public class MainPageViewController implements MainPageController{
     @FXML
-    private Pane paneMovie;
+    private MainScenePosterTemplateController mainScenePosterTemplateController;
+    @FXML
+    private Pane postersContainer;
     private List<Movie> moviesList;
     private Listener listener;
 
@@ -53,19 +56,40 @@ public class MainPageViewController implements MainPageController{
     private final int nbColumn = 4;
 
 
-    public void show() throws FileNotFoundException {
+    public void show() throws IOException {
 
+      this.nbRow = (int) Math.ceil((double) moviesList.size() / nbColumn);
         GridPane gridPane = new GridPane( nbRow,nbColumn);
 
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        paneMovie.setStyle("-fx-background-color: #050505;");
-        paneMovie.getChildren().add(gridPane);
+        postersContainer.setStyle("-fx-background-color: #050505;");
+        postersContainer.getChildren().add(gridPane);
 
-      //  this.nbRow = (int) Math.ceil((double) moviesList.size() / nbColumn);
-        this.nbRow = moviesList.size();
-        for(int row = 0; row< nbRow;row++){
+
+
+        int index = 0;
+        for (int row = 0; row < nbRow; row++){
+        for (int column = 0; column <nbColumn;column++){
+                if(index < moviesList.size()){
+
+                    FXMLLoader loader =  MainScenePosterTemplateController.getFXMLLoader();
+                    final Parent root = loader.load();
+                    final MainScenePosterTemplateController controller = loader.getController();
+                    controller.setPoster(moviesList.get(index));
+                    gridPane.add(root, column, row);
+
+
+                    index++;
+                }else{
+                    return;
+                }
+            }
+        }
+
+
+/*        for(int row = 0; row< nbRow;row++){
             Movie movie = moviesList.get(row);
             Image image = new Image(new FileInputStream(movie.getPathImg()));
             ImageView imageView = new ImageView(image);
@@ -84,7 +108,7 @@ public class MainPageViewController implements MainPageController{
 
             });
             gridPane.add(imageView,row, 0);
-        }
+        }*/
     }
 
     private static void SizeImage(ImageView imageView) {
@@ -101,6 +125,7 @@ public class MainPageViewController implements MainPageController{
     public interface Listener {
         void OnClickImage(Movie movie) throws IOException, SQLException, ParseException;
     };
+
 
 
 }

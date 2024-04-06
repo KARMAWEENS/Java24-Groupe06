@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onPosterClicked" prefHeight="291.0" prefWidth="176.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController">
+   <children>
+      <ImageView fx:id="imageView" fitHeight="228.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </ImageView>
+      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="702.0" style="-fx-alignment: center;" text="Label" textAlignment="CENTER" />
+   </children>
+</VBox>
