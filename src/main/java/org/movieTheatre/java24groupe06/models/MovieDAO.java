@@ -23,24 +23,42 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 System.out.println();
-                movies.add(createMovieObject(rs));
+               // movies.add(createMovieObject(rs));
             }
         }
         conn.closeDatabase();
         return movies;
     }
 
-    private static Movie createMovieObject(ResultSet rs) throws SQLException, ParseException {
+    private static Movie createMovieObject(ResultSet rs,ResultSet rsActors,ResultSet rsGenres) throws SQLException, ParseException {
         Movie movie = new Movie.MovieBuilder()
-                .setPathImg(rs.getString("pathImg"))
                 .setTitle(rs.getString("title"))
                 .setDuration(rs.getInt("duration"))
                 .setSynopsis(rs.getString("synopsis"))
                 .setIsShowing(rs.getBoolean("isShowing"))
                 .setReleaseDate(getReleaseDate(rs))
+                .setPathImg(rs.getString("pathImg"))
                 .setProducer(rs.getString("Producer"))
+                .setActors(getActors(rsActors))
+                .setGenre(getGenres(rsGenres))
                 .build();
+
         return movie;
+    }
+
+    private static List<String> getActors(ResultSet rsActors) throws SQLException {
+        List<String> actors = new ArrayList<>();
+        while (rsActors.next()) {
+            actors.add(rsActors.getString("fullName"));
+        }
+        return actors;
+    }
+    private static List<String> getGenres(ResultSet rsGenres) throws SQLException {
+        List<String> genres = new ArrayList<>();
+        while (rsGenres.next()) {
+            genres.add(rsGenres.getString("genre"));
+        }
+        return genres;
     }
 
     private static Date getReleaseDate(ResultSet rs) throws SQLException, ParseException {

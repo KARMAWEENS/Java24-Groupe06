@@ -2,6 +2,7 @@ package org.movieTheatre.java24groupe06.models;
 
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * The Movie class represents a movie in the cinema system.
@@ -11,7 +12,8 @@ import java.util.Date;
 public class Movie {
     private String title;
     private int duration;
-
+    private List<String> actors;
+    private List<String> genre;
     private String synopsis;
     private Date releaseDate;
     private String producer;
@@ -26,8 +28,12 @@ public class Movie {
         this.producer = builder.producer;
         this.pathImg = builder.pathImg;
         this.isShowing = builder.isShowing;
+        this.actors = builder.actors;
+        this.genre = builder.genres;
     }
-
+    public List<String> getActors(){
+        return this.actors;
+    }
     public String getTitle() {
         return this.title;
     }
@@ -57,6 +63,23 @@ public class Movie {
         return this.isShowing;
     }
 
+    public String getStringListGenre() {
+        String genreStringList = "";
+        for (String genre : genre) {
+        genreStringList += genre;
+        }
+        return genreStringList;
+    }
+
+
+    public String getStringListActors() {
+        StringBuilder actorsStringList = new StringBuilder();
+        for(String actor : actors) {
+            actorsStringList.append(actor).append(", ");
+        }
+        return actorsStringList.toString();
+    }
+
 
     /**
      * This is a Builder class for the Movie class.
@@ -70,6 +93,8 @@ public class Movie {
         private String producer;
         private String pathImg;
         private boolean isShowing;
+        private List<String> genres;
+        private List<String> actors;
 
         /**
          * Sets the title of the movie.
@@ -147,7 +172,14 @@ public class Movie {
             this.isShowing = isShowing;
             return this;
         }
-
+        public MovieBuilder setGenre(List<String> genres) {
+            this.genres = genres;
+            return this;
+        }
+        public MovieBuilder setActors(List<String> actors) {
+            this.actors = actors;
+            return this;
+        }
         /**
          * Builds the Movie object using the set parameters.
          *

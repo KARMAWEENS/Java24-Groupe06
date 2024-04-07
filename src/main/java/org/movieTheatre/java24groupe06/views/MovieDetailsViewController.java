@@ -46,6 +46,11 @@ public void BtnClicked(){
     public void displayMovieDetails(Movie movie) throws FileNotFoundException {
    title.setText(movie.getTitle());
    synopsis.setText(movie.getSynopsis());
+
+   duration.setText(String.valueOf(movie.getDuration()));
+  genre.setText(movie.getStringListGenre());
+    actors.setText(movie.getStringListActors());
+    producer.setText(movie.getProducer());
    Image image1 = new Image(new FileInputStream(movie.getPathImg()));
    image.setImage(image1) ;
     }

@@ -27,7 +27,6 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
 
         try {
             this.mainStage = stage;
-
             // Retrieve movies from the database and display the main page
             List<Movie> movies = retrieveMovieFromDB();
             displayMainPage(mainStage, movies);
