@@ -45,6 +45,7 @@ public class CreateDB {
         String placeholders = String.join(", ", Collections.nCopies(values.length, "?"));
         // Construire la requête SQL avec des paramètres de requête préparée
         String query = String.format("INSERT INTO %s VALUES (%s)", tableName, placeholders);
+        System.out.println(query);
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             // Remplacer les paramètres de requête préparée par les valeurs réelles

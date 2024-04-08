@@ -23,7 +23,7 @@ public class MainDB {
     public void run() {
 
         try {
-
+            /*
             String movieID ="9";
             String pathImg = "src/main/java/org/example/java24groupe06/views/img/Sleeping Dogs.png";
             String title = "Sleeping Dogs";
@@ -33,8 +33,37 @@ public class MainDB {
             String isShowing = "1";
             String producer = "Adam Cooper";
 
+             */
+
+            createDB.insertIntoTable("Genres", "11","Drame");
+            createDB.insertIntoTable("Genres", "12","Animation");
+            createDB.insertIntoTable("Genres", "13","Famille");
+
+
+
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+
+
+
+
+
+
+
             //CreateDB.insertIntoTable(conn.getConnection(), "Movies", movieID,pathImg, title, duration, synopsis, isShowing, releaseDate, producer);
-            updateDB.updateTable("Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/Sleeping Dogs.png"}, "movieID = 9");
+            //updateDB.updateTable("Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/Sleeping Dogs.png"}, "movieID = 9");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
