@@ -41,6 +41,9 @@ public void BtnClicked(){
     @FXML
     private Label producer;
     @FXML
+    private Label date;
+
+    @FXML
     private Button previousSceneBtn;
 
     public void displayMovieDetails(Movie movie) throws FileNotFoundException {
@@ -49,8 +52,9 @@ public void BtnClicked(){
 
    duration.setText(String.valueOf(movie.getDuration()));
   genre.setText(movie.getStringListGenre());
-    actors.setText(movie.getStringListActors());
-    producer.setText(movie.getProducer());
+  actors.setText(movie.getStringListActors());
+  producer.setText(movie.getProducer());
+  date.setText(movie.getReleaseDate().toString());
    Image image1 = new Image(new FileInputStream(movie.getPathImg()));
    image.setImage(image1) ;
     }

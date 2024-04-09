@@ -21,7 +21,12 @@ public class MainScenePosterTemplateController {
     private Label titleLabel;
 
     public void setListener(Listener listener) {
+        System.out.println("EST CE QUE JSUIS LA ??? ");
           this.listener = listener;
+    }
+
+    public Listener getListener() {
+        return listener;
     }
 
     private Listener listener;
@@ -40,7 +45,8 @@ public class MainScenePosterTemplateController {
     }
 
     public void onPosterClicked(MouseEvent mouseEvent) {
-   listener.OnClickImage();
+        System.out.println("j'ai cliqué ahri");
+    listener.OnClickImage();
 
     }
     public interface Listener {

@@ -22,21 +22,20 @@ public class MainDB {
 
     public void run() {
 
-        try {
-            /*
-            String movieID ="9";
-            String pathImg = "src/main/java/org/example/java24groupe06/views/img/Sleeping Dogs.png";
-            String title = "Sleeping Dogs";
-            String duration = "110";
-            String releaseDate = "2024-03-27";
-            String synopsis = "L'ancien inspecteur de la criminelle, Roy Freeman, suit un traitement contre la maladie d'Alzheimer. En effet, il est chargé de réexaminer une affaire de meurtre. Un condamné à mort que Roy a arrêté dix ans auparavant qui clame aujourd'hui son innocence.";
-            String isShowing = "1";
-            String producer = "Adam Cooper";
+        /*
+        String movieID ="9";
+        String pathImg = "src/main/java/org/example/java24groupe06/views/img/Sleeping Dogs.png";
+        String title = "Sleeping Dogs";
+        String duration = "110";
+        String releaseDate = "2024-03-27";
+        String synopsis = "L'ancien inspecteur de la criminelle, Roy Freeman, suit un traitement contre la maladie d'Alzheimer. En effet, il est chargé de réexaminer une affaire de meurtre. Un condamné à mort que Roy a arrêté dix ans auparavant qui clame aujourd'hui son innocence.";
+        String isShowing = "1";
+        String producer = "Adam Cooper";
 
-             */
+         */
 
 
-            createDB.insertIntoTable("MoviesGenres", "5","1 ");
+ /*           createDB.insertIntoTable("MoviesGenres", "5","1 ");
             createDB.insertIntoTable("MoviesGenres", "5","2");
             createDB.insertIntoTable("MoviesGenres", "5","7");
             createDB.insertIntoTable("MoviesGenres", "6","6");
@@ -49,35 +48,15 @@ public class MainDB {
             createDB.insertIntoTable("MoviesGenres", "8","13");
             createDB.insertIntoTable("MoviesGenres", "9","2");
             createDB.insertIntoTable("MoviesGenres", "9","10");
+*/
 
 
+        deleteDB.deleteRowsFromMovieGenre();
+        deleteDB.deleteRowsFromMovies();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //CreateDB.insertIntoTable(conn.getConnection(), "Movies", movieID,pathImg, title, duration, synopsis, isShowing, releaseDate, producer);
-            //updateDB.updateTable("Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/Sleeping Dogs.png"}, "movieID = 9");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        //CreateDB.insertIntoTable(conn.getConnection(), "Movies", movieID,pathImg, title, duration, synopsis, isShowing, releaseDate, producer);
+        //updateDB.updateTable("Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/Sleeping Dogs.png"}, "movieID = 9");
     }
 
    private void createAndInsertTables(Connection conn) throws SQLException {

@@ -68,8 +68,6 @@ public class MainPageViewController implements MainPageController{
 
         scrollPane.setContent(gridPane);
 
-
-
         int index = 0;
         for (int row = 0; row < nbRow; row++){
         for (int column = 0; column <nbColumn;column++){
@@ -82,21 +80,38 @@ public class MainPageViewController implements MainPageController{
                     final MainScenePosterTemplateController controller = loader.getController();
                     controller.setPoster(moviesList.get(index));
                     int finalIndex = index;
+                    System.out.println(index + " 1" + controller.getListener());
                     controller.setListener(() -> {
-                        if (listener != null) {
-                            try {
-                                System.out.println(listener);
-                                listener.OnClickImage(moviesList.get(finalIndex));
 
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            } catch (ParseException e) {
+                        if (listener == null) return;
+                        try {
+                            System.out.println(finalIndex + " 2" + controller.getListener());
+
+                            listener.OnClickImage(moviesList.get(finalIndex));
+                        } catch (IOException | SQLException | ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println(finalIndex + " 3" + controller.getListener());
+
+                    });
+
+                    // LE SET LISTENER SANS LAMBDA
+/*                    controller.setListener(new MainScenePosterTemplateController.Listener() {
+                        @Override
+                        public void OnClickImage() {
+                            if (listener == null) return;
+                            try {
+                                System.out.println(finalIndex + " 2" + controller.getListener());
+                                listener.OnClickImage(moviesList.get(finalIndex));
+                            } catch (IOException | SQLException | ParseException e) {
                                 throw new RuntimeException(e);
                             }
+                            System.out.println(finalIndex + " 3" + controller.getListener());
                         }
                     });
+                    */
+
+                    System.out.println(index + " 4" + controller.getListener());
 
                     gridPane.add(root, column, row);
 

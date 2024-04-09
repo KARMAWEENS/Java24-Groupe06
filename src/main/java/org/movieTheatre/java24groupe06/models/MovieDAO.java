@@ -21,55 +21,94 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
         // ! C'est un try with ressources pas un try catch
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
+            int i = 0;
             while (rs.next()) {
-                System.out.println();
-               // movies.add(createMovieObject(rs));
+                i++;
+                System.out.println(i);
+                movies.add(createMovieObject(rs));
+
             }
         }
         conn.closeDatabase();
         return movies;
     }
 
-    private static Movie createMovieObject(ResultSet rs,ResultSet rsActors,ResultSet rsGenres) throws SQLException, ParseException {
+    private static Movie createMovieObject(ResultSet rs) throws SQLException, ParseException {
         Movie movie = new Movie.MovieBuilder()
                 .setTitle(rs.getString("title"))
                 .setDuration(rs.getInt("duration"))
                 .setSynopsis(rs.getString("synopsis"))
                 .setIsShowing(rs.getBoolean("isShowing"))
-                .setReleaseDate(getReleaseDate(rs))
+                .setReleaseDate(rs.getString("ReleaseDate"))
                 .setPathImg(rs.getString("pathImg"))
                 .setProducer(rs.getString("Producer"))
-                .setActors(getActors(rsActors))
-                .setGenre(getGenres(rsGenres))
+                .setActors(getActors(rs))
+                .setGenre(getGenres(rs))
                 .build();
 
         return movie;
     }
+    private static List<String> getActors(ResultSet rs) throws SQLException {
+        List<String> actorsList = new ArrayList<>();
+        int movieId = rs.getInt("movieID");
+        ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
+        String query =String.format("SELECT a.FullName\n" +
+                "FROM Actors a\n" +
+                "JOIN MoviesCasting mc ON a.actorID = mc.actorID\n" +
+                "WHERE mc.movieID = %s;", movieId);
+        // ! C'est un try with ressources pas un try catch
+        System.out.println("avant preparedStatement");
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs2 = stmt.executeQuery()) {
+            while (rs2.next()) {
+                System.out.println("Dans prepared statement");
+                System.out.println(rs2.getString("fullName"));
+                actorsList.add(rs2.getString("fullName"));
 
-    private static List<String> getActors(ResultSet rsActors) throws SQLException {
-        List<String> actors = new ArrayList<>();
-        while (rsActors.next()) {
-            actors.add(rsActors.getString("fullName"));
+            }
         }
-        return actors;
+        // COMPRENDRE POURQUOI QUAND Y A CONN.CLOSEDATABASE CA MARCHE PAS
+       // conn.closeDatabase();
+        System.out.println(actorsList);
+        return actorsList;
     }
-    private static List<String> getGenres(ResultSet rsGenres) throws SQLException {
-        List<String> genres = new ArrayList<>();
-        while (rsGenres.next()) {
-            genres.add(rsGenres.getString("genre"));
-        }
-        return genres;
-    }
+//    private static List<String> getActors(ResultSet rsActors) throws SQLException {
+//        List<String> actors = new ArrayList<>();
+//        while (rsActors.next()) {
+//            actors.add(rsActors.getString("fullName"));
+//        }
+//        return actors;
+//    }
+//    private static List<String> getGenres(ResultSet rsGenres) throws SQLException {
+//        List<String> genres = new ArrayList<>();
+//        while (rsGenres.next()) {
+//            genres.add(rsGenres.getString("genre"));
+//        }
+//        return genres;
+//    }
 
-    private static Date getReleaseDate(ResultSet rs) throws SQLException, ParseException {
-        String releaseDateString = rs.getString("ReleaseDate");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try{
-            return format.parse(releaseDateString);
-        } catch (ParseException e) {
-            System.out.println("Error parsing release date: " + e.getMessage());
-            throw e;
+    private static List<String> getGenres(ResultSet rs) throws SQLException {
+        List<String> genresList = new ArrayList<>();
+        int movieId = rs.getInt("movieID");
+        ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
+        String query =String.format("SELECT g.genre\n" +
+                "FROM Genres g\n" +
+                "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
+                "WHERE mg.movieID = %s;", movieId);
+        // ! C'est un try with ressources pas un try catch
+        System.out.println("avant preparedStatement");
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs2 = stmt.executeQuery()) {
+            while (rs2.next()) {
+
+                genresList.add(rs2.getString("genre"));
+
+            }
         }
+        // COMPRENDRE POURQUOI QUAND Y A CONN.CLOSEDATABASE CA MARCHE PAS
+        // conn.closeDatabase();
+        System.out.println(genresList);
+        return genresList;
     }
 
 }

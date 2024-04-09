@@ -15,7 +15,7 @@ public class Movie {
     private List<String> actors;
     private List<String> genre;
     private String synopsis;
-    private Date releaseDate;
+    private String releaseDate;
     private String producer;
     private String pathImg;
     private boolean isShowing;
@@ -47,7 +47,7 @@ public class Movie {
         return this.synopsis;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return this.releaseDate;
     }
 
@@ -64,18 +64,24 @@ public class Movie {
     }
 
     public String getStringListGenre() {
-        String genreStringList = "";
-        for (String genre : genre) {
-        genreStringList += genre;
+        StringBuilder genreStringList = new StringBuilder();
+        for(int i = 0; i < genre.size(); i++) {
+            genreStringList.append(genre.get(i));
+            if (i != genre.size() - 1) {
+                genreStringList.append(", ");
+            }
         }
-        return genreStringList;
+        return genreStringList.toString();
     }
 
 
     public String getStringListActors() {
         StringBuilder actorsStringList = new StringBuilder();
-        for(String actor : actors) {
-            actorsStringList.append(actor).append(", ");
+        for(int i = 0; i < actors.size(); i++) {
+            actorsStringList.append(actors.get(i));
+            if (i != actors.size() - 1) {
+                actorsStringList.append(", ");
+            }
         }
         return actorsStringList.toString();
     }
@@ -89,7 +95,7 @@ public class Movie {
         private String title;
         private int duration;
         private String synopsis;
-        private Date releaseDate;
+        private String releaseDate;
         private String producer;
         private String pathImg;
         private boolean isShowing;
@@ -135,7 +141,7 @@ public class Movie {
          * @param releaseDate The release date of the movie.
          * @return The current MovieBuilder instance.
          */
-        public MovieBuilder setReleaseDate(Date releaseDate) {
+        public MovieBuilder setReleaseDate(String releaseDate) {
             this.releaseDate = releaseDate;
             return this;
         }

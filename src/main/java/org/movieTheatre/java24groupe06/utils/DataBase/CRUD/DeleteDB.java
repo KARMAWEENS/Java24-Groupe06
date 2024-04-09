@@ -34,4 +34,35 @@ public class DeleteDB {
             e.printStackTrace();
         }
     }
+
+    public void deleteRowsFromMovieGenre() {
+        Connection conn = connectionSingletonDB.getConnection();
+        try {
+            Statement statement = conn.createStatement();
+
+            // Exécutez ici votre instruction SQL pour supprimer les lignes
+            String deleteRowsQuery = "DELETE FROM MoviesGenres WHERE movieID = 1";
+            statement.executeUpdate(deleteRowsQuery);
+
+            System.out.println("Les lignes de la table MoviesGenre où movieID = 1 ont été supprimées avec succès.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteRowsFromMovies() {
+        Connection conn = connectionSingletonDB.getConnection();
+        try {
+            Statement statement = conn.createStatement();
+
+            // Exécutez ici votre instruction SQL pour supprimer les lignes
+            String deleteRowsQuery = "DELETE FROM Movies WHERE movieID = 1";
+            statement.executeUpdate(deleteRowsQuery);
+
+            System.out.println("Les lignes de la table Movies où movieID = 1 ont été supprimées avec succès.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
