@@ -36,7 +36,19 @@ public class MainDB {
              */
 
 
-        createDB.insertIntoTable("Genres", "14","Animation Manga");
+            createDB.insertIntoTable("MoviesGenres", "5","1 ");
+            createDB.insertIntoTable("MoviesGenres", "5","2");
+            createDB.insertIntoTable("MoviesGenres", "5","7");
+            createDB.insertIntoTable("MoviesGenres", "6","6");
+            createDB.insertIntoTable("MoviesGenres", "6","7");
+            createDB.insertIntoTable("MoviesGenres", "6","8");
+            createDB.insertIntoTable("MoviesGenres", "7","9");
+            createDB.insertIntoTable("MoviesGenres", "7","10");
+            createDB.insertIntoTable("MoviesGenres", "8","6");
+            createDB.insertIntoTable("MoviesGenres", "8","7");
+            createDB.insertIntoTable("MoviesGenres", "8","13");
+            createDB.insertIntoTable("MoviesGenres", "9","2");
+            createDB.insertIntoTable("MoviesGenres", "9","10");
 
 
 
