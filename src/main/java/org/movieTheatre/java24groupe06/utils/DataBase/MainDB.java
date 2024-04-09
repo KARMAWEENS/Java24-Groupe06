@@ -35,9 +35,8 @@ public class MainDB {
 
              */
 
-            createDB.insertIntoTable("Genres", "11","Drame");
-            createDB.insertIntoTable("Genres", "12","Animation");
-            createDB.insertIntoTable("Genres", "13","Famille");
+
+        createDB.insertIntoTable("Genres", "14","Animation Manga");
 
 
 
