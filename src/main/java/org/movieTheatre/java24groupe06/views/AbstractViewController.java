@@ -20,5 +20,6 @@ public abstract class AbstractViewController {
         stage.setTitle(title);
         stage.show();
         return viewController;
+
     }
 }
