@@ -25,36 +25,20 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
     @Override
     public void start(Stage stage) throws IOException {
 
-        try {
+        ShowMainStage(stage);
+    }
+
+    private void ShowMainStage(Stage stage) {
+
             this.mainStage = stage;
+            MainPageViewController mainPageViewController = MainPageViewController.showInStage(mainStage);
+            mainPageViewController.setListener(this);
             // Retrieve movies from the database and display the main page
-            List<Movie> movies = retrieveMovieFromDB();
-            displayMainPage(mainStage, movies);
-        } catch (SQLException |  ParseException | IOException e) {
-            handleInitilizationError(e);
-        }
+         //   List<Movie> movies = retrieveMovieFromDB();
+          //  displayMainPage(mainStage, movies);
+
     }
 
-
-    //logic to retrieve movie from db + more modularity
-    private List<Movie> retrieveMovieFromDB() throws SQLException, ParseException {
-        CreateMovies createMovies = new CreateMovies();
-        return createMovies.getShowingMovies();
-    }
-
-
-    //logic to display main page
-    private void displayMainPage(Stage stage, List<Movie> movies) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainPageViewController.getViewURL());
-        mainScene = new Scene(fxmlLoader.load());
-        MainPageViewController mainPageViewController = fxmlLoader.getController();
-        mainPageViewController.setListener(this);
-        mainPageViewController.setMovieList(movies);
-        mainPageViewController.show();
-        stage.setTitle("Movie Theatre");
-        stage.setScene(mainScene);
-        stage.show();
-    }
 
     @Override
     public void OnClickImage(Movie movie) throws IOException, SQLException, ParseException {
@@ -68,19 +52,17 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
         movieDetailsViewController.displayMovieDetails(movie);
 
         movieDetailsViewController.setListener(this);
-        mainStage.setTitle("Hello!");
+        mainStage.setTitle("Movies Details");
         mainStage.setScene(movieDetailsScene);
     }
 
-    public static void test(Movie movie) {
-        System.out.println(movie);
-    }
+
 
 
     @Override
     public void previousBtnClicked() {
         mainStage.setScene(mainScene);
-        System.out.println(mainScene);
+
     }
 
     //function to handle initialization error (we can extend this to handle other errors)

@@ -62,7 +62,7 @@ public class ConnectionSingletonDB {
         try{
             if(this.connection != null){
                 this.connection.close();
-                System.out.println("connexion ferme asoule");
+                System.out.println("connexion ferme ");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

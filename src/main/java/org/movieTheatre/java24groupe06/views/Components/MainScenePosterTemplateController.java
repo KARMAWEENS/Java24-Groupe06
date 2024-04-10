@@ -21,7 +21,6 @@ public class MainScenePosterTemplateController {
     private Label titleLabel;
 
     public void setListener(Listener listener) {
-        System.out.println("EST CE QUE JSUIS LA ??? ");
           this.listener = listener;
     }
 

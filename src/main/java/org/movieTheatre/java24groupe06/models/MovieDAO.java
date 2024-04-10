@@ -21,10 +21,10 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
         // ! C'est un try with ressources pas un try catch
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-            int i = 0;
+
             while (rs.next()) {
-                i++;
-                System.out.println(i);
+
+
                 movies.add(createMovieObject(rs));
 
             }
@@ -57,19 +57,18 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
                 "JOIN MoviesCasting mc ON a.actorID = mc.actorID\n" +
                 "WHERE mc.movieID = %s;", movieId);
         // ! C'est un try with ressources pas un try catch
-        System.out.println("avant preparedStatement");
+
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs2 = stmt.executeQuery()) {
             while (rs2.next()) {
-                System.out.println("Dans prepared statement");
-                System.out.println(rs2.getString("fullName"));
+
                 actorsList.add(rs2.getString("fullName"));
 
             }
         }
         // COMPRENDRE POURQUOI QUAND Y A CONN.CLOSEDATABASE CA MARCHE PAS
        // conn.closeDatabase();
-        System.out.println(actorsList);
+
         return actorsList;
     }
 //    private static List<String> getActors(ResultSet rsActors) throws SQLException {
@@ -96,7 +95,7 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
                 "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
                 "WHERE mg.movieID = %s;", movieId);
         // ! C'est un try with ressources pas un try catch
-        System.out.println("avant preparedStatement");
+
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs2 = stmt.executeQuery()) {
             while (rs2.next()) {
@@ -107,7 +106,7 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
         }
         // COMPRENDRE POURQUOI QUAND Y A CONN.CLOSEDATABASE CA MARCHE PAS
         // conn.closeDatabase();
-        System.out.println(genresList);
+
         return genresList;
     }
 

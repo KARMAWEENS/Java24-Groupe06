@@ -2,12 +2,15 @@ package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.controllers.MainPageController;
+import org.movieTheatre.java24groupe06.models.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.MovieModel;
 import org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController;
@@ -18,30 +21,59 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class MainPageViewController implements MainPageController{
+public class MainPageViewController extends AbstractViewController implements Initializable {
     @FXML
     private MainScenePosterTemplateController mainScenePosterTemplateController;
     @FXML
     private ScrollPane scrollPane;
     private List<Movie> moviesList;
     private Listener listener;
+    private static String title="Movie Theatre";
 
     private MainPageView view;
     private MovieModel model;
 
-    @Override
-    public void initialize(MainPageView view, MovieModel model) {
-        this.view = view;
-        this.model = model;
+    public static MainPageViewController showInStage(Stage mainStage) {
+
+        try {
+            return showFXMLOnStage(getViewURL(), mainStage,title);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+
+
     @Override
-    public void showMainPage() throws FileNotFoundException, SQLException, ParseException {
-        List<Movie> moviesList = model.getShowingMovies();
-        view.setMovieList(moviesList);
-        view.show();
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            setMovieList(retrieveMovieFromDB());
+            show();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    //logic to retrieve movie from db + more modularity
+    private List<Movie> retrieveMovieFromDB() throws SQLException, ParseException {
+        CreateMovies createMovies = new CreateMovies();
+        return createMovies.getShowingMovies();
+    }
+
+//    @Override
+//    public void showMainPage() throws FileNotFoundException, SQLException, ParseException {
+//        List<Movie> moviesList = model.getShowingMovies();
+//        view.setMovieList(moviesList);
+//        view.show();
+//    }
 
 
     public void setMovieList(List<Movie> moviesList) {
@@ -55,6 +87,11 @@ public class MainPageViewController implements MainPageController{
 
     private int nbRow;
     private final int nbColumn = 4;
+
+
+
+
+
 
 
     public void show() throws IOException {
@@ -80,18 +117,15 @@ public class MainPageViewController implements MainPageController{
                     final MainScenePosterTemplateController controller = loader.getController();
                     controller.setPoster(moviesList.get(index));
                     int finalIndex = index;
-                    System.out.println(index + " 1" + controller.getListener());
                     controller.setListener(() -> {
 
                         if (listener == null) return;
                         try {
-                            System.out.println(finalIndex + " 2" + controller.getListener());
 
                             listener.OnClickImage(moviesList.get(finalIndex));
                         } catch (IOException | SQLException | ParseException e) {
                             throw new RuntimeException(e);
                         }
-                        System.out.println(finalIndex + " 3" + controller.getListener());
 
                     });
 
@@ -111,7 +145,6 @@ public class MainPageViewController implements MainPageController{
                     });
                     */
 
-                    System.out.println(index + " 4" + controller.getListener());
 
                     gridPane.add(root, column, row);
 
@@ -155,8 +188,10 @@ public class MainPageViewController implements MainPageController{
 
     public void setListener(Listener listener) {
         this.listener = listener;
-        System.out.println(listener);
+
     }
+
+
 
     public interface Listener {
         void OnClickImage(Movie movie) throws IOException, SQLException, ParseException;
