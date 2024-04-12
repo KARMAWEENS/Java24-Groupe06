@@ -19,57 +19,41 @@ import java.util.List;
 public class MovieApplication extends Application implements MovieDetailsViewController.Listener, MainPageViewController.Listener{
 
     private Stage mainStage;
+
     private Scene mainScene;
-    private Scene movieDetailsScene;
+
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
+    }
+
+    public void setMainScene(Scene mainScene) {
+        this.mainScene = mainScene;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
-
         ShowMainStage(stage);
     }
 
     private void ShowMainStage(Stage stage) {
 
-            this.mainStage = stage;
+            setMainStage(stage);
             MainPageViewController mainPageViewController = MainPageViewController.showInStage(mainStage);
             mainPageViewController.setListener(this);
-            // Retrieve movies from the database and display the main page
-         //   List<Movie> movies = retrieveMovieFromDB();
-          //  displayMainPage(mainStage, movies);
-
+            setMainScene(mainPageViewController.getScene());
     }
-
 
     @Override
-    public void OnClickImage(Movie movie) throws IOException, SQLException, ParseException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(MovieDetailsViewController.getViewURL());
-
-        Scene movieDetailsScene = new Scene(fxmlLoader.load());
-
-        MovieDetailsViewController movieDetailsViewController = fxmlLoader.getController();
-
-        movieDetailsViewController.displayMovieDetails(movie);
-
+    public void OnClickImage(Movie movie) throws IOException {
+        MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(mainStage);
         movieDetailsViewController.setListener(this);
-        mainStage.setTitle("Movies Details");
-        mainStage.setScene(movieDetailsScene);
+        movieDetailsViewController.displayMovieDetails(movie);
     }
-
-
-
 
     @Override
     public void previousBtnClicked() {
         mainStage.setScene(mainScene);
-
     }
-
-    //function to handle initialization error (we can extend this to handle other errors)
-    private void handleInitilizationError(Exception e){
-        e.printStackTrace();
-    }
-
 
     public static void main(String[] args) {
         launch(args);

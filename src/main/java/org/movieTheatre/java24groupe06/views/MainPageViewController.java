@@ -24,19 +24,30 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainPageViewController extends AbstractViewController implements Initializable {
-    @FXML
+
+    // c 'est useless
     private MainScenePosterTemplateController mainScenePosterTemplateController;
+
     @FXML
     private ScrollPane scrollPane;
     private List<Movie> moviesList;
     private Listener listener;
-    private static String title="Movie Theatre";
+    private static String title = "Movie Theatre";
 
-    private MainPageView view;
-    private MovieModel model;
+    private int nbRow;
+    private final int nbColumn = 4;
+
+    public static URL getViewURL() {
+        return MainPageViewController.class.getResource("mainPage-View.fxml");
+    }
+
+    public void setMovieList(List<Movie> moviesList) {
+        this.moviesList = moviesList;
+    }
+
+
 
     public static MainPageViewController showInStage(Stage mainStage) {
-
         try {
             return showFXMLOnStage(getViewURL(), mainStage,title);
         } catch (IOException e) {
@@ -44,19 +55,12 @@ public class MainPageViewController extends AbstractViewController implements In
         }
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         try {
             setMovieList(retrieveMovieFromDB());
             show();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (SQLException | ParseException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -67,32 +71,6 @@ public class MainPageViewController extends AbstractViewController implements In
         CreateMovies createMovies = new CreateMovies();
         return createMovies.getShowingMovies();
     }
-
-//    @Override
-//    public void showMainPage() throws FileNotFoundException, SQLException, ParseException {
-//        List<Movie> moviesList = model.getShowingMovies();
-//        view.setMovieList(moviesList);
-//        view.show();
-//    }
-
-
-    public void setMovieList(List<Movie> moviesList) {
-        this.moviesList = moviesList;
-    }
-
-
-    public static URL getViewURL() {
-        return MainPageViewController.class.getResource("mainPage-View.fxml");
-    }
-
-    private int nbRow;
-    private final int nbColumn = 4;
-
-
-
-
-
-
 
     public void show() throws IOException {
 
@@ -155,28 +133,6 @@ public class MainPageViewController extends AbstractViewController implements In
                 }
             }
         }
-
-
-/*        for(int row = 0; row< nbRow;row++){
-            Movie movie = moviesList.get(row);
-            Image image = new Image(new FileInputStream(movie.getPathImg()));
-            ImageView imageView = new ImageView(image);
-            SizeImage(imageView);
-            imageView.setOnMouseClicked(event -> {
-
-                try {
-                    this.listener.OnClickImage(movie);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-            gridPane.add(imageView,row, 0);
-        }*/
     }
 
     private static void SizeImage(ImageView imageView) {

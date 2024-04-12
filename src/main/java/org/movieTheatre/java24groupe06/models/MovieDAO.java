@@ -15,18 +15,13 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
 
     public List<Movie> getShowingMovies() throws SQLException, ParseException {
 
-        ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
+        ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movies WHERE isShowing = true";
         // ! C'est un try with ressources pas un try catch
-        try (PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
+        try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-
-
                 movies.add(createMovieObject(rs));
-
             }
         }
         conn.closeDatabase();
@@ -71,20 +66,6 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
 
         return actorsList;
     }
-//    private static List<String> getActors(ResultSet rsActors) throws SQLException {
-//        List<String> actors = new ArrayList<>();
-//        while (rsActors.next()) {
-//            actors.add(rsActors.getString("fullName"));
-//        }
-//        return actors;
-//    }
-//    private static List<String> getGenres(ResultSet rsGenres) throws SQLException {
-//        List<String> genres = new ArrayList<>();
-//        while (rsGenres.next()) {
-//            genres.add(rsGenres.getString("genre"));
-//        }
-//        return genres;
-//    }
 
     private static List<String> getGenres(ResultSet rs) throws SQLException {
         List<String> genresList = new ArrayList<>();

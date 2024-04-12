@@ -13,6 +13,8 @@ public class Movie {
     private String title;
     private int duration;
     private List<String> actors;
+
+
     private List<String> genre;
     private String synopsis;
     private String releaseDate;
@@ -58,32 +60,12 @@ public class Movie {
     public String getPathImg() {
         return this.pathImg;
     }
+    public List<String> getGenre() {
+        return genre;
+    }
 
     public boolean getIsShowing() {
         return this.isShowing;
-    }
-
-    public String getStringListGenre() {
-        StringBuilder genreStringList = new StringBuilder();
-        for(int i = 0; i < genre.size(); i++) {
-            genreStringList.append(genre.get(i));
-            if (i != genre.size() - 1) {
-                genreStringList.append(", ");
-            }
-        }
-        return genreStringList.toString();
-    }
-
-
-    public String getStringListActors() {
-        StringBuilder actorsStringList = new StringBuilder();
-        for(int i = 0; i < actors.size(); i++) {
-            actorsStringList.append(actors.get(i));
-            if (i != actors.size() - 1) {
-                actorsStringList.append(", ");
-            }
-        }
-        return actorsStringList.toString();
     }
 
 
