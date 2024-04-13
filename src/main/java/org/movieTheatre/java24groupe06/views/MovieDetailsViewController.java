@@ -39,12 +39,19 @@ public class MovieDetailsViewController extends AbstractViewController {
 
     private static String titleStage = "Movies Details";
 
+
+
     public static URL getViewURL() {
         return MovieDetailsViewController.class.getResource("MovieDetails-view.fxml");
     }
 
     public void setListener(Listener listener) {
         this.listener = listener;
+    }
+
+    public static MovieDetailsViewController showInStage(Stage mainStage) throws IOException {
+        return showFXMLOnStage(getViewURL(),mainStage,titleStage);
+
     }
 
     public void displayMovieDetails(Movie movie) throws FileNotFoundException {
@@ -59,8 +66,16 @@ public class MovieDetailsViewController extends AbstractViewController {
         image.setImage(image1);
     }
 
-    public static MovieDetailsViewController showInStage(Stage mainStage) throws IOException {
-        return showFXMLOnStage(getViewURL(),mainStage,titleStage);
+    public String parseList (List<String> list){
+
+        StringBuilder genreStringList = new StringBuilder();
+        for(int i = 0; i < list.size(); i++) {
+            genreStringList.append(list.get(i));
+            if (i != list.size() - 1) {
+                genreStringList.append(", ");
+            }
+        }
+        return genreStringList.toString();
 
     }
 
@@ -71,19 +86,5 @@ public class MovieDetailsViewController extends AbstractViewController {
     public interface Listener {
         void previousBtnClicked();
     }
-
-    public String parseList (List<String> list){
-
-            StringBuilder genreStringList = new StringBuilder();
-            for(int i = 0; i < list.size(); i++) {
-                genreStringList.append(list.get(i));
-                if (i != list.size() - 1) {
-                    genreStringList.append(", ");
-                }
-            }
-            return genreStringList.toString();
-
-    }
-
 
 }

@@ -41,11 +41,13 @@ public class MainPageViewController extends AbstractViewController implements In
         return MainPageViewController.class.getResource("mainPage-View.fxml");
     }
 
+    public void setListener(Listener listener) {
+        this.listener = listener;
+
+    }
     public void setMovieList(List<Movie> moviesList) {
         this.moviesList = moviesList;
     }
-
-
 
     public static MainPageViewController showInStage(Stage mainStage) {
         try {
@@ -141,12 +143,6 @@ public class MainPageViewController extends AbstractViewController implements In
         imageView.setFitWidth(desiredWidth);
         imageView.setFitHeight(desiredHeight);
     }
-
-    public void setListener(Listener listener) {
-        this.listener = listener;
-
-    }
-
 
 
     public interface Listener {
