@@ -1,5 +1,6 @@
 package org.movieTheatre.java24groupe06.utils.DataBase.Utils;
 
+import java.io.Closeable;
 import java.sql.*;
 
 /**
@@ -11,7 +12,7 @@ import java.sql.*;
  *
  * The class provides methods for getting the singleton instance, closing the database connection, and preparing SQL statements.
  */
-public class ConnectionSingletonDB {
+public class ConnectionSingletonDB implements Closeable {
 
     public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseMovieT.db";
     private static ConnectionSingletonDB instance = null;
@@ -27,7 +28,6 @@ public class ConnectionSingletonDB {
      */
     private  ConnectionSingletonDB() {
         try {
-
             Class.forName("org.sqlite.JDBC");
             this.connection = DriverManager.getConnection(DB_URL);
             System.out.println("Connexion db établie");
@@ -58,7 +58,8 @@ public class ConnectionSingletonDB {
      *
      * @throws RuntimeException If there is an error closing the database connection.
      */
-    public void closeDatabase(){
+   @Override
+    public void close(){
         try{
             if(this.connection != null){
                 this.connection.close();

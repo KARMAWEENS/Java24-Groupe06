@@ -22,25 +22,28 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
         this.mainStage = mainStage;
     }
 
-    public void setMainScene(Scene mainScene) {
-        this.mainScene = mainScene;
+    public void setMainScene(Scene mainScene) {this.mainScene = mainScene;
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        ShowMainStage(stage);
+    public void start(Stage stage)  {
+        initializeMainStage(stage);
     }
 
-    private void ShowMainStage(Stage stage) {
-
+    private void initializeMainStage(Stage stage)  {
             setMainStage(stage);
             MainPageViewController mainPageViewController = MainPageViewController.showInStage(mainStage);
+            mainPageViewController.onWidthChanged(mainStage.getWidth());
+            mainStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+                System.out.println("Width: " + newVal);
+                mainPageViewController.onWidthChanged(newVal.doubleValue());
+            });
             mainPageViewController.setListener(this);
             setMainScene(mainPageViewController.getScene());
     }
 
     @Override
-    public void OnClickImage(Movie movie) throws IOException {
+    public void onClickImage(Movie movie) throws IOException {
         MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(mainStage);
         movieDetailsViewController.setListener(this);
         movieDetailsViewController.displayMovieDetails(movie);

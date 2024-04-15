@@ -3,19 +3,16 @@ package org.movieTheatre.java24groupe06.views;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.movieTheatre.java24groupe06.controllers.MainPageController;
 import org.movieTheatre.java24groupe06.models.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.MovieModel;
 import org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,18 +21,51 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainPageViewController extends AbstractViewController implements Initializable {
-
-    // c 'est useless
-    private MainScenePosterTemplateController mainScenePosterTemplateController;
-
     @FXML
     private ScrollPane scrollPane;
     private List<Movie> moviesList;
     private Listener listener;
     private static String title = "Movie Theatre";
-
     private int nbRow;
-    private final int nbColumn = 4;
+    private  int nbColumn ;
+    private GridPane gridPane;
+    public int widthStage;
+
+    public void createPane(){
+        GridPane gridPane = new GridPane(nbRow,nbColumn);
+        this.gridPane = gridPane;
+        setStyleStage(widthStage);
+        scrollPane.setContent(gridPane);
+    }
+     public void onWidthChanged(double width){
+        this.widthStage = (int) width;
+         setStyleStage(width);
+         if(calculatedColumn((int) width)!=nbColumn) {
+            this.nbColumn = calculatedColumn((int) width);
+            this.nbRow = calculatedRow();
+            try {
+                System.out.println("showing");
+                show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setStyleStage(double width) {
+        scrollPane.setPrefWidth(width);
+        gridPane.setPrefWidth(width);
+        gridPane.setStyle("-fx-background-color: #000000");
+        gridPane.setPadding(new Insets(0,0,0,(width -nbColumn*180)/2));
+    }
+
+    private int calculatedColumn(int width) {
+        return (int) Math.max((double) (width / MainScenePosterTemplateController.widthImage), 1);
+    }
+    private int calculatedRow() {
+        return (int) Math.ceil((double) moviesList.size() / nbColumn);
+    }
+
 
     public static URL getViewURL() {
         return MainPageViewController.class.getResource("mainPage-View.fxml");
@@ -56,16 +86,14 @@ public class MainPageViewController extends AbstractViewController implements In
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             setMovieList(retrieveMovieFromDB());
             show();
         } catch (SQLException | ParseException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-
     }
 
     //logic to retrieve movie from db + more modularity
@@ -75,60 +103,27 @@ public class MainPageViewController extends AbstractViewController implements In
     }
 
     public void show() throws IOException {
-
-      this.nbRow = (int) Math.ceil((double) moviesList.size() / nbColumn);
-        GridPane gridPane = new GridPane( nbRow,nbColumn);
-
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-
-
-        scrollPane.setContent(gridPane);
-
+        createPane();
         int index = 0;
+        System.out.println(nbRow);
+        System.out.println(nbColumn);
         for (int row = 0; row < nbRow; row++){
         for (int column = 0; column <nbColumn;column++){
                 if(index < moviesList.size()){
-
                     FXMLLoader loader =  MainScenePosterTemplateController.getFXMLLoader();
                     final Parent root = loader.load();
-                    root.setStyle("-fx-background-color: red;");
-                    gridPane.setStyle("-fx-background-color: black;");
                     final MainScenePosterTemplateController controller = loader.getController();
                     controller.setPoster(moviesList.get(index));
                     int finalIndex = index;
                     controller.setListener(() -> {
-
                         if (listener == null) return;
                         try {
-
-                            listener.OnClickImage(moviesList.get(finalIndex));
+                            listener.onClickImage(moviesList.get(finalIndex));
                         } catch (IOException | SQLException | ParseException e) {
                             throw new RuntimeException(e);
                         }
-
                     });
-
-                    // LE SET LISTENER SANS LAMBDA
-/*                    controller.setListener(new MainScenePosterTemplateController.Listener() {
-                        @Override
-                        public void OnClickImage() {
-                            if (listener == null) return;
-                            try {
-                                System.out.println(finalIndex + " 2" + controller.getListener());
-                                listener.OnClickImage(moviesList.get(finalIndex));
-                            } catch (IOException | SQLException | ParseException e) {
-                                throw new RuntimeException(e);
-                            }
-                            System.out.println(finalIndex + " 3" + controller.getListener());
-                        }
-                    });
-                    */
-
-
                     gridPane.add(root, column, row);
-
-
                     index++;
                 }else{
                     return;
@@ -146,11 +141,8 @@ public class MainPageViewController extends AbstractViewController implements In
 
 
     public interface Listener {
-        void OnClickImage(Movie movie) throws IOException, SQLException, ParseException;
-    };
-
-
-
+        void onClickImage(Movie movie) throws IOException, SQLException, ParseException;
+    }
 }
 
 

@@ -7,7 +7,7 @@
 
    <children>
       <ToolBar prefHeight="77.0" prefWidth="600.0" />
-      <ScrollPane fx:id="scrollPane" layoutY="77.0" prefHeight="725.0" prefWidth="591.0">
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutY="77.0" prefHeight="725.0" prefWidth="591.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>

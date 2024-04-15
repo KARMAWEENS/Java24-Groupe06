@@ -13,22 +13,43 @@ import java.util.List;
 
 public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
 
-    public List<Movie> getShowingMovies() throws SQLException, ParseException {
+    public List<Movie> getShowingMovies() throws SQLException {
 
-        ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movies WHERE isShowing = true";
-        // ! C'est un try with ressources pas un try catch
-        try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
+             PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                movies.add(createMovieObject(rs));
+                movies.add(createMovieObject(rs, conn));
             }
         }
-        conn.closeDatabase();
         return movies;
     }
 
-    private static Movie createMovieObject(ResultSet rs) throws SQLException, ParseException {
+    private List<String> getColumnValues(String columnName, String tableName, String idColumnName, int id, ConnectionSingletonDB conn) throws SQLException {
+        List<String> valuesList = new ArrayList<>();
+        String query = String.format("SELECT %s FROM %s WHERE %s = %s", columnName, tableName, idColumnName, id);
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                valuesList.add(rs.getString(columnName));
+            }
+        }
+        return valuesList;
+    }
+
+    private List<String> getActors(ResultSet rs, ConnectionSingletonDB conn) throws SQLException {
+        int movieId = rs.getInt("movieID");
+        return getColumnValues("FullName", "Actors", "actorID", movieId, conn);
+    }
+
+    private List<String> getGenres(ResultSet rs, ConnectionSingletonDB conn) throws SQLException {
+        int movieId = rs.getInt("movieID");
+        return getColumnValues("genre", "Genres", "genreID", movieId, conn);
+    }
+
+
+    private Movie createMovieObject(ResultSet rs, ConnectionSingletonDB conn) throws SQLException {
         Movie movie = new Movie.MovieBuilder()
                 .setTitle(rs.getString("title"))
                 .setDuration(rs.getInt("duration"))
@@ -37,58 +58,10 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
                 .setReleaseDate(rs.getString("ReleaseDate"))
                 .setPathImg(rs.getString("pathImg"))
                 .setProducer(rs.getString("Producer"))
-                .setActors(getActors(rs))
-                .setGenre(getGenres(rs))
+                .setActors(getActors(rs, conn))
+                .setGenre(getGenres(rs, conn))
                 .build();
 
         return movie;
     }
-    private static List<String> getActors(ResultSet rs) throws SQLException {
-        List<String> actorsList = new ArrayList<>();
-        int movieId = rs.getInt("movieID");
-        ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
-        String query =String.format("SELECT a.FullName\n" +
-                "FROM Actors a\n" +
-                "JOIN MoviesCasting mc ON a.actorID = mc.actorID\n" +
-                "WHERE mc.movieID = %s;", movieId);
-        // ! C'est un try with ressources pas un try catch
-
-        try (PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs2 = stmt.executeQuery()) {
-            while (rs2.next()) {
-
-                actorsList.add(rs2.getString("fullName"));
-
-            }
-        }
-        // COMPRENDRE POURQUOI QUAND Y A CONN.CLOSEDATABASE CA MARCHE PAS
-       // conn.closeDatabase();
-
-        return actorsList;
-    }
-
-    private static List<String> getGenres(ResultSet rs) throws SQLException {
-        List<String> genresList = new ArrayList<>();
-        int movieId = rs.getInt("movieID");
-        ConnectionSingletonDB conn =  ConnectionSingletonDB.getInstance();
-        String query =String.format("SELECT g.genre\n" +
-                "FROM Genres g\n" +
-                "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
-                "WHERE mg.movieID = %s;", movieId);
-        // ! C'est un try with ressources pas un try catch
-
-        try (PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs2 = stmt.executeQuery()) {
-            while (rs2.next()) {
-
-                genresList.add(rs2.getString("genre"));
-
-            }
-        }
-        // COMPRENDRE POURQUOI QUAND Y A CONN.CLOSEDATABASE CA MARCHE PAS
-        // conn.closeDatabase();
-
-        return genresList;
-    }
-
 }

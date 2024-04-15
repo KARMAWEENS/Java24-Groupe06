@@ -1,7 +1,6 @@
 package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,26 +33,23 @@ public class MovieDetailsViewController extends AbstractViewController {
     @FXML
     private Label date;
 
-    @FXML
-    private Button previousSceneBtn;
-
     private static String titleStage = "Movies Details";
-
-
 
     public static URL getViewURL() {
         return MovieDetailsViewController.class.getResource("MovieDetails-view.fxml");
     }
 
+    public static MovieDetailsViewController showInStage(Stage mainStage) {
+        try {
+            return showFXMLOnStage(getViewURL(), mainStage,titleStage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setListener(Listener listener) {
         this.listener = listener;
     }
-
-    public static MovieDetailsViewController showInStage(Stage mainStage) throws IOException {
-        return showFXMLOnStage(getViewURL(),mainStage,titleStage);
-
-    }
-
     public void displayMovieDetails(Movie movie) throws FileNotFoundException {
         title.setText(movie.getTitle());
         synopsis.setText(movie.getSynopsis());
@@ -61,7 +57,7 @@ public class MovieDetailsViewController extends AbstractViewController {
         genre.setText(parseList(movie.getGenre()));
         actors.setText(parseList(movie.getActors()));
         producer.setText(movie.getProducer());
-        date.setText(movie.getReleaseDate().toString());
+        date.setText(movie.getReleaseDate());
         Image image1 = new Image(new FileInputStream(movie.getPathImg()));
         image.setImage(image1);
     }
@@ -79,7 +75,7 @@ public class MovieDetailsViewController extends AbstractViewController {
 
     }
 
-    public void BtnClicked(){
+    public void btnClicked(){
         this.listener.previousBtnClicked();
     }
 

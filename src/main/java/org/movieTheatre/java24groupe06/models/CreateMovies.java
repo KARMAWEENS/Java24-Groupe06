@@ -26,7 +26,7 @@ public class CreateMovies implements MovieModel {
     }
 
     @Override
-    public List<Movie> getShowingMovies() throws SQLException, ParseException {
+    public List<Movie> getShowingMovies() throws SQLException {
         return movieDAO.getShowingMovies();
     }
 

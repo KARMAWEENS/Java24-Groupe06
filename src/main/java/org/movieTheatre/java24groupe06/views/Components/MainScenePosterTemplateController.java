@@ -19,6 +19,7 @@ public class MainScenePosterTemplateController {
     private ImageView imageView;
     @FXML
     private Label titleLabel;
+    public static final int widthImage = 180;
 
     public void setListener(Listener listener) {
           this.listener = listener;
