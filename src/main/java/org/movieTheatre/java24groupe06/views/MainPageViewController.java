@@ -6,8 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Movie;
@@ -31,11 +34,15 @@ public class MainPageViewController extends AbstractViewController implements In
     private int nbRow;
     private  int nbColumn ;
     private GridPane gridPane;
+    private Stage mainStage;
+    @FXML
+    private ToolBar toolBar;
 
 
     private void setWidthStage(int width) {
         this.widthStage = width;
     }
+
 
     public int widthStage;
 
@@ -44,8 +51,15 @@ public class MainPageViewController extends AbstractViewController implements In
     public void createPane(){
         GridPane gridPane = new GridPane(nbRow,nbColumn);
         this.gridPane = gridPane;
+        gridPane.setId("myGridPane");
         setStyleStage(widthStage);
         scrollPane.setContent(gridPane);
+        toolBar.prefWidthProperty().bind(scrollPane.widthProperty());
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        GridPane.setVgrow(gridPane, Priority.ALWAYS);
+        System.out.println();
+//        gridPane.setMinHeight();
     }
     public void onWidthChanged(int width) throws CantLoadFXMLException {
         setWidthStage(width);
@@ -85,7 +99,7 @@ public class MainPageViewController extends AbstractViewController implements In
     private void setStyleStage(double width) {
         scrollPane.setPrefWidth(width);
         gridPane.setPrefWidth(width);
-        gridPane.setStyle("-fx-background-color: #000000");
+//        gridPane.setStyle("-fx-background-color: #000000");
         gridPane.setPadding(new Insets(0, 0, 0, (width - nbColumn * MainScenePosterTemplateController.widthImage) / 2));
     }
     private static int getWidthImage() {
@@ -113,7 +127,9 @@ public class MainPageViewController extends AbstractViewController implements In
     }
 
     public static MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
-            return showFXMLOnStage(getViewURL(), mainStage,title);
+            MainPageViewController controller = showFXMLOnStage(getViewURL(), mainStage,title);
+            controller.mainStage = mainStage;
+            return controller;
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -121,6 +137,8 @@ public class MainPageViewController extends AbstractViewController implements In
             setMovieList(retrieveMovieFromDB());
 
             show();
+
+
         } catch (SQLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.SQLExceptionAlert(e);

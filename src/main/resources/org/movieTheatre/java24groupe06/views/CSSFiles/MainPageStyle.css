@@ -1,0 +1,30 @@
+.scroll-pane{
+    -fx-background-color: black;
+    -fx-alignment: center;
+    -fx-padding: 20;
+}
+.tool-bar{
+    -fx-background-color: black;
+}
+
+#myGridPane {
+    /*-fx-border-style: solid ; !* Style de la bordure *!*/
+    /*-fx-border-color: #660000;*/
+    /*-fx-border-width: 5px;*/
+    -fx-background-color: #5e5e5e;
+    /*-fx-border-radius: 10px;*/
+    /*-fx-background-radius: ;*/
+}
+
+
+
+
+#labelTitle{
+    -fx-font-size: 30px;
+    -fx-font-family: Impact;
+    -fx-text-fill: white;
+    -fx-padding: 5 5 5 5;
+    -fx-background-color: #990000;
+}
+
+
