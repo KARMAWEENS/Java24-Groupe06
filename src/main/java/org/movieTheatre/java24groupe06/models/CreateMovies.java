@@ -25,6 +25,7 @@ public class CreateMovies implements MovieModel {
         movieDAO = new MovieDAO();
     }
 
+    // En soit inutile pour l'instant faut voir ce que Louis a derriere sa pti caboche
     @Override
     public List<Movie> getShowingMovies() throws SQLException {
         return movieDAO.getShowingMovies();

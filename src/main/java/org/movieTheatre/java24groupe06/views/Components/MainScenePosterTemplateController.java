@@ -8,12 +8,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import org.movieTheatre.java24groupe06.controllers.MovieApplication;
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
+import org.movieTheatre.java24groupe06.views.AlertManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class MainScenePosterTemplateController {
+public class MainScenePosterTemplateController implements SetImageWithException {
 
     @FXML
     private ImageView imageView;
@@ -31,16 +33,14 @@ public class MainScenePosterTemplateController {
 
     private Listener listener;
 
-    public static FXMLLoader getFXMLLoader() throws IOException {
-
-        FXMLLoader loader = new FXMLLoader(MainScenePosterTemplateController.class.getResource("mainScenePosterTemplate.fxml"));
-        return loader;
+    public static FXMLLoader getFXMLLoader()   {
+        return new FXMLLoader(MainScenePosterTemplateController.class.getResource("mainScenePosterTemplate.fxml"));
     }
-    public void setPoster(Movie movie) throws FileNotFoundException {
+    public void setPoster(Movie movie) {
 
-        Image image = new Image(new FileInputStream(movie.getPathImg()));
-        imageView.setImage(image);
         titleLabel.setText(movie.getTitle());
+        setImageWithException(imageView, movie.getPathImg());
+
 
     }
 
@@ -53,28 +53,6 @@ public class MainScenePosterTemplateController {
         void OnClickImage();
     }
 
-
-
-    /*        for(int row = 0; row< nbRow;row++){
-            Movie movie = moviesList.get(row);
-            Image image = new Image(new FileInputStream(movie.getPathImg()));
-            ImageView imageView = new ImageView(image);
-            SizeImage(imageView);
-            imageView.setOnMouseClicked(event -> {
-
-                try {
-                    this.listener.OnClickImage(movie);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-            gridPane.add(imageView,row, 0);
-        }*/
 }
 
 

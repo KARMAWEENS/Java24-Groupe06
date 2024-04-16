@@ -2,24 +2,22 @@ package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
+import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-public class MovieDetailsViewController extends AbstractViewController {
+public class MovieDetailsViewController extends AbstractViewController implements SetImageWithException {
 
     private Listener listener;
     @FXML
     private Label title;
     @FXML
-    private ImageView image;
+    private ImageView imageView;
     @FXML
     private Label actors;
     @FXML
@@ -39,27 +37,39 @@ public class MovieDetailsViewController extends AbstractViewController {
         return MovieDetailsViewController.class.getResource("MovieDetails-view.fxml");
     }
 
-    public static MovieDetailsViewController showInStage(Stage mainStage) {
-        try {
+    public static MovieDetailsViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
             return showFXMLOnStage(getViewURL(), mainStage,titleStage);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void setListener(Listener listener) {
         this.listener = listener;
     }
-    public void displayMovieDetails(Movie movie) throws FileNotFoundException {
+    public void displayMovieDetails(Movie movie) {
+
+        setImageWithException(imageView, movie.getPathImg());
+
         title.setText(movie.getTitle());
         synopsis.setText(movie.getSynopsis());
         duration.setText(String.valueOf(movie.getDuration()));
-        genre.setText(parseList(movie.getGenre()));
-        actors.setText(parseList(movie.getActors()));
+
+        genre.setText((checkList(movie.getGenre(), "genre")));
+        actors.setText((checkList(movie.getActors(), "acteur")));
+
+
         producer.setText(movie.getProducer());
         date.setText(movie.getReleaseDate());
-        Image image1 = new Image(new FileInputStream(movie.getPathImg()));
-        image.setImage(image1);
+
+    }
+
+    public String checkList(List list, String listType){
+        if (list.isEmpty()){
+            String message = "Aucun " + listType + " trouvé" ;
+            AlertManager alertManager = new AlertManager();
+            alertManager.minorDbError(message);
+            return message;
+        }else{
+            return parseList(list);
+        }
     }
 
     public String parseList (List<String> list){
@@ -72,7 +82,6 @@ public class MovieDetailsViewController extends AbstractViewController {
             }
         }
         return genreStringList.toString();
-
     }
 
     public void btnClicked(){

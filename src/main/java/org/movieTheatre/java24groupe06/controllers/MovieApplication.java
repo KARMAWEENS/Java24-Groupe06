@@ -7,12 +7,16 @@ import javafx.stage.Stage;
 
 
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
+import org.movieTheatre.java24groupe06.views.AlertManager;
 import org.movieTheatre.java24groupe06.views.MainPageViewController;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 
 import java.io.IOException;
 
-public class MovieApplication extends Application implements MovieDetailsViewController.Listener, MainPageViewController.Listener{
+import static org.movieTheatre.java24groupe06.views.MainPageViewController.showInStage;
+
+public class MovieApplication extends Application implements MovieDetailsViewController.Listener, MainPageViewController.Listener {
 
     private Stage mainStage;
 
@@ -22,36 +26,65 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
         this.mainStage = mainStage;
     }
 
-    public void setMainScene(Scene mainScene) {this.mainScene = mainScene;
+    public void setMainScene(Scene mainScene) {
+        this.mainScene = mainScene;
     }
 
     @Override
-    public void start(Stage stage)  {
+    public void start(Stage stage) {
         initializeMainStage(stage);
     }
 
-    private void initializeMainStage(Stage stage)  {
+    private void initializeMainStage(Stage stage) {
+        try {
             setMainStage(stage);
-            MainPageViewController mainPageViewController = MainPageViewController.showInStage(mainStage);
-            mainPageViewController.onWidthChanged(mainStage.getWidth());
-            mainStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-                System.out.println("Width: " + newVal);
-                mainPageViewController.onWidthChanged(newVal.doubleValue());
-            });
+            MainPageViewController mainPageViewController = showInStage(mainStage);
+            mainPageViewController.onLoad((int) mainStage.getWidth());
+            setWidthListener(mainPageViewController);
             mainPageViewController.setListener(this);
             setMainScene(mainPageViewController.getScene());
+        } catch (CantLoadFXMLException e) {
+            AlertManager alertManager = new AlertManager();
+            alertManager.CantLoadPageAlert(e);
+            // potentielement faire un truc du genre
+            // start (mainStage)
+        }
+    }
+
+    private void setWidthListener(MainPageViewController mainPageViewController) {
+        mainStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println("Width: " + newVal);
+            try {
+                mainPageViewController.onWidthChanged(newVal.intValue());
+            } catch (CantLoadFXMLException e) {
+                // quasiment tt le temps unreachable sauf si le fichier devient inaccessible pdt le run de l app
+
+                AlertManager alertManager = new AlertManager();
+                alertManager.CantLoadPageAlert(e);
+            }
+        });
     }
 
     @Override
-    public void onClickImage(Movie movie) throws IOException {
-        MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(mainStage);
-        movieDetailsViewController.setListener(this);
-        movieDetailsViewController.displayMovieDetails(movie);
+    public void onClickImage(Movie movie)  {
+        try {
+            MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(mainStage);
+            movieDetailsViewController.setListener(this);
+            movieDetailsViewController.displayMovieDetails(movie);
+        } catch (CantLoadFXMLException e) {
+            AlertManager alertManager = new AlertManager();
+            alertManager.CantLoadPageAlert(e);
+        }
     }
 
+    @Override
+    public void closeApp(){
+        this.mainStage.close();
+    }
     @Override
     public void previousBtnClicked() {
         mainStage.setScene(mainScene);
+        mainStage.setTitle("Movie Theatre");
     }
 
     public static void main(String[] args) {

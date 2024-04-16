@@ -11,8 +11,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,7 +31,15 @@ public class MainPageViewController extends AbstractViewController implements In
     private int nbRow;
     private  int nbColumn ;
     private GridPane gridPane;
+
+
+    private void setWidthStage(int width) {
+        this.widthStage = width;
+    }
+
     public int widthStage;
+
+
 
     public void createPane(){
         GridPane gridPane = new GridPane(nbRow,nbColumn);
@@ -37,30 +47,53 @@ public class MainPageViewController extends AbstractViewController implements In
         setStyleStage(widthStage);
         scrollPane.setContent(gridPane);
     }
-     public void onWidthChanged(double width){
-        this.widthStage = (int) width;
-         setStyleStage(width);
-         if(calculatedColumn((int) width)!=nbColumn) {
-            this.nbColumn = calculatedColumn((int) width);
-            this.nbRow = calculatedRow();
-            try {
-                System.out.println("showing");
-                show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void onWidthChanged(int width) throws CantLoadFXMLException {
+        setWidthStage(width);
+        setStyleStage(width);
+        if (calculatedColumn(width) != nbColumn) {
+            onLoad(width);
         }
     }
+
+    public void onLoad(int width) throws CantLoadFXMLException {
+        // Quand probleme chargement db alors moviesList est null
+        // Pierre veux qu on voit une page blanche
+        // Moi je veux que l'appli s arrete
+        if(moviesList == null){
+            AlertManager alertManager = new AlertManager();
+            alertManager.SQLExceptionAlert();
+        }else {
+
+            setWidthStage(width);
+            setColumn(calculatedColumn(width));
+            setRow(calculatedRow());
+            show();
+            setStyleStage(widthStage);
+        }
+    }
+
+    private void setRow(int width) {
+        this.nbRow = width;
+    }
+
+    private void setColumn(int width) {
+        this.nbColumn = width;
+    }
+
+
 
     private void setStyleStage(double width) {
         scrollPane.setPrefWidth(width);
         gridPane.setPrefWidth(width);
         gridPane.setStyle("-fx-background-color: #000000");
-        gridPane.setPadding(new Insets(0,0,0,(width -nbColumn*180)/2));
+        gridPane.setPadding(new Insets(0, 0, 0, (width - nbColumn * MainScenePosterTemplateController.widthImage) / 2));
+    }
+    private static int getWidthImage() {
+        return MainScenePosterTemplateController.widthImage;
     }
 
     private int calculatedColumn(int width) {
-        return (int) Math.max((double) (width / MainScenePosterTemplateController.widthImage), 1);
+        return (int) Math.max((double) (width / getWidthImage()), 1);
     }
     private int calculatedRow() {
         return (int) Math.ceil((double) moviesList.size() / nbColumn);
@@ -79,49 +112,55 @@ public class MainPageViewController extends AbstractViewController implements In
         this.moviesList = moviesList;
     }
 
-    public static MainPageViewController showInStage(Stage mainStage) {
-        try {
+    public static MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
             return showFXMLOnStage(getViewURL(), mainStage,title);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             setMovieList(retrieveMovieFromDB());
+
             show();
-        } catch (SQLException | ParseException | IOException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            AlertManager alertManager = new AlertManager();
+            alertManager.SQLExceptionAlert(e);
+          //  this.listener.closeApp();
+        } catch (CantLoadFXMLException e) {
+            AlertManager alertManager = new AlertManager();
+            alertManager.CantLoadPageAlert(e);
         }
     }
 
     //logic to retrieve movie from db + more modularity
-    private List<Movie> retrieveMovieFromDB() throws SQLException, ParseException {
+    private List<Movie> retrieveMovieFromDB() throws SQLException{
         CreateMovies createMovies = new CreateMovies();
         return createMovies.getShowingMovies();
     }
 
-    public void show() throws IOException {
+    public void show() throws CantLoadFXMLException {
         createPane();
         int index = 0;
-        System.out.println(nbRow);
-        System.out.println(nbColumn);
+
         for (int row = 0; row < nbRow; row++){
         for (int column = 0; column <nbColumn;column++){
                 if(index < moviesList.size()){
                     FXMLLoader loader =  MainScenePosterTemplateController.getFXMLLoader();
-                    final Parent root = loader.load();
+                    final Parent root;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        throw new CantLoadFXMLException(e);
+                    }
                     final MainScenePosterTemplateController controller = loader.getController();
-                    controller.setPoster(moviesList.get(index));
+
+                        controller.setPoster(moviesList.get(index));
+
                     int finalIndex = index;
                     controller.setListener(() -> {
                         if (listener == null) return;
-                        try {
-                            listener.onClickImage(moviesList.get(finalIndex));
-                        } catch (IOException | SQLException | ParseException e) {
-                            throw new RuntimeException(e);
-                        }
+
+                        listener.onClickImage(moviesList.get(finalIndex));
+
                     });
                     gridPane.add(root, column, row);
                     index++;
@@ -141,7 +180,8 @@ public class MainPageViewController extends AbstractViewController implements In
 
 
     public interface Listener {
-        void onClickImage(Movie movie) throws IOException, SQLException, ParseException;
+        void onClickImage(Movie movie);
+        void closeApp();
     }
 }
 
