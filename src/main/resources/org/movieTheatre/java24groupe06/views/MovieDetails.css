@@ -19,7 +19,7 @@ AnchorPane {
 }
 .label-container {
     -fx-border-color: lightgray;
-    -fx-border-width: 2px;
+    -fx-border-width: 1px;
 }
 #title {
     -fx-font-size: 24px;
