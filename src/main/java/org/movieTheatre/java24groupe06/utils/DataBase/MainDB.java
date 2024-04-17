@@ -15,12 +15,21 @@ public class MainDB {
     CreateDB createDB = CreateDB.getInstance();
     DeleteDB deleteDB = DeleteDB.getInstance();
     UpdateDB updateDB = UpdateDB.getInstance();
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         MainDB app = new MainDB();
         app.run();
     }
 
-    public void run() {
+    public void run() throws SQLException {
+        ConnectionSingletonDB connSingleton = ConnectionSingletonDB.getInstance();
+        Connection conn = connSingleton.getConnection();
+        try {
+            createAndInsertTables(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
 
         /*
         String movieID ="9";
@@ -35,24 +44,18 @@ public class MainDB {
          */
 
 
- /*           createDB.insertIntoTable("MoviesGenres", "5","1 ");
-            createDB.insertIntoTable("MoviesGenres", "5","2");
-            createDB.insertIntoTable("MoviesGenres", "5","7");
-            createDB.insertIntoTable("MoviesGenres", "6","6");
-            createDB.insertIntoTable("MoviesGenres", "6","7");
-            createDB.insertIntoTable("MoviesGenres", "6","8");
-            createDB.insertIntoTable("MoviesGenres", "7","9");
-            createDB.insertIntoTable("MoviesGenres", "7","10");
-            createDB.insertIntoTable("MoviesGenres", "8","6");
-            createDB.insertIntoTable("MoviesGenres", "8","7");
-            createDB.insertIntoTable("MoviesGenres", "8","13");
-            createDB.insertIntoTable("MoviesGenres", "9","2");
-            createDB.insertIntoTable("MoviesGenres", "9","10");
-*/
+//            createDB.insertIntoTable("Rooms","1", "200","5","15");
+//            createDB.insertIntoTable("Rooms", "2","200","5","15");
+//            createDB.insertIntoTable("Rooms", "3","200","5","15");
+//            createDB.insertIntoTable("Rooms", "4","200","5","15");
+//            createDB.insertIntoTable("Rooms", "5","200","5","15");
+//            createDB.insertIntoTable("Rooms", "6","200","5","15");
+//            createDB.insertIntoTable("Rooms", "7","200","5","15");
+//            createDB.insertIntoTable("Rooms", "8","200","5","15");
+//            createDB.insertIntoTable("Rooms", "9","200","5","15");
+           
 
 
-        deleteDB.deleteRowsFromMovieGenre();
-        deleteDB.deleteRowsFromMovies();
 
 
         //CreateDB.insertIntoTable(conn.getConnection(), "Movies", movieID,pathImg, title, duration, synopsis, isShowing, releaseDate, producer);
@@ -60,20 +63,24 @@ public class MainDB {
     }
 
    private void createAndInsertTables(Connection conn) throws SQLException {
-        createTable( "Movies", "movieID INT PRIMARY KEY", "pathImg VARCHAR(255)", "title VARCHAR(255)", "duration INT", "synopsis TEXT", "isShowing BOOLEAN", "ReleaseDate DATE", "Producer VARCHAR(255)");
-        createTable( "Genres", "genreId INT PRIMARY KEY", "genre VARCHAR(255)");
-        createTable( "MoviesGenres", "movieID INT", "genreID INT", "FOREIGN KEY (movieID) REFERENCES Movies(movieID)", "FOREIGN KEY (genreID) REFERENCES Genres(genreID)", "PRIMARY KEY (movieID, genreID)");
-        createTable( "Actors", "actorId INT PRIMARY KEY", "fullName VARCHAR(255)");
-        createTable( "MoviesCasting", "movieID INT", "actorID INT", "FOREIGN KEY (movieID) REFERENCES Movies(movieID)", "FOREIGN KEY (actorID) REFERENCES Actors(actorID)", "PRIMARY KEY (movieID, actorID)");
+//        createTable( "Movies", "movieID INT PRIMARY KEY", "pathImg VARCHAR(255)", "title VARCHAR(255)", "duration INT", "synopsis TEXT", "isShowing BOOLEAN", "ReleaseDate DATE", "Producer VARCHAR(255)");
+//        createTable( "Genres", "genreId INT PRIMARY KEY", "genre VARCHAR(255)");
+//        createTable( "MoviesGenres", "movieID INT", "genreID INT", "FOREIGN KEY (movieID) REFERENCES Movies(movieID)", "FOREIGN KEY (genreID) REFERENCES Genres(genreID)", "PRIMARY KEY (movieID, genreID)");
+//        createTable( "Actors", "actorId INT PRIMARY KEY", "fullName VARCHAR(255)");
+//        createTable( "MoviesCasting", "movieID INT", "actorID INT", "FOREIGN KEY (movieID) REFERENCES Movies(movieID)", "FOREIGN KEY (actorID) REFERENCES Actors(actorID)", "PRIMARY KEY (movieID, actorID)");
+//
+//        insertIntoTable( "Genres", "genreID, genre) VALUES (5, 'action'");
+//        insertIntoTable( "MoviesGenres", "movieID, genreID) VALUES (5,2)");
 
-        insertIntoTable( "Genres", "genreID, genre) VALUES (5, 'action'");
-        insertIntoTable( "MoviesGenres", "movieID, genreID) VALUES (5,2)");
-    }
+
+
+   }
 
     private void createTable( String tableName, String... columns) throws SQLException {
         createDB.createTable(tableName, columns);
     }
-    private void insertIntoTable( String tableName, String values) throws SQLException {
+    private void insertIntoTable(Connection conn, String tableName, String values) throws SQLException {
         createDB.insertIntoTable( tableName, values);
     }
+
 }
