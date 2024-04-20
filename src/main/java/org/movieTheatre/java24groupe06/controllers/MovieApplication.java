@@ -13,6 +13,7 @@ import org.movieTheatre.java24groupe06.views.MainPageViewController;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 
 import java.io.IOException;
+import java.util.SplittableRandom;
 
 import static org.movieTheatre.java24groupe06.views.MainPageViewController.showInStage;
 
@@ -22,6 +23,8 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
 
     private Scene mainScene;
 
+    private Stage detailsStage;
+
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
     }
@@ -29,6 +32,11 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
     }
+
+    public void setDetailsStage(Stage detailsStage) {
+        this.detailsStage = detailsStage;
+    }
+
 
     @Override
     public void start(Stage stage) {
@@ -48,6 +56,18 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
             alertManager.CantLoadPageAlert(e);
             // potentielement faire un truc du genre
             // start (mainStage)
+        }
+    }
+
+    private void initializeDetailsStage(Movie movie) {
+        try {
+            setDetailsStage(new Stage());
+            MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(detailsStage);
+            movieDetailsViewController.setListener(this);
+            movieDetailsViewController.displayMovieDetails(movie);
+        } catch (CantLoadFXMLException e) {
+            AlertManager alertManager = new AlertManager();
+            alertManager.CantLoadPageAlert(e);
         }
     }
 
