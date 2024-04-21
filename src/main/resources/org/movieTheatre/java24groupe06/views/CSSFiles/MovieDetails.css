@@ -39,7 +39,7 @@ BorderPane{
     -fx-background-color: black;
 }
 
-#SessionButton{
+#sessionButtonHBox Button{
     -fx-background-color: #990000;
     -fx-background-radius: 10;
     -fx-text-fill: white;

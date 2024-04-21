@@ -15,6 +15,8 @@ public class Movie {
     private List<String> actors;
 
 
+
+    private int ID;
     private List<String> genre;
     private String synopsis;
     private String releaseDate;
@@ -32,7 +34,9 @@ public class Movie {
         this.isShowing = builder.isShowing;
         this.actors = builder.actors;
         this.genre = builder.genres;
+        this.ID = builder.ID;
     }
+    public int getID() {return this.ID;}
     public List<String> getActors(){
         return this.actors;
     }
@@ -81,8 +85,10 @@ public class Movie {
         private String producer;
         private String pathImg;
         private boolean isShowing;
+        private int ID;
         private List<String> genres;
         private List<String> actors;
+
 
         /**
          * Sets the title of the movie.
@@ -166,6 +172,10 @@ public class Movie {
         }
         public MovieBuilder setActors(List<String> actors) {
             this.actors = actors;
+            return this;
+        }
+        public MovieBuilder setID(int ID){
+            this.ID=ID;
             return this;
         }
         /**

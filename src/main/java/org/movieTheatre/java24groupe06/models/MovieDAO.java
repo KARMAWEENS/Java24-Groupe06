@@ -92,6 +92,7 @@ public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
                 .setProducer(rs.getString("Producer"))
                 .setActors(getActors(rs, conn))
                 .setGenre(getGenres(rs, conn))
+                .setID(rs.getInt("movieID"))
                 .build();
         return movie;
     }

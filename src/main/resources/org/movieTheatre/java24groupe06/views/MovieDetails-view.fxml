@@ -79,9 +79,6 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Label>
-            <Button fx:id="SessionButton" mnemonicParsing="false" text="10:00" />
-            <Button fx:id="SessionButton" mnemonicParsing="false" text="15:00" />
-            <Button fx:id="SessionButton" mnemonicParsing="false" text="17:00" />
          </children>
       </HBox>
    </bottom>
