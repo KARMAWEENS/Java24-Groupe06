@@ -85,9 +85,8 @@ public class MovieDetailsViewController extends AbstractViewController implement
     public void displayMovieDetails(Movie movie) {
         setMovie(movie);
         try {
-            getSessio(movie);
+            createSessionButton(movie);
         } catch (SQLException e) {
-            System.out.println("dsdf");
             throw new RuntimeException(e);
         }
 
@@ -142,9 +141,13 @@ public class MovieDetailsViewController extends AbstractViewController implement
     }
 
 
-    public void createSessionButton() {
-        Button button = new Button();
-        sessionButtonHBox.getChildren().add(button);
+    public void createSessionButton(Movie movie) throws SQLException {
+         sessionList =getSessio(movie);
+        for(Session session :sessionList){
+            Button button = new Button(session.getHour());
+            sessionButtonHBox.getChildren().add(button);
+        }
+
 
     }
 

@@ -63,6 +63,8 @@ public class ConnectionSingletonDB implements Closeable {
         try{
             if(this.connection != null){
                 this.connection.close();
+                //TODO a refaire
+                instance=null;
                 System.out.println("connexion ferme ");
             }
         } catch (SQLException e) {
