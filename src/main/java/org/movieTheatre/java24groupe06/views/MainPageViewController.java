@@ -127,9 +127,9 @@ public class MainPageViewController extends AbstractViewController implements In
     }
 
     public static MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
-            MainPageViewController controller = showFXMLOnStage(getViewURL(), mainStage,title);
-            controller.mainStage = mainStage;
-            return controller;
+        MainPageViewController controller = showFXMLOnStage(getViewURL(), mainStage,title);
+        controller.mainStage = mainStage;
+        return controller;
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -139,7 +139,7 @@ public class MainPageViewController extends AbstractViewController implements In
         } catch (SQLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.SQLExceptionAlert(e);
-          //  this.listener.closeApp();
+            //  this.listener.closeApp();
         } catch (CantLoadFXMLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.CantLoadPageAlert(e);
@@ -157,7 +157,7 @@ public class MainPageViewController extends AbstractViewController implements In
         int index = 0;
 
         for (int row = 0; row < nbRow; row++){
-        for (int column = 0; column <nbColumn;column++){
+            for (int column = 0; column <nbColumn;column++){
                 if(index < moviesList.size()){
                     FXMLLoader loader =  MainScenePosterTemplateController.getFXMLLoader();
                     final Parent root;
@@ -168,7 +168,7 @@ public class MainPageViewController extends AbstractViewController implements In
                     }
                     final MainScenePosterTemplateController controller = loader.getController();
 
-                        controller.setPoster(moviesList.get(index));
+                    controller.setPoster(moviesList.get(index));
 
                     int finalIndex = index;
                     controller.setListener(() -> {
