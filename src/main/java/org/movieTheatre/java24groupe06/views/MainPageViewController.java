@@ -135,10 +135,7 @@ public class MainPageViewController extends AbstractViewController implements In
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             setMovieList(retrieveMovieFromDB());
-
             show();
-
-
         } catch (SQLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.SQLExceptionAlert(e);
