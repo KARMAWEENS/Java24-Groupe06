@@ -45,8 +45,8 @@ public class CreateDB {
         String placeholders = String.join(", ", Collections.nCopies(values.length, "?"));
         // Construire la requête SQL avec des paramètres de requête préparée
         String query = String.format("INSERT INTO %s VALUES (%s)", tableName, placeholders);
-        System.out.println(query);
-
+        System.out.println("querryyyy" + query);
+        System.out.println(placeholders);
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             // Remplacer les paramètres de requête préparée par les valeurs réelles
             for (int i = 0; i < values.length; i++) {
@@ -60,6 +60,8 @@ public class CreateDB {
             throw e;
         }
     }
+
+
 
     /**
      * Creates a new table in the database if it does not already exist.
