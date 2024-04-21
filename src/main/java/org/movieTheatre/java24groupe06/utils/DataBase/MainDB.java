@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 
 // PAS UTILISER DONC PAS DE JAVADOC MTN
-public class MainDB {
+public class MainDB implements SessionDAO.SessionDAOInterface {
     CreateDB createDB = CreateDB.getInstance();
     DeleteDB deleteDB = DeleteDB.getInstance();
     UpdateDB updateDB = UpdateDB.getInstance();
@@ -50,8 +50,9 @@ public class MainDB {
         */
 
         try {
-
-            SessionDAO sessionDAO = new SessionDAO();
+          //  getSessio();
+            /*SessionDAO sessionDAO = new SessionDAO();
+            sessionDAO.getSession();*/
            // System.out.println(sessionDAO.getHoursSession(2));
 
             //for (int i = 1; i<10; i++){
@@ -65,7 +66,7 @@ public class MainDB {
              createDB.insertIntoTable("MoviesGenres", "1","9 ");
             createDB.insertIntoTable("MoviesCasting", "1","25");
             createDB.insertIntoTable("MoviesCasting", "1","26");*/
-            createDB.insertIntoTable("MoviesCasting", "1","27");
+           createDB.insertIntoTable("MoviesCasting", "1","27");
 
 
 

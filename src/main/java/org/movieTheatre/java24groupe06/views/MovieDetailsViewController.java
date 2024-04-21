@@ -145,6 +145,16 @@ public class MovieDetailsViewController extends AbstractViewController implement
          sessionList =getSessio(movie);
         for(Session session :sessionList){
             Button button = new Button(session.getHour());
+            button.setOnAction(event -> {
+                TicketViewController ticketViewController = null;
+                try {
+                    Stage stage1 = new Stage();
+                    ticketViewController.showInStage(stage1);
+                } catch (CantLoadFXMLException e) {
+                    throw new RuntimeException(e);
+                }
+
+            });
             sessionButtonHBox.getChildren().add(button);
         }
 

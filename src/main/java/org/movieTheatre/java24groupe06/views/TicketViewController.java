@@ -1,5 +1,6 @@
 package org.movieTheatre.java24groupe06.views;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import java.net.URL;
@@ -15,6 +16,7 @@ public class TicketViewController extends AbstractViewController{
         this.listener = listener;
     }
     public static TicketViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
+        mainStage.initModality(Modality.APPLICATION_MODAL);
         return showFXMLOnStage(getViewURL(), mainStage,titleStage);
     }
 
