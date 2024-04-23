@@ -34,7 +34,7 @@ public class SessionDAO {
     }
 
     public interface SessionDAOInterface{
-        default List<Session> getSessio(Movie movie) throws SQLException {
+        default List<Session> getSession(Movie movie) throws SQLException {
             SessionDAO sessionDAO = new SessionDAO();
             return  sessionDAO.getSession(movie);
         }

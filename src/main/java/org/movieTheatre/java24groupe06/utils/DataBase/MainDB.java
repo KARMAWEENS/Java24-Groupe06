@@ -49,7 +49,7 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
         updateDB.updateTable("Movies", new String[]{"pathImg"}, new String[]{"src/main/resources/MoviesPosters/Sleeping Dogs.png"}, "movieID = 9");
         */
 
-        try {
+
           //  getSessio();
             /*SessionDAO sessionDAO = new SessionDAO();
             sessionDAO.getSession();*/
@@ -66,17 +66,14 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
              createDB.insertIntoTable("MoviesGenres", "1","9 ");
             createDB.insertIntoTable("MoviesCasting", "1","25");
             createDB.insertIntoTable("MoviesCasting", "1","26");*/
-           createDB.insertIntoTable("MoviesCasting", "1","27");
+         //  createDB.insertIntoTable("MoviesCasting", "1","27");
+       // createDB.addColumnsToSessionTable();
+        createDB.fillColumnsInSessionTable();
 
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
 
     }
+
 
     public void insertMovie(String movieID, String pathImg, String title, String duration, String synopsis, String isShowing, String releaseDate, String producer) throws SQLException {
         String[] values = {movieID, pathImg, title, duration, synopsis, isShowing, releaseDate, producer};
@@ -115,6 +112,8 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
             createDB.insertIntoTable("Sessions", Integer.toString(roomID), Integer.toString(movieID), time);
         }
     }
+
+
 
 
 }

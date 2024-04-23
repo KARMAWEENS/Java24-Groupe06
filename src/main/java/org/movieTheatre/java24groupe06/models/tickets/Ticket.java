@@ -1,4 +1,7 @@
-package org.movieTheatre.java24groupe06.models;
+package org.movieTheatre.java24groupe06.models.tickets;
+
+import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.Room;
 
 public  abstract class Ticket {
     private double price;

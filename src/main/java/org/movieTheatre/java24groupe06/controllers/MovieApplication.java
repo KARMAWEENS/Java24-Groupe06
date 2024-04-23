@@ -87,6 +87,7 @@ public class MovieApplication extends Application implements MovieDetailsViewCon
 
     @Override
     public void onClickImage(Movie movie)  {
+
         try {
             MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(mainStage);
             movieDetailsViewController.setListener(this);

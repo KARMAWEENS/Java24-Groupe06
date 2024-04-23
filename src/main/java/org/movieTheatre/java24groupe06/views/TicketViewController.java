@@ -2,6 +2,7 @@ package org.movieTheatre.java24groupe06.views;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import java.net.URL;
 
@@ -10,6 +11,12 @@ public class TicketViewController extends AbstractViewController{
         return TicketViewController.class.getResource("ticket-View.fxml");
     }
     private static String titleStage ="Shop";
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    private Session session;
     Listener listener;
 
     public void setListener(Listener listener) {
@@ -19,6 +26,8 @@ public class TicketViewController extends AbstractViewController{
         mainStage.initModality(Modality.APPLICATION_MODAL);
         return showFXMLOnStage(getViewURL(), mainStage,titleStage);
     }
+
+
 
     public void OnButtonPlusdDisabledClicked(MouseEvent mouseEvent) {
         listener.OnButtonPlusdDisabledClicked();

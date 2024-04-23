@@ -1,13 +1,12 @@
 package org.movieTheatre.java24groupe06.controllers;
 
-import org.movieTheatre.java24groupe06.models.TicketAdult;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
 public class TicketReservationController implements TicketViewController.Listener{
 
     @Override
     public void OnButtonPlusAdultClicked() {
-
+        System.out.println("jsuis ici");
     }
 
     @Override

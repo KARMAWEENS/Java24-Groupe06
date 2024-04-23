@@ -39,6 +39,35 @@ public class CreateDB {
         }
     }
 
+    public void addColumnsToSessionTable() {
+        Connection conn = connectionSingletonDB.getConnection();
+        String[] sqlStatements = {
+                "ALTER TABLE Sessions ADD COLUMN VIPSeatsLeft INTEGER",
+                "ALTER TABLE Sessions ADD COLUMN regularSeatsLeft INTEGER",
+                "ALTER TABLE Sessions ADD COLUMN HandicapSeatsLeft INTEGER"
+        };
+
+        for (String sql : sqlStatements) {
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute(sql);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void fillColumnsInSessionTable() {
+        Connection conn = connectionSingletonDB.getConnection();
+        String sql = "UPDATE Sessions SET VIPSeatsLeft = 15, regularSeatsLeft = 200, HandicapSeatsLeft = 5";
+
+        try (Statement stmt = conn.createStatement()) {
+            // execute the query
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void insertIntoTable (String tableName, String... values) throws SQLException {
         Connection conn = connectionSingletonDB.getConnection();
         // Construire la partie de la requête pour les valeurs

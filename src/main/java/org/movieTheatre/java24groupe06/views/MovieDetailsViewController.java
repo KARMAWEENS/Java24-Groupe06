@@ -1,12 +1,10 @@
 package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,20 +18,9 @@ import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class MovieDetailsViewController extends AbstractViewController implements SetImageWithException, SessionDAO.SessionDAOInterface {
-    private static Stage stage;
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
 
     private Movie movie;
     private List<Session> sessionList;
@@ -63,8 +50,23 @@ public class MovieDetailsViewController extends AbstractViewController implement
     @FXML
     private GridPane gridPane;
 
-
     private static String titleStage = "Movies Details";
+
+
+    public static void setStage(Stage stage) {
+        MovieDetailsViewController.stage = stage;
+    }
+
+    private static Stage stage;
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
 
     public static URL getViewURL() {
         return MovieDetailsViewController.class.getResource("MovieDetails-view.fxml");
@@ -76,7 +78,6 @@ public class MovieDetailsViewController extends AbstractViewController implement
         stage.initModality(Modality.APPLICATION_MODAL);
         return showFXMLOnStage(getViewURL(), stage, titleStage);
     }
-
     public void setListener(Listener listener) {
         this.listener = listener;
     }
@@ -137,25 +138,30 @@ public class MovieDetailsViewController extends AbstractViewController implement
     }
 
     public void btnClicked() {
+        // TODO faudrait surement faire pour dire au main controller
+        //  de se ferme
+
         stage.close();
     }
 
 
     public void createSessionButton(Movie movie) throws SQLException {
-         sessionList =getSessio(movie);
-        for(Session session :sessionList){
-            Button button = new Button(session.getHour());
-            button.setOnAction(event -> {
-                TicketViewController ticketViewController = null;
+         sessionList = getSession(movie);
+        for(Session session : sessionList){
+            SessionButton sessionButton = new SessionButton(session);
+
+            sessionButton.setOnAction(event -> {
+
                 try {
-                    Stage stage1 = new Stage();
-                    ticketViewController.showInStage(stage1);
+                 TicketViewController ticketViewController = TicketViewController.showInStage(new Stage());
+                 ticketViewController.setSession(session);
+
                 } catch (CantLoadFXMLException e) {
                     throw new RuntimeException(e);
                 }
 
             });
-            sessionButtonHBox.getChildren().add(button);
+            sessionButtonHBox.getChildren().add(sessionButton);
         }
 
 
