@@ -38,6 +38,11 @@ public class MainPageViewController extends AbstractViewController implements In
     @FXML
     private ToolBar toolBar;
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    private Stage stage;
 
     private void setWidthStage(int width) {
         this.widthStage = width;
@@ -126,11 +131,10 @@ public class MainPageViewController extends AbstractViewController implements In
         this.moviesList = moviesList;
     }
 
-    public static MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
-        MainPageViewController controller = showFXMLOnStage(getViewURL(), mainStage,title);
-        controller.mainStage = mainStage;
-        return controller;
+    public MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
+        return showFXMLOnStage(getViewURL(),mainStage,title);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -196,7 +200,7 @@ public class MainPageViewController extends AbstractViewController implements In
 
     public interface Listener {
         void onClickImage(Movie movie);
-        void closeApp();
+
     }
 }
 

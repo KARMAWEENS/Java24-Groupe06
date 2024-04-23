@@ -1,15 +1,11 @@
 package org.movieTheatre.java24groupe06.models;
 
-import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
-import org.movieTheatre.java24groupe06.views.AlertManager;
+import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MovieDAO { //DAO = Data Access Object (to access the data in DB)

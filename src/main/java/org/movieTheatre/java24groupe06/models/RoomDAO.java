@@ -1,13 +1,11 @@
 package org.movieTheatre.java24groupe06.models;
 
-import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RoomDAO {
     private ConnectionSingletonDB connectionSingletonDB;

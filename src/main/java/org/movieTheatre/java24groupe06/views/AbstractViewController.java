@@ -10,9 +10,9 @@ import java.net.URL;
 
 public abstract class AbstractViewController {
 
-    private static Scene scene;
+    private Scene scene;
 
-    protected static <T extends AbstractViewController> T showFXMLOnStage(URL fxmlUrl, Stage stage, String title) throws CantLoadFXMLException {
+    protected  <T extends AbstractViewController> T showFXMLOnStage(URL fxmlUrl, Stage stage, String title) throws CantLoadFXMLException {
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
         try {
             scene = new Scene(fxmlLoader.load());

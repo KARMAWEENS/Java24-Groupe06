@@ -1,9 +1,16 @@
 package org.movieTheatre.java24groupe06.controllers;
 
+import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
-public class TicketReservationController implements TicketViewController.Listener{
+public class TicketController implements TicketViewController.Listener{
 
+    public void initializeTicket() throws CantLoadFXMLException {
+        TicketViewController ticketViewController = new TicketViewController().showInStage(new Stage());
+        ticketViewController.setListener(this);
+
+    }
     @Override
     public void OnButtonPlusAdultClicked() {
         System.out.println("jsuis ici");

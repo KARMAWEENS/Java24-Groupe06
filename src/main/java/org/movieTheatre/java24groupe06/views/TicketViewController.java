@@ -22,7 +22,7 @@ public class TicketViewController extends AbstractViewController{
     public void setListener(Listener listener) {
         this.listener = listener;
     }
-    public static TicketViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
+    public  TicketViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
         mainStage.initModality(Modality.APPLICATION_MODAL);
         return showFXMLOnStage(getViewURL(), mainStage,titleStage);
     }

@@ -51,13 +51,13 @@ public class MovieDetailsViewController extends AbstractViewController implement
     private GridPane gridPane;
 
     private static String titleStage = "Movies Details";
-
+    private static Stage stage;
 
     public static void setStage(Stage stage) {
         MovieDetailsViewController.stage = stage;
     }
 
-    private static Stage stage;
+
 
     public Movie getMovie() {
         return movie;
@@ -140,8 +140,7 @@ public class MovieDetailsViewController extends AbstractViewController implement
     public void btnClicked() {
         // TODO faudrait surement faire pour dire au main controller
         //  de se ferme
-
-        stage.close();
+        this.listener.previousBtnClicked(stage);
     }
 
 
@@ -152,19 +151,17 @@ public class MovieDetailsViewController extends AbstractViewController implement
 
             sessionButton.setOnAction(event -> {
 
-                try {
-                 TicketViewController ticketViewController = TicketViewController.showInStage(new Stage());
+               try {
+
+                 TicketViewController ticketViewController = new TicketViewController().showInStage(new Stage());
                  ticketViewController.setSession(session);
 
                 } catch (CantLoadFXMLException e) {
                     throw new RuntimeException(e);
                 }
-
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
-
-
     }
 
     public interface Listener {

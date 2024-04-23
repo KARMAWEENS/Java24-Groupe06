@@ -1,11 +1,10 @@
-package org.movieTheatre.java24groupe06.utils.DataBase;
+package org.movieTheatre.java24groupe06.DataBase;
 
-import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.DataBase.CRUD.CreateDB;
+import org.movieTheatre.java24groupe06.DataBase.CRUD.DeleteDB;
+import org.movieTheatre.java24groupe06.DataBase.CRUD.UpdateDB;
+import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.SessionDAO;
-import org.movieTheatre.java24groupe06.utils.DataBase.CRUD.CreateDB;
-import org.movieTheatre.java24groupe06.utils.DataBase.CRUD.DeleteDB;
-import org.movieTheatre.java24groupe06.utils.DataBase.CRUD.UpdateDB;
-import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
 
 
 import java.sql.Connection;

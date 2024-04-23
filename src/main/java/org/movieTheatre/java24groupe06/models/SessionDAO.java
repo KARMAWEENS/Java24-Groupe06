@@ -1,6 +1,6 @@
 package org.movieTheatre.java24groupe06.models;
 
-import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.utils.DataBase.Utils;
+package org.movieTheatre.java24groupe06.DataBase.Utils;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -46,6 +46,7 @@ public class ConnectionSingletonDB implements Closeable {
      *
      * @return The singleton instance of the ConnectionSingletonDB class.
      */
+
     public static ConnectionSingletonDB getInstance(){
         if(instance == null){
             instance = new ConnectionSingletonDB();

@@ -1,6 +1,6 @@
-package org.movieTheatre.java24groupe06.utils.DataBase.CRUD;
+package org.movieTheatre.java24groupe06.DataBase.CRUD;
 
-import org.movieTheatre.java24groupe06.utils.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
