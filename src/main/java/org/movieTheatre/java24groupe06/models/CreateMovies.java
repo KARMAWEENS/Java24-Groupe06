@@ -1,8 +1,6 @@
 package org.movieTheatre.java24groupe06.models;
 
 
-import org.movieTheatre.java24groupe06.models.DAO.MovieDAO;
-
 import java.sql.SQLException;
 import java.util.List;
 

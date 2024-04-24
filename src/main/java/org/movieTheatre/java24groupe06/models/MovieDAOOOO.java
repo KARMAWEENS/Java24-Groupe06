@@ -87,7 +87,7 @@ public class MovieDAOOOO { //DAO = Data Access Object (to access the data in DB)
                 .setPathImg(rs.getString("pathImg"))
                 .setProducer(rs.getString("Producer"))
                 .setActors(getActors(rs, conn))
-                .setGenre(getGenres(rs, conn))
+                .setGenres(getGenres(rs, conn))
                 .setID(rs.getInt("movieID"))
                 .build();
         return movie;

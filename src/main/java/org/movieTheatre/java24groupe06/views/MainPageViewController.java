@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.controllers.MainPageController;
 import org.movieTheatre.java24groupe06.models.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
@@ -25,31 +26,50 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MainPageViewController extends AbstractViewController implements Initializable {
+public class MainPageViewController extends AbstractViewController {
     @FXML
     private ScrollPane scrollPane;
-    private List<Movie> moviesList;
-    private Listener listener;
-    private static String title = "Movie Theatre";
-    private int nbRow;
-    private  int nbColumn ;
-    private GridPane gridPane;
-    private Stage mainStage;
     @FXML
     private ToolBar toolBar;
 
+    private static String title = "Movie Theatre";
+
+    private Listener listener;
+    private List<Movie> moviesList;
+
+    private GridPane gridPane;
+    private int nbRow;
+    private  int nbColumn ;
+    public int widthStage;
+
+
+    private Stage mainStage;
+    private Stage stage;
+
+    public static URL getViewURL() {
+        return MainPageViewController.class.getResource("mainPage-View.fxml");
+    }
+
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    private Stage stage;
-
     private void setWidthStage(int width) {
         this.widthStage = width;
     }
+    private void setRow(int width) {
+        this.nbRow = width;
+    }
 
-
-    public int widthStage;
+    private void setColumn(int width) {
+        this.nbColumn = width;
+    }
+    public void setMovieList(List<Movie> moviesList) {
+        this.moviesList = moviesList;
+    }
 
 
 
@@ -91,16 +111,6 @@ public class MainPageViewController extends AbstractViewController implements In
         }
     }
 
-    private void setRow(int width) {
-        this.nbRow = width;
-    }
-
-    private void setColumn(int width) {
-        this.nbColumn = width;
-    }
-
-
-
     private void setStyleStage(double width) {
         scrollPane.setPrefWidth(width);
         gridPane.setPrefWidth(width);
@@ -119,17 +129,7 @@ public class MainPageViewController extends AbstractViewController implements In
     }
 
 
-    public static URL getViewURL() {
-        return MainPageViewController.class.getResource("mainPage-View.fxml");
-    }
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
-
-    }
-    public void setMovieList(List<Movie> moviesList) {
-        this.moviesList = moviesList;
-    }
 
     public MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
         return showFXMLOnStage(getViewURL(),mainStage,title);
@@ -138,27 +138,20 @@ public class MainPageViewController extends AbstractViewController implements In
 //          super(fxmlUrl,stage,title);
 //    }
 
-    @Override
+/*    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            setMovieList(retrieveMovieFromDB());
+            MainPageController mainPageController = new MainPageController();
+            System.out.println(mainPageController.getMovieList());
+            setMovieList(mainPageController.getMovieList());
             show();
-        } catch (SQLException e) {
-            AlertManager alertManager = new AlertManager();
-            alertManager.SQLExceptionAlert(e);
-            //  this.listener.closeApp();
         } catch (CantLoadFXMLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.CantLoadPageAlert(e);
         }
-    }
+    }*/
 
     //logic to retrieve movie from db + more modularity
-    private List<Movie> retrieveMovieFromDB() throws SQLException{
-        CreateMovies createMovies = new CreateMovies();
-        return createMovies.getShowingMovies();
-
-    }
 
     public void show() throws CantLoadFXMLException {
         createPane();
@@ -190,17 +183,10 @@ public class MainPageViewController extends AbstractViewController implements In
         }
     }
 
-    private static void SizeImage(ImageView imageView) {
-        final int desiredWidth = 180;
-        final int desiredHeight = 240;
-        imageView.setFitWidth(desiredWidth);
-        imageView.setFitHeight(desiredHeight);
-    }
-
-
     public interface Listener {
         void onClickImage(Movie movie);
 
+        List<Movie> getMovieList();
     }
 }
 

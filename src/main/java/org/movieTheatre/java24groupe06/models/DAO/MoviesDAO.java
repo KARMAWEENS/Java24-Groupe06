@@ -2,7 +2,6 @@ package org.movieTheatre.java24groupe06.models.DAO;
 
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.Session;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDAO implements InterfaceDAO {
+public class MoviesDAO implements InterfaceDAO {
 
     @Override
     public List<Movie.MovieBuilder> getDB() throws SQLException {
@@ -23,12 +22,12 @@ public class MovieDAO implements InterfaceDAO {
                 ResultSet rs = stmt.executeQuery();
             result = rs;
             while (result.next()){
-             movieList.add(createMovieObject2(result));
+             movieList.add(initializeMovieBuilder(result));
             }
         }
         return movieList;
     }
-    private Movie.MovieBuilder createMovieObject2(ResultSet rs) throws SQLException {
+    private Movie.MovieBuilder initializeMovieBuilder(ResultSet rs) throws SQLException {
         Movie.MovieBuilder movieBuilder = new Movie.MovieBuilder()
                 .setTitle(rs.getString("title"))
                 .setDuration(rs.getInt("duration"))

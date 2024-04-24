@@ -2,10 +2,13 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.DAO.CreateMovies2;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.views.AlertManager;
 import org.movieTheatre.java24groupe06.views.MainPageViewController;
+
+import java.util.List;
 
 public class MainPageController implements MainPageViewController.Listener {
 
@@ -20,6 +23,15 @@ public class MainPageController implements MainPageViewController.Listener {
         this.mainScene = mainScene;
     }
 
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
+    }
+
+    public List<Movie> getMovieList() {
+        return movieList;
+    }
+
+    public List<Movie> movieList;
     private Stage mainStage;
     private String title;
 
@@ -29,23 +41,25 @@ public class MainPageController implements MainPageViewController.Listener {
 
     public void initializeMainStage(Stage stage) {
         try {
-
             setMainStage(stage);
+            createAndSetMovieList();
             MainPageViewController mainPageViewController = new MainPageViewController().showInStage(stage);
-           // mainPageViewController.showInStage(stage);
-
-/*            MainPageViewController mainPageViewController = MainPageViewController.showInStage(mainStage);
-            MainPageViewController mainPageViewController = MainPageViewController.showInStage(mainStage);*/
+            mainPageViewController.setMovieList(movieList);
+            mainPageViewController.setListener(this);
+            mainPageViewController.show();
             mainPageViewController.onLoad((int) mainStage.getWidth());
             setWidthListener(mainPageViewController);
-            mainPageViewController.setListener(this);
-
         } catch (CantLoadFXMLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.CantLoadPageAlert(e);
             // potentielement faire un truc du genre
             // start (mainStage)
         }
+    }
+
+    private void createAndSetMovieList() {
+        CreateMovies2 createMovies2 = new CreateMovies2();
+        setMovieList(createMovies2.buildMoviesList());
     }
 
     private void setWidthListener(MainPageViewController mainPageViewController) {

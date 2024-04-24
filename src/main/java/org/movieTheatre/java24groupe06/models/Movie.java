@@ -169,7 +169,7 @@ public class Movie {
             this.isShowing = isShowing;
             return this;
         }
-        public MovieBuilder setGenre(List<String> genres) {
+        public MovieBuilder setGenres(List<String> genres) {
             this.genres = genres;
             return this;
         }

@@ -4,7 +4,6 @@ import org.movieTheatre.java24groupe06.DataBase.CRUD.CreateDB;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.DeleteDB;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.UpdateDB;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies2;
-import org.movieTheatre.java24groupe06.models.DAO.ActorsDAO;
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.SessionDAO;
@@ -29,11 +28,11 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
         Connection conn = connSingleton.getConnection();
 
         CreateMovies2 createMovies2 = new CreateMovies2();
-        createMovies2.hello();
+        createMovies2.buildMoviesList();
 
-        for (Movie.MovieBuilder movieBuilder : createMovies2.getMovieList()){
+        for (Movie.MovieBuilder movieBuilder : createMovies2.getMoviesBuilderList()){
 
-            ActorsDAO.get (movieBuilder.getID());
+
         }
 
 
