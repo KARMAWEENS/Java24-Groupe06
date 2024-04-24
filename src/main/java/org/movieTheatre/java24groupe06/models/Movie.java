@@ -14,8 +14,6 @@ public class Movie {
     private int duration;
     private List<String> actors;
 
-
-
     private int ID;
     private List<String> genre;
     private String synopsis;

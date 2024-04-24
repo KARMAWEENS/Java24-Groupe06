@@ -73,10 +73,10 @@ public class MovieDetailsViewController extends AbstractViewController implement
     }
 
     //todo  tout la chaine de méthode est statique donc stage est statique à changer
-    public static MovieDetailsViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
-        stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        return showFXMLOnStage(getViewURL(), stage, titleStage);
+    public MovieDetailsViewController showInStage(Stage movieDetailsStage) throws CantLoadFXMLException {
+        setStage(movieDetailsStage);
+        movieDetailsStage.initModality(Modality.APPLICATION_MODAL);
+        return showFXMLOnStage(getViewURL(), movieDetailsStage, titleStage);
     }
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -165,7 +165,8 @@ public class MovieDetailsViewController extends AbstractViewController implement
     }
 
     public interface Listener {
-        void previousBtnClicked();
+        void previousBtnClicked(Stage stage);
+        void sessionBtnClicked(Session session);
     }
 
 }

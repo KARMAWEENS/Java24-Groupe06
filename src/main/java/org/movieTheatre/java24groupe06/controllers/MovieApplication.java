@@ -14,7 +14,9 @@ public class MovieApplication extends Application implements MainPageController.
 
     @Override
     public void start(Stage stage) {
-        initializeMainStage(stage);
+        MainPageController mainPageController = new MainPageController();
+        mainPageController.initializeMainStage(stage);
+        mainPageController.setListener(this);
     }
 
 @Override
