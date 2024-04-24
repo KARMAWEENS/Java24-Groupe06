@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.views;
+package org.movieTheatre.java24groupe06.views.Components;
 
 import javafx.scene.control.Button;
 import org.movieTheatre.java24groupe06.models.Session;

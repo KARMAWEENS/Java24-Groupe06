@@ -17,7 +17,7 @@ public class CreateDB {
     private ConnectionSingletonDB connectionSingletonDB ;
 
     public CreateDB(){
-        this.connectionSingletonDB = ConnectionSingletonDB.getInstance();
+        this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
     }
     public static CreateDB getInstance(){
         if(instance == null){

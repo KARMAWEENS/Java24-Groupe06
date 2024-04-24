@@ -12,7 +12,7 @@ public class SessionDAO {
         List<Session> sessionList = new ArrayList<>();
         String query = String.format("SELECT * FROM Sessions WHERE movieID = %s",movie.getID());
         try {
-                ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
+                ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
             System.out.println(conn);
                 PreparedStatement stmt = conn.prepareStatement(query);
                 ResultSet rs = stmt.executeQuery();

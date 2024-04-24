@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.views;
+package org.movieTheatre.java24groupe06.views.exceptions;
 
 import javafx.scene.control.Alert;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;

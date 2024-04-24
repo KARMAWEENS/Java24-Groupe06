@@ -19,9 +19,9 @@ public class GenresDAO {
                 "WHERE mg.movieID = %s;", movieId);
         // ! C'est un try with ressources pas un try catch
         try (
-                ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
+                ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
                 PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+                ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
 
                 genresList.add(rs.getString("genre"));

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class RoomDAO {
     private ConnectionSingletonDB connectionSingletonDB;
     public RoomDAO() {
-        this.connectionSingletonDB = ConnectionSingletonDB.getInstance();
+        this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
     }
     public Room getSession(int RoomID) throws SQLException {
         Room room = null;

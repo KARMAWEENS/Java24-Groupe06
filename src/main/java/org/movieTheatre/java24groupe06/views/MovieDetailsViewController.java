@@ -15,6 +15,8 @@ import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.SessionDAO;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
+import org.movieTheatre.java24groupe06.views.Components.SessionButton;
+import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -56,7 +58,6 @@ public class MovieDetailsViewController extends AbstractViewController implement
     public static void setStage(Stage stage) {
         MovieDetailsViewController.stage = stage;
     }
-
 
 
     public Movie getMovie() {
@@ -147,7 +148,7 @@ public class MovieDetailsViewController extends AbstractViewController implement
     public void createSessionButton(Movie movie) throws SQLException {
          sessionList = getSession(movie);
         for(Session session : sessionList){
-            SessionButton sessionButton = new SessionButton(session);
+            org.movieTheatre.java24groupe06.views.Components.SessionButton sessionButton = new SessionButton(session);
 
             sessionButton.setOnAction(event -> {
 

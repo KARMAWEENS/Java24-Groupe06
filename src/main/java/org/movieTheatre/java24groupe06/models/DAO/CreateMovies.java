@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateMovies2  {
+public class CreateMovies {
     List<Movie.MovieBuilder> moviesBuilderList;
     public List<Movie.MovieBuilder> getMoviesBuilderList() {
         return moviesBuilderList;

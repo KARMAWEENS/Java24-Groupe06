@@ -2,7 +2,7 @@ package org.movieTheatre.java24groupe06.models.exceptions;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.movieTheatre.java24groupe06.views.AlertManager;
+import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

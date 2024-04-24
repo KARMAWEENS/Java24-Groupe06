@@ -2,10 +2,10 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.movieTheatre.java24groupe06.models.DAO.CreateMovies2;
+import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
-import org.movieTheatre.java24groupe06.views.AlertManager;
+import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 import org.movieTheatre.java24groupe06.views.MainPageViewController;
 
 import java.util.List;
@@ -43,12 +43,17 @@ public class MainPageController implements MainPageViewController.Listener {
         try {
             setMainStage(stage);
             createAndSetMovieList();
+
+            //TODO en faite la on cree un mainPageViewController avec new puis on en recre un avec .showInStage y a un truc a changer
             MainPageViewController mainPageViewController = new MainPageViewController().showInStage(stage);
-            mainPageViewController.setMovieList(movieList);
             mainPageViewController.setListener(this);
+
+            mainPageViewController.setMovieList(movieList);
             mainPageViewController.show();
+
             mainPageViewController.onLoad((int) mainStage.getWidth());
             setWidthListener(mainPageViewController);
+
         } catch (CantLoadFXMLException e) {
             AlertManager alertManager = new AlertManager();
             alertManager.CantLoadPageAlert(e);
@@ -58,8 +63,8 @@ public class MainPageController implements MainPageViewController.Listener {
     }
 
     private void createAndSetMovieList() {
-        CreateMovies2 createMovies2 = new CreateMovies2();
-        setMovieList(createMovies2.buildMoviesList());
+        CreateMovies createMovies = new CreateMovies();
+        setMovieList(createMovies.buildMoviesList());
     }
 
     private void setWidthListener(MainPageViewController mainPageViewController) {

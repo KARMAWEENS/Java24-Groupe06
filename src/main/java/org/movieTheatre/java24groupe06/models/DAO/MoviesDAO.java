@@ -9,24 +9,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesDAO implements InterfaceDAO {
+public class MoviesDAO {
 
-    @Override
     public List<Movie.MovieBuilder> getDB() throws SQLException {
         ResultSet result;
         List<Movie.MovieBuilder> movieList = new ArrayList<>();
         String query = "SELECT * FROM Movies WHERE isShowing = true";
-        try (
-                ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance()){
+        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent()) {
             PreparedStatement stmt = conn.prepareStatement(query);
-                ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             result = rs;
-            while (result.next()){
-             movieList.add(initializeMovieBuilder(result));
+            while (result.next()) {
+                movieList.add(initializeMovieBuilder(result));
             }
         }
         return movieList;
     }
+
     private Movie.MovieBuilder initializeMovieBuilder(ResultSet rs) throws SQLException {
         Movie.MovieBuilder movieBuilder = new Movie.MovieBuilder()
                 .setTitle(rs.getString("title"))

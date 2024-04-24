@@ -12,7 +12,7 @@ public class UpdateDB {
     private ConnectionSingletonDB connectionSingletonDB ;
 
     public UpdateDB(){
-        this.connectionSingletonDB = ConnectionSingletonDB.getInstance();
+        this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
     }
 
     public static UpdateDB getInstance(){

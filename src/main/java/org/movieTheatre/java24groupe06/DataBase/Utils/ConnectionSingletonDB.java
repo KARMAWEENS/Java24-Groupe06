@@ -12,11 +12,22 @@ import java.sql.*;
  *
  * The class provides methods for getting the singleton instance, closing the database connection, and preparing SQL statements.
  */
+
+// TODO gerer les exceptions
 public class ConnectionSingletonDB implements Closeable {
 
     public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseMovieT.db";
     private static ConnectionSingletonDB instance = null;
     private Connection connection = null;
+    public Connection getConnection() {
+        return this.connection;
+    }
+    private void setConnection(Connection connection) throws SQLException {
+        this.connection=connection;
+    }
+    private static Connection establishConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL);
+    }
 
     /**
      * Private constructor for the ConnectionSingletonDB class.
@@ -29,7 +40,7 @@ public class ConnectionSingletonDB implements Closeable {
     private  ConnectionSingletonDB() {
         try {
             Class.forName("org.sqlite.JDBC");
-            this.connection = DriverManager.getConnection(DB_URL);
+            setConnection(establishConnection());
             System.out.println("Connexion db établie");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -39,6 +50,8 @@ public class ConnectionSingletonDB implements Closeable {
 
     }
 
+
+
     /**
      * Retrieves the singleton instance of the ConnectionSingletonDB class.
      *
@@ -47,7 +60,7 @@ public class ConnectionSingletonDB implements Closeable {
      * @return The singleton instance of the ConnectionSingletonDB class.
      */
 
-    public static ConnectionSingletonDB getInstance(){
+    public static ConnectionSingletonDB getCurrent(){
         if(instance == null){
             instance = new ConnectionSingletonDB();
         }
@@ -64,11 +77,9 @@ public class ConnectionSingletonDB implements Closeable {
         try{
             if(this.connection != null){
                 this.connection.close();
-                //TODO a refaire
-                instance=null;
                 System.out.println("connexion ferme ");
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -78,28 +89,10 @@ public class ConnectionSingletonDB implements Closeable {
      *
      * @return The Connection object.
      */
-    public Connection getConnection() {
-        return this.connection;
-    }
-
-
-
-/////// METHODE PREPARED STATEMENT AMENER A EVOLUER
-// DONC PAS DE JAVADOC MTN
-
-    // Ici c'est pas un override, ca porte le meme nom mais on appelle pas
-    // prepareStatement dans les memes classes
-
-    // Y A UN MONDE OU C EST MIEUX CA
-/*    public ResultSet query(String sql) throws SQLException {
-        try (Statement stmt = connection.createStatement()) {
-            return stmt.executeQuery(sql);
-        } catch (SQLException e) {
-            // Log ou gestion de l'erreur
-            throw e; // Ou gestion plus élaborée
-        }
-    }*/
     public PreparedStatement prepareStatement(String query) throws SQLException {
+        if (this.connection == null || this.connection.isClosed()) {
+            setConnection(establishConnection());
+        }
         return this.connection.prepareStatement(query);
     }
 

@@ -1,7 +1,6 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
-import org.movieTheatre.java24groupe06.models.Movie;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,9 +20,9 @@ public class ActorsDAO{
         // ! C'est un try with ressources pas un try catch
         System.out.println("avant preparedStatement");
         try (
-                ConnectionSingletonDB conn = ConnectionSingletonDB.getInstance();
+                ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
                 PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+                ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 actorsList.add(rs.getString("fullName"));
 

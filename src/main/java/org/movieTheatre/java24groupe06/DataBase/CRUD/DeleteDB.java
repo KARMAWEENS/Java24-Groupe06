@@ -11,7 +11,7 @@ public class DeleteDB {
 
     private static DeleteDB instance;
     public DeleteDB(){
-        this.connectionSingletonDB = ConnectionSingletonDB.getInstance();
+        this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
     }
 
     public static DeleteDB getInstance(){

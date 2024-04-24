@@ -3,7 +3,7 @@ package org.movieTheatre.java24groupe06.DataBase;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.CreateDB;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.DeleteDB;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.UpdateDB;
-import org.movieTheatre.java24groupe06.models.DAO.CreateMovies2;
+import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.SessionDAO;
@@ -24,13 +24,13 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
     }
 
     public void run() throws SQLException {
-        ConnectionSingletonDB connSingleton = ConnectionSingletonDB.getInstance();
+        ConnectionSingletonDB connSingleton = ConnectionSingletonDB.getCurrent();
         Connection conn = connSingleton.getConnection();
 
-        CreateMovies2 createMovies2 = new CreateMovies2();
-        createMovies2.buildMoviesList();
+        CreateMovies createMovies = new CreateMovies();
+        createMovies.buildMoviesList();
 
-        for (Movie.MovieBuilder movieBuilder : createMovies2.getMoviesBuilderList()){
+        for (Movie.MovieBuilder movieBuilder : createMovies.getMoviesBuilderList()){
 
 
         }
