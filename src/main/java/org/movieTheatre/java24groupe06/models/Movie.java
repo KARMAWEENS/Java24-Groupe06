@@ -85,6 +85,11 @@ public class Movie {
         private String producer;
         private String pathImg;
         private boolean isShowing;
+
+        public int getID() {
+            return ID;
+        }
+
         private int ID;
         private List<String> genres;
         private List<String> actors;

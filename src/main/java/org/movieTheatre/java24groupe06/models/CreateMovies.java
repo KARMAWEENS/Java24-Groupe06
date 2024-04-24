@@ -1,6 +1,8 @@
 package org.movieTheatre.java24groupe06.models;
 
 
+import org.movieTheatre.java24groupe06.models.DAO.MovieDAO;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,10 +13,10 @@ import java.util.List;
  */
 public class CreateMovies implements MovieModel {
 
-    MovieDAO movieDAO;
+    MovieDAOOOO movieDAO;
 
     public CreateMovies() {
-        movieDAO = new MovieDAO();
+        movieDAO = new MovieDAOOOO();
     }
 
     // En soit inutile pour l'instant faut voir ce que Louis a derriere sa pti caboche
@@ -24,4 +26,3 @@ public class CreateMovies implements MovieModel {
     }
 
 }
-

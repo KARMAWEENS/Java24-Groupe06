@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDAO { //DAO = Data Access Object (to access the data in DB)
+public class MovieDAOOOO { //DAO = Data Access Object (to access the data in DB)
 
     public List<Movie> getShowingMovies() throws SQLException {
 

@@ -3,7 +3,10 @@ package org.movieTheatre.java24groupe06.DataBase;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.CreateDB;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.DeleteDB;
 import org.movieTheatre.java24groupe06.DataBase.CRUD.UpdateDB;
+import org.movieTheatre.java24groupe06.models.DAO.CreateMovies2;
+import org.movieTheatre.java24groupe06.models.DAO.ActorsDAO;
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.SessionDAO;
 
 
@@ -25,7 +28,23 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
         ConnectionSingletonDB connSingleton = ConnectionSingletonDB.getInstance();
         Connection conn = connSingleton.getConnection();
 
+        CreateMovies2 createMovies2 = new CreateMovies2();
+        createMovies2.hello();
 
+        for (Movie.MovieBuilder movieBuilder : createMovies2.getMovieList()){
+
+            ActorsDAO.get (movieBuilder.getID());
+        }
+
+
+
+//            for (Movie movie : createMovies2.getMovieList()){
+//                ActorsDAO.getActors(movie.getID());
+//            }
+
+
+        /*CreateMovies createMovies = new CreateMovies();
+        createMovies.createHalfFilm();*/
 /*        try {
             createAndInsertTables(conn);
         } catch (SQLException e) {
@@ -67,7 +86,7 @@ public class MainDB implements SessionDAO.SessionDAOInterface {
             createDB.insertIntoTable("MoviesCasting", "1","26");*/
          //  createDB.insertIntoTable("MoviesCasting", "1","27");
        // createDB.addColumnsToSessionTable();
-        createDB.fillColumnsInSessionTable();
+        //createDB.fillColumnsInSessionTable();
 
 
 

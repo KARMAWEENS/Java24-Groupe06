@@ -134,6 +134,9 @@ public class MainPageViewController extends AbstractViewController implements In
     public MainPageViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
         return showFXMLOnStage(getViewURL(),mainStage,title);
     }
+//    public  MainPageViewController(URL fxmlUrl, Stage stage, String title){
+//          super(fxmlUrl,stage,title);
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -154,6 +157,7 @@ public class MainPageViewController extends AbstractViewController implements In
     private List<Movie> retrieveMovieFromDB() throws SQLException{
         CreateMovies createMovies = new CreateMovies();
         return createMovies.getShowingMovies();
+
     }
 
     public void show() throws CantLoadFXMLException {
@@ -171,15 +175,11 @@ public class MainPageViewController extends AbstractViewController implements In
                         throw new CantLoadFXMLException(e);
                     }
                     final MainScenePosterTemplateController controller = loader.getController();
-
                     controller.setPoster(moviesList.get(index));
-
                     int finalIndex = index;
                     controller.setListener(() -> {
                         if (listener == null) return;
-
                         listener.onClickImage(moviesList.get(finalIndex));
-
                     });
                     gridPane.add(root, column, row);
                     index++;
