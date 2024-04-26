@@ -6,7 +6,7 @@ import org.movieTheatre.java24groupe06.DataBase.CRUD.UpdateDB;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.SessionDAO;
+import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 
 
 import java.sql.Connection;

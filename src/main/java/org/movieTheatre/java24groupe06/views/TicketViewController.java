@@ -6,29 +6,21 @@ import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import java.net.URL;
 
-public class TicketViewController extends AbstractViewController{
-    public static URL getViewURL() {
-        return TicketViewController.class.getResource("ticket-View.fxml");
-    }
-    private static String titleStage ="Shop";
-
-    public void setSession(Session session) {
-        this.session = session;
+public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
+    @Override
+    protected String getTitle() {
+        return "TicketsShop";
     }
 
+    public TicketViewController(Listener listener) {
+        super(listener);
+    }
     private Session session;
     Listener listener;
 
     public void setListener(Listener listener) {
         this.listener = listener;
     }
-    public  TicketViewController showInStage(Stage mainStage) throws CantLoadFXMLException {
-        mainStage.initModality(Modality.APPLICATION_MODAL);
-        return showFXMLOnStage(getViewURL(), mainStage,titleStage);
-    }
-
-
-
     public void OnButtonPlusdDisabledClicked(MouseEvent mouseEvent) {
         listener.OnButtonPlusdDisabledClicked();
     }
@@ -59,6 +51,11 @@ public class TicketViewController extends AbstractViewController{
 
     public void OnButtonMinusAdultClicked(MouseEvent mouseEvent) {
         listener.OnButtonMinusAdultClicked();
+    }
+
+    @Override
+    public String getFXMLPath() {
+        return "ticket-View.fxml";
     }
 
 

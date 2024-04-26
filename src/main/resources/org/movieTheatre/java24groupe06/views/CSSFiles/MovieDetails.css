@@ -14,7 +14,7 @@
 }
 
 BorderPane{
-    -fx-background-color: black;
+    -fx-background-color: #151a23;
 }
 
 .label-container {
@@ -26,17 +26,17 @@ BorderPane{
     -fx-font-size: 24px;
 }
 #synopsis .content{
-    -fx-background-color: black;
-    -fx-border-color: black;
+    -fx-background-color: #151a23;
 }
 
 #synopsis{
+    -fx-background-color: #151a23;
     -fx-text-fill: white;
-    -fx-border-color: black;
+
 }
 
 #synopsis .scroll-bar:vertical{
-    -fx-background-color: black;
+
 }
 
 #sessionButtonHBox SessionButton{

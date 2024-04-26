@@ -1,6 +1,7 @@
-package org.movieTheatre.java24groupe06.models;
+package org.movieTheatre.java24groupe06.models.DAO;
 
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.models.Room;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

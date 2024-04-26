@@ -1,16 +1,29 @@
 package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
-public class TicketController implements TicketViewController.Listener{
+import java.io.IOException;
+
+public class TicketController implements TicketViewController.Listener {
+    public Listener listener;
+    public Session session;
+    public TicketController(Listener listener, Session session) {
+        this.listener = listener;
+        this.session = session;
+    }
 
     public void initializeTicket() throws CantLoadFXMLException {
-        TicketViewController ticketViewController = new TicketViewController().showInStage(new Stage());
-        ticketViewController.setListener(this);
-
+        TicketViewController ticketViewController = new TicketViewController(this);
+        try {
+            ticketViewController.openOnNewStage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
     @Override
     public void OnButtonPlusAdultClicked() {
         System.out.println("jsuis ici");
@@ -51,4 +64,7 @@ public class TicketController implements TicketViewController.Listener{
 
     }
 
+    public interface Listener {
+
+    }
 }

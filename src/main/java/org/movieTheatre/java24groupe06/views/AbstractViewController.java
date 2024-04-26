@@ -1,36 +1,63 @@
 package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 
 import java.io.IOException;
 import java.net.URL;
 
-public abstract class AbstractViewController {
+public abstract class AbstractViewController<T> {
 
-    private Scene scene;
+    private Parent root;
 
-    protected  <T extends AbstractViewController> T showFXMLOnStage(URL fxmlUrl, Stage stage, String title) throws CantLoadFXMLException {
-        FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
-        try {
-            scene = new Scene(fxmlLoader.load());
-        // l'exception arrive quand le ficher fxml est pas trouvé ou mauvais
-        // pour generer cette exception on doit ajouter de la merde dans le fichier fxml (genre dfsokdsfkosdkfo)
-        } catch (IOException e) {
-            throw new CantLoadFXMLException(e);
-        }
+    protected Stage stage;
 
-        T viewController = fxmlLoader.getController();
-        stage.setScene(scene);
-        stage.setTitle(title);
-        // Le stage.show est pas appelé quand on passe de mainStage à detailsPage a voir comment en gère ca
-        stage.show();
-        return viewController;
+    protected String getTitle() {
+        return null;
     }
 
-    public Scene getScene() {
-        return scene;
+    protected T listener;
+    public AbstractViewController(T listener) {
+        this.listener = listener;
+    }
+
+    public abstract String getFXMLPath();
+    public Parent getRoot() throws IOException {
+        if (this.root == null) {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(getFXMLPath()));
+            loader.setController(this);
+            this.root = loader.load();
+            this.initialize();
+        }
+        return this.root;
+    }
+    protected void initialize() {
+        System.out.println("Initializing view " + this.getClass().getSimpleName());
+    }
+    public void openOn(Stage stage) throws IOException {
+        Scene scene = new Scene(getRoot());
+        stage.setScene(scene);
+        stage.setTitle(getTitle());
+        this.stage = stage;
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void openOnNewStage() throws IOException {
+        Stage newStage = new Stage();
+        this.stage = newStage;
+        openOn(newStage);
+    }
+    public void close() throws IllegalStateException {
+        if (this.stage != null) {
+            this.stage.close();
+        } else {
+            throw new IllegalStateException("Cannot close a view that was never opened");
+        }
     }
 }

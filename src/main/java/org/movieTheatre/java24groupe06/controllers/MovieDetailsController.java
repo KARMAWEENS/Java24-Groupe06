@@ -3,31 +3,23 @@ package org.movieTheatre.java24groupe06.controllers;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
-
+import java.io.IOException;
 public class MovieDetailsController implements MovieDetailsViewController.Listener{
 
     private Listener listener;
-    public void setListener(Listener listener) {
+    public MovieDetailsController(Listener listener){
         this.listener = listener;
     }
+
     public void initializeMovieDetailsPage(Movie movie) {
-
+            MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this,movie);
         try {
-/*            MovieDetailsController movieDetailsController = new MovieDetailsController();
-            movieDetailsController.
-            MovieDetailsViewController movieDetailsViewController = MovieDetailsViewController.showInStage(new Stage());
-            */
-
-            // On doit faire un ligne aussi longue sinon on return dans le vent si on fait en 2 lignes
-            MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController().showInStage(new Stage());
-
-            movieDetailsViewController.displayMovieDetails(movie);
-            movieDetailsViewController.setListener(this);
-        } catch (CantLoadFXMLException e) {
+            movieDetailsViewController.openOnNewStage();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        movieDetailsViewController.displayMovieDetails(movie);
     }
 
     @Override

@@ -8,25 +8,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.models.SessionDAO;
-import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
+import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 import org.movieTheatre.java24groupe06.views.Components.SessionButton;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MovieDetailsViewController extends AbstractViewController implements SetImageWithException, SessionDAO.SessionDAOInterface {
+public class MovieDetailsViewController extends AbstractViewController<MovieDetailsViewController.Listener> implements SetImageWithException, SessionDAO.SessionDAOInterface {
 
     private Movie movie;
     private List<Session> sessionList;
-    private Listener listener;
     @FXML
     private Label title;
     @FXML
@@ -52,67 +48,44 @@ public class MovieDetailsViewController extends AbstractViewController implement
     @FXML
     private GridPane gridPane;
 
-    private static String titleStage = "Movies Details";
-    private static Stage stage;
 
-    public static void setStage(Stage stage) {
-        MovieDetailsViewController.stage = stage;
+    @Override
+    protected String getTitle() {
+        return "Movies Details";
     }
 
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-
-    public static URL getViewURL() {
-        return MovieDetailsViewController.class.getResource("MovieDetails-view.fxml");
-    }
-
-    //todo  tout la chaine de méthode est statique donc stage est statique à changer
-    public MovieDetailsViewController showInStage(Stage movieDetailsStage) throws CantLoadFXMLException {
-        setStage(movieDetailsStage);
-        movieDetailsStage.initModality(Modality.APPLICATION_MODAL);
-        return showFXMLOnStage(getViewURL(), movieDetailsStage, titleStage);
-    }
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-
+    public MovieDetailsViewController(Listener listener,Movie movie) {
+          super(listener);
+          this.movie = movie;
+     }
     public void displayMovieDetails(Movie movie) {
-        setMovie(movie);
         try {
             createSessionButton(movie);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        SetTextMovie(movie);
         setImageWithException(imageView, movie.getPathImg());
-        title.setText(movie.getTitle());
-        synopsis.setText(movie.getSynopsis());
-        duration.setText(String.valueOf(movie.getDuration()) + " minutes");
+        setImageViewProprety();
+        sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
+    }
 
-        genre.setText((checkList(movie.getGenre(), "genre")));
-        actors.setText((checkList(movie.getActors(), "acteur")));
-
-        producer.setText(movie.getProducer());
-        date.setText(movie.getReleaseDate());
-
+    private void setImageViewProprety() {
+        //todo pas de chiffre magique a changer
         imageView.fitWidthProperty().bind(borderPane.widthProperty().divide(3));
         imageView.fitHeightProperty().bind(borderPane.heightProperty());
         imageView.minWidth(235);
         imageView.minHeight(332);
+    }
 
-//
-//        gridPane.prefWidthProperty().bind(anchorPane.widthProperty());
-//        gridPane.prefHeightProperty().bind(anchorPane.heightProperty());
-//
-        sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
+    private void SetTextMovie(Movie movie) {
+        title.setText(movie.getTitle());
+        synopsis.setText(movie.getSynopsis());
+        duration.setText(String.valueOf(movie.getDuration()) + " minutes");
+        genre.setText((checkList(movie.getGenre(), "genre")));
+        actors.setText((checkList(movie.getActors(), "acteur")));
+        producer.setText(movie.getProducer());
+        date.setText(movie.getReleaseDate());
     }
 
     public String checkList(List list, String listType) {
@@ -151,23 +124,23 @@ public class MovieDetailsViewController extends AbstractViewController implement
             org.movieTheatre.java24groupe06.views.Components.SessionButton sessionButton = new SessionButton(session);
 
             sessionButton.setOnAction(event -> {
-
-               try {
-
-                 TicketViewController ticketViewController = new TicketViewController().showInStage(new Stage());
-                 ticketViewController.setSession(session);
-
-                } catch (CantLoadFXMLException e) {
-                    throw new RuntimeException(e);
-                }
+            listener.sessionBtnClicked(session);
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
+    }
+
+    @Override
+    public String getFXMLPath() {
+        return "MovieDetails-view.fxml";
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     public interface Listener {
         void previousBtnClicked(Stage stage);
         void sessionBtnClicked(Session session);
     }
-
 }

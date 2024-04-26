@@ -1,17 +1,17 @@
 .scroll-pane{
-    -fx-background-color: black;
+    -fx-background-color: #151a23;
     -fx-alignment: center;
     -fx-padding: 20;
 }
 .tool-bar{
-    -fx-background-color: black;
+    -fx-background-color: #151a23;
 }
 
 #myGridPane {
     /*-fx-border-style: solid ; !* Style de la bordure *!*/
     /*-fx-border-color: #660000;*/
     /*-fx-border-width: 5px;*/
-    -fx-background-color: #5e5e5e;
+    -fx-background-color: #151a23;
     /*-fx-border-radius: 10px;*/
     /*-fx-background-radius: ;*/
 }

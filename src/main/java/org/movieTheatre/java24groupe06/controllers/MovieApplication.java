@@ -1,29 +1,25 @@
 package org.movieTheatre.java24groupe06.controllers;
-
 import javafx.application.Application;
-
 import javafx.stage.Stage;
-
-
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 
 
-public class MovieApplication extends Application implements MainPageController.Listener,MovieDetailsController.Listener {
-
+public class MovieApplication extends Application implements MainPageController.Listener, MovieDetailsController.Listener, TicketController.Listener{
+    MovieDetailsController movieDetailsController;
+    MainPageController mainPageController;
+    TicketController ticketController;
     @Override
     public void start(Stage stage) {
-        MainPageController mainPageController = new MainPageController();
+        mainPageController = new MainPageController(this);
         mainPageController.initializeMainStage(stage);
-        mainPageController.setListener(this);
     }
 
-@Override
-    public void createDetailsMovieStage(Movie movie)  {
-        MovieDetailsController movieDetailsController = new MovieDetailsController();
+    @Override
+    public void createDetailsMovieStage(Movie movie) {
+        movieDetailsController = new MovieDetailsController(this);
         movieDetailsController.initializeMovieDetailsPage(movie);
-        movieDetailsController.setListener(this);
     }
 
     @Override
@@ -33,7 +29,7 @@ public class MovieApplication extends Application implements MainPageController.
 
     @Override
     public void createTicketStage(Session session) {
-        TicketController ticketController = new TicketController();
+       ticketController = new TicketController(this, session);
         try {
             ticketController.initializeTicket();
         } catch (CantLoadFXMLException e) {

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onPosterClicked" prefHeight="291.0" prefWidth="176.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onPosterClicked" prefHeight="291.0" prefWidth="176.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="imageView" fitHeight="228.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true">
          <VBox.margin>
@@ -14,4 +16,11 @@
       </ImageView>
       <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="702.0" style="-fx-alignment: center; -fx-text-fill: white;" text="Label" textAlignment="CENTER" />
    </children>
+   <effect>
+      <InnerShadow choke="0.3" height="74.81" radius="36.32" width="72.47">
+         <color>
+            <Color red="0.0748538002371788" green="0.10668615996837616" blue="0.15789473056793213" />
+         </color>
+      </InnerShadow>
+   </effect>
 </VBox>
