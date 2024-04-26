@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesDAO {
-
     public List<Movie.MovieBuilder> getDB() throws SQLException {
         ResultSet result;
         List<Movie.MovieBuilder> movieList = new ArrayList<>();

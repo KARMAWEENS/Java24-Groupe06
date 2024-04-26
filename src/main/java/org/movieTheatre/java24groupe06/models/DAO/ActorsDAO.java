@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActorsDAO{
+public class ActorsDAO {
 
  public List<String> getDB(int movieID) throws SQLException {
         List<String> actorsList = new ArrayList<>();

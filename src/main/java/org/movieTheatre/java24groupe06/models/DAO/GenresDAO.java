@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// TODO on peut faire un abstractDAO qui contient le getDB de genre et de actor
+//  c est les memes juste string qui change
 public class GenresDAO {
 
     public   List<String> getDB(int movieID) throws SQLException {
