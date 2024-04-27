@@ -23,6 +23,7 @@ public class ConnectionSingletonDB implements Closeable {
         return this.connection;
     }
     private void setConnection(Connection connection) throws SQLException {
+        System.out.println("connexion ouverte");
         this.connection=connection;
     }
     private static Connection establishConnection() throws SQLException {
@@ -41,7 +42,6 @@ public class ConnectionSingletonDB implements Closeable {
         try {
             Class.forName("org.sqlite.JDBC");
             setConnection(establishConnection());
-            System.out.println("Connexion db établie");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
@@ -49,8 +49,6 @@ public class ConnectionSingletonDB implements Closeable {
         }
 
     }
-
-
 
     /**
      * Retrieves the singleton instance of the ConnectionSingletonDB class.
@@ -91,7 +89,9 @@ public class ConnectionSingletonDB implements Closeable {
      */
     public PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
         if (this.connection == null || this.connection.isClosed()) {
+
             setConnection(establishConnection());
+
         }
 
         PreparedStatement stmt = connection.prepareStatement(query);
@@ -100,13 +100,5 @@ public class ConnectionSingletonDB implements Closeable {
         }
         return stmt;
     }
-
 }
-/*
-private PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
-    PreparedStatement stmt = conn.prepareStatement(query);
-    for (int i = 0; i < params.length; i++) {
-        stmt.setObject(i + 1, params[i]);
-    }
-    return stmt;
-}*/
+

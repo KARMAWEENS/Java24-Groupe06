@@ -12,6 +12,7 @@ import java.util.List;
 // TODO on peut faire un abstractDAO qui contient le getDB de genre et de actor
 //  c est les memes juste string qui change
 public class GenresDAO extends AbstractDAO{
+
     public List<String> getGenresByMovieId(int movieID) throws SQLException {
         String query =String.format("SELECT g.genre\n" +
                 "FROM Genres g\n" +
@@ -19,32 +20,4 @@ public class GenresDAO extends AbstractDAO{
                 "WHERE mg.movieID = ?;", movieID);
         return getListResult(query, rs -> rs.getString("genre"), movieID);
     }
-
-    public   List<String> getDB(int movieID) throws SQLException {
-        List<String> genresList = new ArrayList<>();
-
-        String query =String.format("SELECT g.genre\n" +
-                "FROM Genres g\n" +
-                "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
-                "WHERE mg.movieID = %s;", movieID);
-        // ! C'est un try with ressources pas un try catch
-        try (
-                ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
-                PreparedStatement stmt = conn.prepareStatement(query);
-                ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-
-                genresList.add(rs.getString("genre"));
-
-            }
-        } catch (SQLException e){
-            // Besoin de rien faire
-            // Renverra un list vide
-            // Si on fait un throw, ca remonte l erreur donc peut pas creer obj
-            // Si on fait alert ca fait plein d alerte
-        }
-        System.out.println(genresList);
-        return genresList;
-    }
-
 }

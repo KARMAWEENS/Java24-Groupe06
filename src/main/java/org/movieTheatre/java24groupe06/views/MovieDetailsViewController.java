@@ -59,14 +59,15 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
           this.movie = movie;
      }
     public void displayMovieDetails() {
+
+        SetTextMovie(movie);
+        setImageWithException(imageView, movie.getPathImg());
+        setImageViewProprety();
         try {
             createSessionButton();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        SetTextMovie(movie);
-        setImageWithException(imageView, movie.getPathImg());
-        setImageViewProprety();
         sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
     }
 

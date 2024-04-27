@@ -19,9 +19,7 @@ public class CreateMovies {
            public List<Movie> buildMoviesList(){
                List<Movie> movieList = new ArrayList<>();
                try {
-                   System.out.println("yooo");
                  moviesBuilderList =  moviesDAO.getDB();
-                   System.out.println("fdssdfs");
                    for (Movie.MovieBuilder movieBuilder : moviesBuilderList){
                        setActors(movieBuilder);
                        setGenres(movieBuilder);

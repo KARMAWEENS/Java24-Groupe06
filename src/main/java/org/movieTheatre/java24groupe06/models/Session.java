@@ -4,6 +4,7 @@ import java.sql.Time;
 public class Session {
     private Movie movie;
     private Room room;
+    private String hour;
 
     public Movie getMovie() {
         return movie;
@@ -17,7 +18,7 @@ public class Session {
         return hour;
     }
 
-    private String hour;
+
     public Session(Movie movie,Room room,String hours){
         this.hour=hours;
         this.room=room;

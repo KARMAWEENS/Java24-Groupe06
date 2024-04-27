@@ -1,4 +1,6 @@
 package org.movieTheatre.java24groupe06.views;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -7,6 +9,20 @@ import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import java.net.URL;
 
 public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
+    int nbTicketAdult;
+    int nbTicketChildren;
+    int nbTicketHandicap;
+    int nbTicketVIP;
+    @FXML
+    private Label nbSelectedAdultSeats;
+    @FXML
+    private Label nbSelectedChildrenSeats;
+    @FXML
+    private Label nbSelectedVIPSeats;
+    @FXML
+    private Label nbSelectedHandicapSeats;
+    @FXML
+    private Label totalPriceLabel;
     @Override
     protected String getTitle() {
         return "TicketsShop";
@@ -16,14 +32,31 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         super(listener);
     }
     private Session session;
-    Listener listener;
 
     public void setListener(Listener listener) {
         this.listener = listener;
     }
     public void OnButtonPlusdDisabledClicked(MouseEvent mouseEvent) {
-        listener.OnButtonPlusdDisabledClicked();
+        System.out.println("Button plus disabled clicked");
+        listener.OnButtonPlusDisabledClicked();
     }
+
+    public void setTotalPrice(double totalPrice){
+        totalPriceLabel.setText("Total: "+totalPrice+"€");
+    }
+    public void setTicketAdult(int nbTicketAdult){
+        nbSelectedAdultSeats.setText(nbTicketAdult+ "  Tickets Adultes");
+    }
+    public void setTicketChildren(int nbTicketChildren){
+        nbSelectedChildrenSeats.setText(nbTicketChildren+"  Tickets Enfants");
+    }
+    public void setTicketVIP(int nbTicketVIP){
+        nbSelectedVIPSeats.setText(nbTicketVIP+" Tickets VIP");
+    }
+    public void setTicketHandicap(int nbTicketHandicap){
+        nbSelectedHandicapSeats.setText(nbTicketHandicap+" Tickets Handicapés");
+    }
+
 
     public void OnButtonMinusDisabledClicked(MouseEvent mouseEvent) {
         listener.OnButtonMinusDisabledClicked();
@@ -46,7 +79,7 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     }
 
     public void OnButtonMinusChildrenClicked(MouseEvent mouseEvent) {
-        listener.OnButtonPlusChildrenClicked();
+        listener.OnButtonMinusChildrenClicked();
     }
 
     public void OnButtonMinusAdultClicked(MouseEvent mouseEvent) {
@@ -74,6 +107,6 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
 
         void OnButtonMinusDisabledClicked();
 
-        void OnButtonPlusdDisabledClicked();
+        void OnButtonPlusDisabledClicked();
     }
 }
