@@ -39,7 +39,7 @@ public class CreateMovies {
     }
 
     private List<String> getDbActors(Movie.MovieBuilder movieBuilder) throws SQLException {
-        return actorsDAO.getDB(movieBuilder.getID());
+        return actorsDAO.getActorsByMovieId(movieBuilder.getID());
     }
     private List<String> getDbGenres(Movie.MovieBuilder movieBuilder) throws SQLException {
         return genresDAO.getDB(movieBuilder.getID());

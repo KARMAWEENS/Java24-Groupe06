@@ -8,15 +8,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActorsDAO {
+public class ActorsDAO extends AbstractDAO{
 
- public List<String> getDB(int movieID) throws SQLException {
-        List<String> actorsList = new ArrayList<>();
-        int movieId = movieID;
+    public List<String> getActorsByMovieId(int movieId) throws SQLException {
         String query =String.format("SELECT a.FullName\n" +
                 "FROM Actors a\n" +
                 "JOIN MoviesCasting mc ON a.actorID = mc.actorID\n" +
-                "WHERE mc.movieID = %s;", movieId);
+                "WHERE mc.movieID = ?", movieId);
+        return getListResult(query, rs -> rs.getString("fullName"), movieId);
+    }
+
+
+
+
+
+
+
+
+
+
+/* public List<String> getDB(int movieID) throws SQLException {
+        List<String> actorsList = new ArrayList<>();
+        String query =String.format("SELECT a.FullName\n" +
+                "FROM Actors a\n" +
+                "JOIN MoviesCasting mc ON a.actorID = mc.actorID\n" +
+                "WHERE mc.movieID = %s;", movieID);
         // ! C'est un try with ressources pas un try catch
         System.out.println("avant preparedStatement");
         try (
@@ -38,5 +54,7 @@ public class ActorsDAO {
         // conn.closeDatabase();
         System.out.println(actorsList);
         return actorsList;
-    }
+    }*/
+
+
 }

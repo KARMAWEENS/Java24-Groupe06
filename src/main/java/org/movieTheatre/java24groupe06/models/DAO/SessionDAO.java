@@ -24,7 +24,7 @@ public class SessionDAO {
             int roomID = rs.getInt("RoomID");
             //TODO interface
                 RoomDAO roomDAO = new RoomDAO();
-             Room room=  roomDAO.getSession(roomID);
+             Room room=  roomDAO.getRoom(roomID);
             Session session = new Session(movie,room,hours);
             sessionList.add(session);
             }

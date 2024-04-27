@@ -15,11 +15,11 @@ public class GenresDAO {
 
     public   List<String> getDB(int movieID) throws SQLException {
         List<String> genresList = new ArrayList<>();
-        int movieId = movieID;
+
         String query =String.format("SELECT g.genre\n" +
                 "FROM Genres g\n" +
                 "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
-                "WHERE mg.movieID = %s;", movieId);
+                "WHERE mg.movieID = %s;", movieID);
         // ! C'est un try with ressources pas un try catch
         try (
                 ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();

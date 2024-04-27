@@ -13,7 +13,7 @@ public class RoomDAO {
     public RoomDAO() {
         this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
     }
-    public Room getSession(int RoomID) throws SQLException {
+    public Room getRoom(int RoomID) throws SQLException {
         Room room = null;
         String query = "SELECT * FROM Rooms WHERE  roomID = ?";
         Connection conn = connectionSingletonDB.getConnection();
