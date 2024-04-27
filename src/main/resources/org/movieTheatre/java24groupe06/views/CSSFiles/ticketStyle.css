@@ -1,0 +1,43 @@
+.root {
+    -fx-background-color: #151a23;
+}
+
+.button {
+    -fx-background-color: #ffffff; /* Couleur de fond */
+    -fx-text-fill: #151a23; /* Couleur du texte */
+    -fx-font-size: 20px; /* Taille de la police */
+    -fx-background-radius: 100%;
+
+
+}
+
+.button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.22); /* Changement de couleur au survol */
+}
+
+
+/* Style des labels */
+.label {
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-text-fill: white /* Couleur du texte */
+}
+
+/* Style des hbox (horizontal box) */
+.hbox {
+    -fx-spacing: 20px; /* Espacement entre les enfants */
+}
+
+/* Style des vbox (vertical box) */
+.vbox {
+    -fx-spacing: 10px; /* Espacement entre les enfants */
+}
+
+/* Style des insets (marges) */
+.insets {
+    -fx-padding: 10px; /* Espacement intérieur */
+}
+
+/* Style du curseur */
+.cursor {
+    -fx-cursor: hand; /* Curseur de type main */
+}

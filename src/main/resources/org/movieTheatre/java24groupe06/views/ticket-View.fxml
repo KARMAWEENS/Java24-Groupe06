@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="CSSFiles/ticketStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@CSSFiles/ticketStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="7.0" layoutY="116.0" prefHeight="379.0" prefWidth="587.0">
          <children>
@@ -33,7 +33,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="538.0" spacing="80.0">
                <children>
-                  <Button fx:id="buttonMinusChildren" mnemonicParsing="false" onMouseClicked="#OnButtonMinusChildrenClicked" text="−" />
+                  <Button fx:id="buttonMinusChildren"  mnemonicParsing="false" onMouseClicked="#OnButtonMinusChildrenClicked" text="−" />
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="143.0" spacing="30.0">
                      <children>
                         <Label text="Ticket Children" />

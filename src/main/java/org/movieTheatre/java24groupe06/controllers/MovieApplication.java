@@ -17,7 +17,7 @@ public class MovieApplication extends Application implements MainPageController.
     }
 
     @Override
-    public void createDetailsMovieStage(Movie movie) {
+    public void createDetailsMovieStage(Movie movie)  {
         movieDetailsController = new MovieDetailsController(this);
         movieDetailsController.initializeMovieDetailsPage(movie);
     }
