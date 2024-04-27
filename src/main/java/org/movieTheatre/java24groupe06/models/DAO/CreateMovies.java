@@ -19,7 +19,9 @@ public class CreateMovies {
            public List<Movie> buildMoviesList(){
                List<Movie> movieList = new ArrayList<>();
                try {
+                   System.out.println("yooo");
                  moviesBuilderList =  moviesDAO.getDB();
+                   System.out.println("fdssdfs");
                    for (Movie.MovieBuilder movieBuilder : moviesBuilderList){
                        setActors(movieBuilder);
                        setGenres(movieBuilder);
@@ -42,7 +44,7 @@ public class CreateMovies {
         return actorsDAO.getActorsByMovieId(movieBuilder.getID());
     }
     private List<String> getDbGenres(Movie.MovieBuilder movieBuilder) throws SQLException {
-        return genresDAO.getDB(movieBuilder.getID());
+        return genresDAO.getGenresByMovieId(movieBuilder.getID());
     }
 
 }

@@ -89,11 +89,24 @@ public class ConnectionSingletonDB implements Closeable {
      *
      * @return The Connection object.
      */
-    public PreparedStatement prepareStatement(String query) throws SQLException {
+    public PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
         if (this.connection == null || this.connection.isClosed()) {
             setConnection(establishConnection());
         }
-        return this.connection.prepareStatement(query);
+
+        PreparedStatement stmt = connection.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+        return stmt;
     }
 
 }
+/*
+private PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
+    PreparedStatement stmt = conn.prepareStatement(query);
+    for (int i = 0; i < params.length; i++) {
+        stmt.setObject(i + 1, params[i]);
+    }
+    return stmt;
+}*/

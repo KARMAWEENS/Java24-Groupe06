@@ -19,7 +19,7 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        movieDetailsViewController.displayMovieDetails(movie);
+        movieDetailsViewController.displayMovieDetails();
     }
 
     @Override

@@ -11,7 +11,14 @@ import java.util.List;
 
 // TODO on peut faire un abstractDAO qui contient le getDB de genre et de actor
 //  c est les memes juste string qui change
-public class GenresDAO {
+public class GenresDAO extends AbstractDAO{
+    public List<String> getGenresByMovieId(int movieID) throws SQLException {
+        String query =String.format("SELECT g.genre\n" +
+                "FROM Genres g\n" +
+                "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
+                "WHERE mg.movieID = ?;", movieID);
+        return getListResult(query, rs -> rs.getString("genre"), movieID);
+    }
 
     public   List<String> getDB(int movieID) throws SQLException {
         List<String> genresList = new ArrayList<>();

@@ -58,9 +58,9 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
           super(listener);
           this.movie = movie;
      }
-    public void displayMovieDetails(Movie movie) {
+    public void displayMovieDetails() {
         try {
-            createSessionButton(movie);
+            createSessionButton();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -118,7 +118,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     }
 
 
-    public void createSessionButton(Movie movie) throws SQLException {
+    public void createSessionButton() throws SQLException {
          sessionList = getSession(movie);
         for(Session session : sessionList){
             org.movieTheatre.java24groupe06.views.Components.SessionButton sessionButton = new SessionButton(session);

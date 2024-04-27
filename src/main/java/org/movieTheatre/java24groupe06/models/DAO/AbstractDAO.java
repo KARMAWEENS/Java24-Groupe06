@@ -12,10 +12,7 @@ import java.util.List;
 
 public abstract class AbstractDAO {
 
-    // Utilisation de ConnectionSingletonDB pour obtenir la connexion
-    protected Connection getConnection() throws SQLException {
-        return ConnectionSingletonDB.getCurrent().getConnection();
-    }
+
 
     protected void closeResources(ResultSet rs, PreparedStatement stmt) {
         try {
@@ -25,24 +22,13 @@ public abstract class AbstractDAO {
             e.printStackTrace();
         }
     }
-
-    // Méthode générique pour obtenir un simple élément
-    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = prepareStatement(conn, query, params);
-             ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                return mapper.mapRow(rs);
-            }
-            return null;
-        }
-    }
+    
 
     // Méthode générique pour obtenir une liste d'éléments
     protected <T> List<T> getListResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
         List<T> results = new ArrayList<>();
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = prepareStatement(conn, query, params);
+        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
+             PreparedStatement stmt = conn.prepareStatement(query, params);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 System.out.println(conn);
@@ -53,13 +39,6 @@ public abstract class AbstractDAO {
     }
 
 
-    private PreparedStatement prepareStatement(Connection conn, String query, Object... params) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement(query);
-        for (int i = 0; i < params.length; i++) {
-            stmt.setObject(i + 1, params[i]);
-        }
-        return stmt;
-    }
 
     public interface RowMapper<T> {
         T mapRow(ResultSet rs) throws SQLException;
