@@ -3,6 +3,7 @@ package org.movieTheatre.java24groupe06.models.Promotion;
 import org.movieTheatre.java24groupe06.models.tickets.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface IPromotion {
     double calculateDiscount(List<Ticket> tickets);
@@ -19,4 +20,11 @@ public interface IPromotion {
     default int getnbVIPTickets(List<Ticket> tickets){
         return  (int) tickets.stream().filter(t -> t instanceof TicketVIP).count();
     }
+   default List<Ticket> getEligibleTickets(List<Ticket> ticketsList){
+       return ticketsList.stream()
+               .filter(ticket -> !ticket.isPromotionApplied())
+               .collect(Collectors.toList());
+   }
+
+
 }

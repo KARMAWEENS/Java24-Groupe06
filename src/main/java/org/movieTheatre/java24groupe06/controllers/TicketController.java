@@ -1,9 +1,6 @@
 package org.movieTheatre.java24groupe06.controllers;
 
-import org.movieTheatre.java24groupe06.models.Promotion.FamilyPackPromotion;
-import org.movieTheatre.java24groupe06.models.Promotion.GroupPackPromotion;
-import org.movieTheatre.java24groupe06.models.Promotion.HandicapPackPromotion;
-import org.movieTheatre.java24groupe06.models.Promotion.SchoolPackPromotion;
+import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
@@ -11,7 +8,9 @@ import org.movieTheatre.java24groupe06.views.TicketViewController;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TicketController implements TicketViewController.Listener {
     List<Ticket> ticketsList =new ArrayList<>();
@@ -23,6 +22,13 @@ public class TicketController implements TicketViewController.Listener {
     private int nbSelectedVIPSeats;
     private int nbSelectedHandicapSeats;
 
+   private List<IPromotion> promotions = Arrays.asList(
+            new FamilyPackPromotion(),
+            new SchoolPackPromotion(),
+            new GroupPackPromotion(),
+            new HandicapPackPromotion()
+    );
+   
     public TicketController(Listener listener, Session session) {
         this.listener = listener;
         this.session = session;
@@ -65,7 +71,6 @@ public class TicketController implements TicketViewController.Listener {
         try {
             Ticket ticket = ticketClass.getConstructor(Session.class).newInstance(session);
             ticketsList.add(ticket);
-            System.out.println(ticketsList.size());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +84,8 @@ public class TicketController implements TicketViewController.Listener {
 
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
         int count = updateCount(ticketClass, isIncrement);
-        UpdateUI(ticketClass, count);
+        double price = CalculateReduction();
+        UpdateUI(ticketClass,count,price);
     }
     private <T extends Ticket> int updateCount(Class<T> ticketClass, boolean isIncrement) {
         if (isIncrement) AddTicketOfType(ticketClass);
@@ -87,7 +93,7 @@ public class TicketController implements TicketViewController.Listener {
         int count = countTicketsOfType(ticketClass);
         return count;
     }
-    private <T extends Ticket> void UpdateUI(Class<T> ticketClass, int count) {
+    private <T extends Ticket> void UpdateUI(Class<T> ticketClass, int count, double price) {
         String className = ticketClass.getSimpleName();
         switch (className) {
             case "TicketAdult":
@@ -107,24 +113,16 @@ public class TicketController implements TicketViewController.Listener {
                 ticketViewController.updateTicketHandicapLabel(count);
                 break;
         }
-
-        double price = calculateTotalPrice();
-        System.out.println("Avant réduction: "+price);
-
-        FamilyPackPromotion familyPackPromotion = new FamilyPackPromotion();
-        price -= familyPackPromotion.calculateDiscount(ticketsList);
-
-        SchoolPackPromotion schoolPackPromotion = new SchoolPackPromotion();
-        price -= schoolPackPromotion.calculateDiscount(ticketsList);
-
-        GroupPackPromotion groupPackPromotion = new GroupPackPromotion();
-        price -= groupPackPromotion.calculateDiscount(ticketsList);
-
-        HandicapPackPromotion handicapPackPromotion = new HandicapPackPromotion();
-        price -= handicapPackPromotion.calculateDiscount(ticketsList);
-
         ticketViewController.updateTotalPriceLabel(price);
-        System.out.println(("Après réduction: " + price));
+    }
+
+    private double CalculateReduction() {
+        ticketsList.stream().forEach(ticket -> ticket.setPromotionApplied(false));
+        double price = calculateTotalPrice();
+        for (IPromotion promotion : promotions) {
+            price -= promotion.calculateDiscount(ticketsList);
+        }
+        return price;
     }
 
     @Override
