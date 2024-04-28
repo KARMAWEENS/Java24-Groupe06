@@ -19,6 +19,11 @@ public class TicketController implements TicketViewController.Listener {
     private int nbSelectedVIPSeats;
     private int nbSelectedHandicapSeats;
 
+    public TicketController(Listener listener, Session session) {
+        this.listener = listener;
+        this.session = session;
+    }
+
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
     }
@@ -30,12 +35,6 @@ public class TicketController implements TicketViewController.Listener {
     }
     public void setNbSelectedHandicapSeats(int nbHandicapSeats) {
         this.nbSelectedHandicapSeats = nbHandicapSeats;
-    }
-
-
-    public TicketController(Listener listener, Session session) {
-        this.listener = listener;
-        this.session = session;
     }
 
     public void initializeTicket() throws CantLoadFXMLException {
@@ -55,7 +54,10 @@ public class TicketController implements TicketViewController.Listener {
         return price;
 }
 
-    public void onButtonPlusClicked(Class<? extends Ticket> ticketClass) {
+    public <T extends Ticket> int countTicketsOfType(Class<T> ticketClass) {
+        return (int) ticketsList.stream().filter(ticketClass::isInstance).count();
+    }
+    public void AddTicketOfType(Class<? extends Ticket> ticketClass) {
         try {
             Ticket ticket = ticketClass.getConstructor(Session.class).newInstance(session);
             ticketsList.add(ticket);
@@ -64,82 +66,67 @@ public class TicketController implements TicketViewController.Listener {
             throw new RuntimeException(e);
         }
     }
-
-    public <T extends Ticket> int countTicketsOfType(Class<T> ticketClass) {
-        return (int) ticketsList.stream().filter(ticketClass::isInstance).count();
-    }
-
-    public <T extends Ticket> void removeFirstTicketOfType(Class<T> ticketClass) {
+    public <T extends Ticket> void removeTicketOfType(Class<T> ticketClass) {
         ticketsList.stream()
                 .filter(ticketClass::isInstance)
                 .findFirst()
                 .ifPresent(ticketsList::remove);
     }
 
-    @Override
-    public void OnButtonPlusAdultClicked() {
-        onButtonPlusClicked(TicketAdult.class);
-        setNbSelectedSelectedAdultSeats(countTicketsOfType(TicketAdult.class));
-        ticketViewController.setTicketAdultLabel(nbSelectedAdultSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
+
+    private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
+        int count = updateCount(ticketClass, isIncrement);
+        UpdateUI(ticketClass, count);
+    }
+
+    private <T extends Ticket> void UpdateUI(Class<T> ticketClass, int count) {
+        String className = ticketClass.getSimpleName();
+        switch (className) {
+            case "TicketAdult":
+                setNbSelectedSelectedAdultSeats(count);
+                ticketViewController.updateTicketAdultLabel(count);
+                break;
+            case "TicketChildren":
+                setNbSelectedChildrenSeats(count);
+                ticketViewController.updateTicketChildrenLabel(count);
+                break;
+            case "TicketVIP":
+                setNbSelectedVIPSeats(count);
+                ticketViewController.updateTicketVIPLabel(count);
+                break;
+            case "TicketHandicap":
+                setNbSelectedHandicapSeats(count);
+                ticketViewController.updateTicketHandicapLabel(count);
+                break;
+        }
+
+        ticketViewController.updateTotalPriceLabel(calculateTotalPrice());
+    }
+
+    private <T extends Ticket> int updateCount(Class<T> ticketClass, boolean isIncrement) {
+        if (isIncrement) AddTicketOfType(ticketClass);
+        else removeTicketOfType(ticketClass);
+        int count = countTicketsOfType(ticketClass);
+        return count;
     }
 
     @Override
-    public void OnButtonMinusAdultClicked() {
-        removeFirstTicketOfType(TicketAdult.class);
-        setNbSelectedSelectedAdultSeats(countTicketsOfType(TicketAdult.class));
-        ticketViewController.setTicketAdultLabel(nbSelectedAdultSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-    }
+    public void OnButtonPlusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,true);}
+    @Override
+    public void OnButtonMinusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,false);}
 
     @Override
-    public void OnButtonMinusChildrenClicked() {
-     removeFirstTicketOfType(TicketChildren.class);
-        setNbSelectedChildrenSeats(countTicketsOfType(TicketChildren.class));
-        ticketViewController.setTicketChildrenLabel(nbSelectedChildrenSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-    }
-
+    public void OnButtonPlusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,true);}
     @Override
-    public void OnButtonPlusChildrenClicked() {
-        onButtonPlusClicked(TicketChildren.class);
-        setNbSelectedChildrenSeats(countTicketsOfType(TicketChildren.class));
-        ticketViewController.setTicketChildrenLabel(nbSelectedChildrenSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-    }
-
+    public void OnButtonMinusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,false);}
     @Override
-    public void OnButtonMinusVIPClicked() {
-        removeFirstTicketOfType(TicketVIP.class);
-        setNbSelectedVIPSeats(countTicketsOfType(TicketVIP.class));
-        ticketViewController.setTicketVIPLabel(nbSelectedVIPSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-    }
-
+    public void OnButtonPlusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, true);}
     @Override
-    public void OnButtonPlusVIPClicked() {
-        onButtonPlusClicked(TicketVIP.class);
-        setNbSelectedVIPSeats(countTicketsOfType(TicketVIP.class));
-        ticketViewController.setTicketVIPLabel(nbSelectedVIPSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-
-    }
-
+    public void OnButtonMinusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, false);}
     @Override
-    public void OnButtonMinusDisabledClicked() {
-        removeFirstTicketOfType(TicketHandicap.class);
-        setNbSelectedHandicapSeats(countTicketsOfType(TicketHandicap.class));
-        ticketViewController.setTicketHandicapLabel(nbSelectedHandicapSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-    }
-
+    public void OnButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
     @Override
-    public void OnButtonPlusDisabledClicked() {
-        onButtonPlusClicked(TicketHandicap.class);
-        setNbSelectedHandicapSeats(countTicketsOfType(TicketHandicap.class));
-        ticketViewController.setTicketHandicapLabel(nbSelectedHandicapSeats);
-        ticketViewController.setTotalPriceLabel(calculateTotalPrice());
-    }
+    public void OnButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
 
     public interface Listener {
 

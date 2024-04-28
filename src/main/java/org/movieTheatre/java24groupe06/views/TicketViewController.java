@@ -32,19 +32,19 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     }
 
 
-    public void setTotalPriceLabel(double totalPrice){
+    public void updateTotalPriceLabel(double totalPrice){
         totalPriceLabel.setText("Total: "+totalPrice+"€");
     }
-    public void setTicketAdultLabel(int nbTicketAdult){
+    public void updateTicketAdultLabel(int nbTicketAdult){
         nbSelectedAdultSeats.setText(nbTicketAdult+ "  Tickets Adultes");
     }
-    public void setTicketChildrenLabel(int nbTicketChildren){
+    public void updateTicketChildrenLabel(int nbTicketChildren){
         nbSelectedChildrenSeats.setText(nbTicketChildren+ "  Tickets Enfants");
     }
-    public void setTicketVIPLabel(int nbTicketVIP){
+    public void updateTicketVIPLabel(int nbTicketVIP){
         nbSelectedVIPSeats.setText(nbTicketVIP+" Tickets VIP");
     }
-    public void setTicketHandicapLabel(int nbTicketHandicap){
+    public void updateTicketHandicapLabel(int nbTicketHandicap){
         nbSelectedHandicapSeats.setText(nbTicketHandicap+" Tickets Handicapés");
     }
 
