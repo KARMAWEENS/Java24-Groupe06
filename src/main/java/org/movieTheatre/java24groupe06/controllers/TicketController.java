@@ -1,5 +1,9 @@
 package org.movieTheatre.java24groupe06.controllers;
 
+import org.movieTheatre.java24groupe06.models.Promotion.FamilyPackPromotion;
+import org.movieTheatre.java24groupe06.models.Promotion.GroupPackPromotion;
+import org.movieTheatre.java24groupe06.models.Promotion.HandicapPackPromotion;
+import org.movieTheatre.java24groupe06.models.Promotion.SchoolPackPromotion;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
@@ -73,12 +77,16 @@ public class TicketController implements TicketViewController.Listener {
                 .ifPresent(ticketsList::remove);
     }
 
-
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
         int count = updateCount(ticketClass, isIncrement);
         UpdateUI(ticketClass, count);
     }
-
+    private <T extends Ticket> int updateCount(Class<T> ticketClass, boolean isIncrement) {
+        if (isIncrement) AddTicketOfType(ticketClass);
+        else removeTicketOfType(ticketClass);
+        int count = countTicketsOfType(ticketClass);
+        return count;
+    }
     private <T extends Ticket> void UpdateUI(Class<T> ticketClass, int count) {
         String className = ticketClass.getSimpleName();
         switch (className) {
@@ -100,14 +108,23 @@ public class TicketController implements TicketViewController.Listener {
                 break;
         }
 
-        ticketViewController.updateTotalPriceLabel(calculateTotalPrice());
-    }
+        double price = calculateTotalPrice();
+        System.out.println("Avant réduction: "+price);
 
-    private <T extends Ticket> int updateCount(Class<T> ticketClass, boolean isIncrement) {
-        if (isIncrement) AddTicketOfType(ticketClass);
-        else removeTicketOfType(ticketClass);
-        int count = countTicketsOfType(ticketClass);
-        return count;
+        FamilyPackPromotion familyPackPromotion = new FamilyPackPromotion();
+        price -= familyPackPromotion.calculateDiscount(ticketsList);
+
+        SchoolPackPromotion schoolPackPromotion = new SchoolPackPromotion();
+        price -= schoolPackPromotion.calculateDiscount(ticketsList);
+
+        GroupPackPromotion groupPackPromotion = new GroupPackPromotion();
+        price -= groupPackPromotion.calculateDiscount(ticketsList);
+
+        HandicapPackPromotion handicapPackPromotion = new HandicapPackPromotion();
+        price -= handicapPackPromotion.calculateDiscount(ticketsList);
+
+        ticketViewController.updateTotalPriceLabel(price);
+        System.out.println(("Après réduction: " + price));
     }
 
     @Override
