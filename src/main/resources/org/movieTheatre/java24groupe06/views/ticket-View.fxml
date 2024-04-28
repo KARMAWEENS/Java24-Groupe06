@@ -75,7 +75,7 @@
                         <Label fx:id="pricedisabled" text="prix" />
                      </children>
                   </VBox>
-                  <Button fx:id="buttonPlusdisabled" mnemonicParsing="false" onMouseClicked="#OnButtonPlusdDisabledClicked" text="+" />
+                  <Button fx:id="buttonPlusdisabled" mnemonicParsing="false" onMouseClicked="#OnButtonPlusDisabledClicked" text="+" />
                   <Label fx:id="disabled" text="Label" />
                </children>
                <cursor>
