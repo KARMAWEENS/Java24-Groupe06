@@ -28,7 +28,59 @@ public class TicketController implements TicketViewController.Listener {
             new GroupPackPromotion(),
             new HandicapPackPromotion()
     );
-   
+   private List<List<IPromotion>> listCombinaison = generatePermutations(promotions);
+
+private double getBestDiscount(){
+    double discount = 0;
+    double maxDiscount =0;
+    for (List<IPromotion> promotions : listCombinaison)
+    {
+        discount= getReduction(promotions);
+        if(discount>maxDiscount);{
+        maxDiscount = discount;
+    }
+    }
+    return maxDiscount;
+}
+private double getReduction(List<IPromotion> listPromotion){
+    ticketsList.stream().forEach(ticket -> ticket.setPromotionApplied(false));
+    double discount =0;
+for(IPromotion promo :listPromotion){
+    discount += promo.calculateDiscount(ticketsList);
+}
+    return discount;
+}
+
+public  <T> List<List<T>> generatePermutations(List<T> elements) {
+    List<List<T>> permutations = new ArrayList<>();
+    generatePermutationsHelper(elements, new ArrayList<>(), permutations);
+    return permutations;
+}
+
+private <T> void generatePermutationsHelper(List<T> elements, List<T> currentPermutation, List<List<T>> permutations) {
+    if (elements.isEmpty()) {
+        permutations.add(new ArrayList<>(currentPermutation));
+        return;
+    }
+
+    for (int i = 0; i < elements.size(); i++) {
+        T element = elements.get(i);
+        currentPermutation.add(element);
+        List<T> remainingElements = new ArrayList<>(elements);
+        remainingElements.remove(i);
+        generatePermutationsHelper(remainingElements, currentPermutation, permutations);
+        currentPermutation.remove(currentPermutation.size() - 1);
+    }
+}
+
+
+
+
+
+
+
+
+
     public TicketController(Listener listener, Session session) {
         this.listener = listener;
         this.session = session;
@@ -119,9 +171,8 @@ public class TicketController implements TicketViewController.Listener {
     private double CalculateReduction() {
         ticketsList.stream().forEach(ticket -> ticket.setPromotionApplied(false));
         double price = calculateTotalPrice();
-        for (IPromotion promotion : promotions) {
-            price -= promotion.calculateDiscount(ticketsList);
-        }
+        System.out.println("best discount :"+getBestDiscount());
+    price -= getBestDiscount();
         return price;
     }
 
