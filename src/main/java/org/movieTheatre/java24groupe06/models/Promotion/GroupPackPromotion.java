@@ -28,7 +28,7 @@ public class GroupPackPromotion implements IPromotion {
 
         }
 
-        return discount;
+        return discount/2;
     }
 
     private void markTicketsAsUsed(List<Ticket> tickets, Class<? extends Ticket> ticketType, int count) {

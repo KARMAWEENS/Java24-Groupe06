@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SchoolPackPromotion implements IPromotion {
-    final int minChildrenToGetPromotion = 5;
-    final double reductionSchoolPack = 15;
+    final int minChildrenToGetPromotion = 15;
+    final double reductionSchoolPack = 30;
 
     @Override
     public double calculateDiscount(List<Ticket> tickets) {

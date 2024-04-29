@@ -7,14 +7,12 @@ import org.movieTheatre.java24groupe06.models.tickets.*;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class TicketController implements TicketViewController.Listener {
-    List<Ticket> ticketsList =new ArrayList<>();
     TicketViewController ticketViewController;
+    PromotionManager promotionManager;
+    TicketManager ticketManager;
     public Listener listener;
     public Session session;
     private int nbSelectedAdultSeats;
@@ -22,18 +20,10 @@ public class TicketController implements TicketViewController.Listener {
     private int nbSelectedVIPSeats;
     private int nbSelectedHandicapSeats;
 
-   private List<IPromotion> promotions = Arrays.asList(
-            new FamilyPackPromotion(),
-            new SchoolPackPromotion(),
-            new GroupPackPromotion(),
-            new HandicapPackPromotion()
-    );
-   
     public TicketController(Listener listener, Session session) {
         this.listener = listener;
         this.session = session;
     }
-
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
     }
@@ -49,6 +39,8 @@ public class TicketController implements TicketViewController.Listener {
 
     public void initializeTicket() throws CantLoadFXMLException {
        ticketViewController = new TicketViewController(this);
+       ticketManager = new TicketManager(session);
+       promotionManager = new PromotionManager(ticketManager.getTicketsList());
         try {
             ticketViewController.openOnNewStage();
         } catch (IOException e) {
@@ -56,44 +48,13 @@ public class TicketController implements TicketViewController.Listener {
         }
 
     }
-    private double calculateTotalPrice(){
-        double price= 0;
-        for(Ticket ticket : ticketsList){
-            price+=ticket.getPrice();
-        }
-        return price;
-}
-
-    public <T extends Ticket> int countTicketsOfType(Class<T> ticketClass) {
-        return (int) ticketsList.stream().filter(ticketClass::isInstance).count();
-    }
-    public void AddTicketOfType(Class<? extends Ticket> ticketClass) {
-        try {
-            Ticket ticket = ticketClass.getConstructor(Session.class).newInstance(session);
-            ticketsList.add(ticket);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public <T extends Ticket> void removeTicketOfType(Class<T> ticketClass) {
-        ticketsList.stream()
-                .filter(ticketClass::isInstance)
-                .findFirst()
-                .ifPresent(ticketsList::remove);
-    }
-
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
-        int count = updateCount(ticketClass, isIncrement);
-        double price = CalculateReduction();
-        UpdateUI(ticketClass,count,price);
+        int count = ticketManager.updateCount(ticketClass, isIncrement);
+        double price = promotionManager.findBestPrice();
+        updateUI(ticketClass,count, price);
     }
-    private <T extends Ticket> int updateCount(Class<T> ticketClass, boolean isIncrement) {
-        if (isIncrement) AddTicketOfType(ticketClass);
-        else removeTicketOfType(ticketClass);
-        int count = countTicketsOfType(ticketClass);
-        return count;
-    }
-    private <T extends Ticket> void UpdateUI(Class<T> ticketClass, int count, double price) {
+
+    private <T extends Ticket> void updateUI(Class<T> ticketClass, int count, double price) {
         String className = ticketClass.getSimpleName();
         switch (className) {
             case "TicketAdult":
@@ -116,32 +77,22 @@ public class TicketController implements TicketViewController.Listener {
         ticketViewController.updateTotalPriceLabel(price);
     }
 
-    private double CalculateReduction() {
-        ticketsList.stream().forEach(ticket -> ticket.setPromotionApplied(false));
-        double price = calculateTotalPrice();
-        for (IPromotion promotion : promotions) {
-            price -= promotion.calculateDiscount(ticketsList);
-        }
-        return price;
-    }
-
     @Override
-    public void OnButtonPlusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,true);}
+    public void onButtonPlusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,true);}
     @Override
-    public void OnButtonMinusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,false);}
-
+    public void onButtonMinusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,false);}
     @Override
-    public void OnButtonPlusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,true);}
+    public void onButtonPlusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,true);}
     @Override
-    public void OnButtonMinusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,false);}
+    public void onButtonMinusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,false);}
     @Override
-    public void OnButtonPlusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, true);}
+    public void onButtonPlusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, true);}
     @Override
-    public void OnButtonMinusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, false);}
+    public void onButtonMinusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, false);}
     @Override
-    public void OnButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
+    public void onButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
     @Override
-    public void OnButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
+    public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
 
     public interface Listener {
 

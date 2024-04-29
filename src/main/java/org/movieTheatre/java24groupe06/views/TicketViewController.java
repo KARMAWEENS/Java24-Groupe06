@@ -49,38 +49,38 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     }
 
     public void OnButtonPlusDisabledClicked(MouseEvent mouseEvent) {
-        listener.OnButtonPlusDisabledClicked();
+        listener.onButtonPlusDisabledClicked();
     }
     public void OnButtonMinusDisabledClicked(MouseEvent mouseEvent) {
-        listener.OnButtonMinusDisabledClicked();
+        listener.onButtonMinusDisabledClicked();
     }
     public void OnButtonPlusVIPClicked(MouseEvent mouseEvent) {
-        listener.OnButtonPlusVIPClicked();
+        listener.onButtonPlusVIPClicked();
     }
     public void OnButtonMinusVIPClicked(MouseEvent mouseEvent) {
-        listener.OnButtonMinusVIPClicked();
+        listener.onButtonMinusVIPClicked();
     }
     public void OnButtonPlusChildrenClicked(MouseEvent mouseEvent) {
-        listener.OnButtonPlusChildrenClicked();
+        listener.onButtonPlusChildrenClicked();
     }
     public void OnButtonPlusAdultClicked(MouseEvent mouseEvent) {
-        listener.OnButtonPlusAdultClicked();
+        listener.onButtonPlusAdultClicked();
     }
     public void OnButtonMinusChildrenClicked(MouseEvent mouseEvent) {
-        listener.OnButtonMinusChildrenClicked();
+        listener.onButtonMinusChildrenClicked();
     }
     public void OnButtonMinusAdultClicked(MouseEvent mouseEvent) {
-        listener.OnButtonMinusAdultClicked();
+        listener.onButtonMinusAdultClicked();
     }
 
     public interface Listener {
-        void OnButtonPlusAdultClicked();
-        void OnButtonMinusAdultClicked();
-        void OnButtonMinusChildrenClicked();
-        void OnButtonPlusChildrenClicked();
-        void OnButtonMinusVIPClicked();
-        void OnButtonPlusVIPClicked();
-        void OnButtonMinusDisabledClicked();
-        void OnButtonPlusDisabledClicked();
+        void onButtonPlusAdultClicked();
+        void onButtonMinusAdultClicked();
+        void onButtonMinusChildrenClicked();
+        void onButtonPlusChildrenClicked();
+        void onButtonMinusVIPClicked();
+        void onButtonPlusVIPClicked();
+        void onButtonMinusDisabledClicked();
+        void onButtonPlusDisabledClicked();
     }
 }
