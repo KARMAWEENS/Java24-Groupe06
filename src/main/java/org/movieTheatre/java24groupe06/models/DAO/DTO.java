@@ -57,8 +57,4 @@ public class DTO {
 
     private boolean isShowing;
 
-
-
-
-
 }

@@ -12,8 +12,6 @@ import java.util.List;
 
 public abstract class AbstractDAO {
 
-
-
     protected void closeResources(ResultSet rs, PreparedStatement stmt) {
         try {
             if (rs != null) rs.close();
@@ -38,9 +36,9 @@ public abstract class AbstractDAO {
     }
 
     // Méthode générique pour obtenir un simple élément
-/*    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
-        Connection conn = getConnection();
-        try (PreparedStatement stmt = prepareStatement(conn, query, params);
+    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
+        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
+             PreparedStatement stmt = conn.prepareStatement(query, params);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 return mapper.mapRow(rs);
@@ -48,12 +46,6 @@ public abstract class AbstractDAO {
             return null;
         }
     }
-
-    public String getActorNameById(int actorId) throws SQLException {
-        String query = "SELECT fullName FROM Actors WHERE actorID = ?";
-        return getSingleResult(query, rs -> rs.getString("fullName"), actorId);
-    }*/
-
 
     public interface RowMapper<T> {
         T mapRow(ResultSet rs) throws SQLException;

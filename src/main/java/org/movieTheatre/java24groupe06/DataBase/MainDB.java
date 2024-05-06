@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 
 // PAS UTILISER DONC PAS DE JAVADOC MTN
-public class MainDB implements SessionDAO.SessionDAOInterface {
+public class MainDB{
     CreateDB createDB = CreateDB.getInstance();
     DeleteDB deleteDB = DeleteDB.getInstance();
     UpdateDB updateDB = UpdateDB.getInstance();

@@ -2,44 +2,34 @@ package org.movieTheatre.java24groupe06.models.DAO;
 
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.Room;
+import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SessionDAO {
-
+public class SessionDAO extends AbstractDAO{
     public List<Session> getSession(Movie movie) throws SQLException {
-        List<Session> sessionList = new ArrayList<>();
         String query = String.format("SELECT * FROM Sessions WHERE movieID = %s",movie.getID());
-        try {
-                ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
-            System.out.println(conn);
-                PreparedStatement stmt = conn.prepareStatement(query);
-                ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-            String hours= rs.getString("Hours");
-            int roomID = rs.getInt("RoomID");
-            //TODO interface
-                RoomDAO roomDAO = new RoomDAO();
-             Room room=  roomDAO.getRoom(roomID);
-            Session session = new Session(movie,room,hours);
-            sessionList.add(session);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting session hours: " + e.getMessage());
-            throw e;
-        }
-        System.out.println(sessionList);
-        return sessionList;
+        return getListResult(query, rs ->
+                new Session(movie, new SeatsRoomLeft(rs.getInt("regularSeatsLeft"),
+                                    rs.getInt("HandicapSeatsLeft"),
+                                    rs.getInt("VIPSeatsLeft"),
+                                    rs.getInt("RoomID")), rs.getString("Hours")));
     }
 
-    public interface SessionDAOInterface{
-        default List<Session> getSession(Movie movie) throws SQLException {
-            SessionDAO sessionDAO = new SessionDAO();
-            return  sessionDAO.getSession(movie);
+    public void update(Session session, int nbSelectedAdultSeats, int nbSelectedChildrenSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
+        String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE RoomID = ? AND Hours = ?";
+        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, nbSelectedAdultSeats + nbSelectedChildrenSeats);
+            stmt.setInt(2, nbSelectedHandicapSeats);
+            stmt.setInt(3, nbSelectedVIPSeats);
+            stmt.setInt(4, session.getRoomID());
+            stmt.setString(5, session.getHours());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

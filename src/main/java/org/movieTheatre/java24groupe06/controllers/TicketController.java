@@ -1,5 +1,6 @@
 package org.movieTheatre.java24groupe06.controllers;
 
+import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
@@ -53,28 +54,44 @@ public class TicketController implements TicketViewController.Listener {
         double price = promotionManager.findBestPrice();
         updateUI(ticketClass,count, price);
     }
-
     private <T extends Ticket> void updateUI(Class<T> ticketClass, int count, double price) {
         String className = ticketClass.getSimpleName();
         switch (className) {
             case "TicketAdult":
                 setNbSelectedSelectedAdultSeats(count);
                 ticketViewController.updateTicketAdultLabel(count);
+                updateRegularSeatsLabel();
                 break;
+
             case "TicketChildren":
                 setNbSelectedChildrenSeats(count);
                 ticketViewController.updateTicketChildrenLabel(count);
+                updateRegularSeatsLabel();
                 break;
+
             case "TicketVIP":
                 setNbSelectedVIPSeats(count);
                 ticketViewController.updateTicketVIPLabel(count);
+                ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats()-count);
                 break;
+
             case "TicketHandicap":
                 setNbSelectedHandicapSeats(count);
                 ticketViewController.updateTicketHandicapLabel(count);
+                ticketViewController.updateAvailableHandicapSeatsLabel(session.getNbHandicapsSeats()-count);
                 break;
         }
         ticketViewController.updateTotalPriceLabel(price);
+    }
+
+    private void updateRegularSeatsLabel() {
+        ticketViewController.updateAvailableChildrenSeatsLabel(calculatedRegularSeats());
+        ticketViewController.updateAvailableAdultSeatsLabel(calculatedRegularSeats());
+    }
+
+    // Peut etre rename la méthode jcp
+    private int calculatedRegularSeats() {
+        return session.getNbRegularSeats() - ticketManager.countTicketsOfType(TicketChildren.class) - ticketManager.countTicketsOfType(TicketAdult.class);
     }
 
     @Override
@@ -92,7 +109,15 @@ public class TicketController implements TicketViewController.Listener {
     @Override
     public void onButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
     @Override
+    public void onButtonBuyClicked() {
+        SessionDAO sessionDAO = new SessionDAO();
+         sessionDAO.update(session,nbSelectedAdultSeats, nbSelectedChildrenSeats, nbSelectedVIPSeats, nbSelectedHandicapSeats);
+    }
+
+    @Override
     public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
+
+
 
     public interface Listener {
 

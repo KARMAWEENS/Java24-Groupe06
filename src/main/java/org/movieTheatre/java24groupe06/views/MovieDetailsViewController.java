@@ -19,7 +19,7 @@ import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MovieDetailsViewController extends AbstractViewController<MovieDetailsViewController.Listener> implements SetImageWithException, SessionDAO.SessionDAOInterface {
+public class MovieDetailsViewController extends AbstractViewController<MovieDetailsViewController.Listener> implements SetImageWithException {
 
     private Movie movie;
     private List<Session> sessionList;
@@ -120,10 +120,10 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
 
     public void createSessionButton() throws SQLException {
-         sessionList = getSession(movie);
+         sessionList = listener.getSession(movie);
         for(Session session : sessionList){
-            org.movieTheatre.java24groupe06.views.Components.SessionButton sessionButton = new SessionButton(session);
-
+         SessionButton sessionButton = new SessionButton(session);
+            System.out.println( "" +session.getNbHandicapsSeats());
             sessionButton.setOnAction(event -> {
             listener.sessionBtnClicked(session);
             });
@@ -143,5 +143,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public interface Listener {
         void previousBtnClicked(Stage stage);
         void sessionBtnClicked(Session session);
+
+        List<Session> getSession(Movie movie);
     }
 }

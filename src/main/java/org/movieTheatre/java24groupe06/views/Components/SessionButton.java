@@ -7,7 +7,7 @@ public class SessionButton extends Button {
     private Session session;
 
     public SessionButton(Session session) {
-        super(session.getHour());
+        super(session.getHours());
         this.session = session;
     }
 

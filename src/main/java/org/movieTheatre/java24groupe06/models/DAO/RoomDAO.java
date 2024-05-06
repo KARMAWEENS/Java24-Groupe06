@@ -1,7 +1,7 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
 import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
-import org.movieTheatre.java24groupe06.models.Room;
+import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,8 +13,8 @@ public class RoomDAO {
     public RoomDAO() {
         this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
     }
-    public Room getRoom(int RoomID) throws SQLException {
-        Room room = null;
+    public SeatsRoomLeft getRoom(int RoomID) throws SQLException {
+        SeatsRoomLeft seatsRoomLeft = null;
         String query = "SELECT * FROM Rooms WHERE  roomID = ?";
         Connection conn = connectionSingletonDB.getConnection();
 
@@ -26,13 +26,13 @@ public class RoomDAO {
               int nbRegularSeats = rs.getInt("nbRegularSeats");
               int nbHandicapSeats = rs.getInt("nbHandicapSeats");
               int nbVIPSeats = rs.getInt("nbVIPSeats");
-              room = new Room(nbRegularSeats, nbHandicapSeats, nbVIPSeats, RoomID);
+              seatsRoomLeft = new SeatsRoomLeft(nbRegularSeats, nbHandicapSeats, nbVIPSeats, RoomID);
             }
         } catch (SQLException e) {
             System.out.println("Error getting session hours: " + e.getMessage());
             throw e;
         }
-        return room;
+        return seatsRoomLeft;
     }
 
 }
