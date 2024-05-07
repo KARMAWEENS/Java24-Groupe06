@@ -57,7 +57,7 @@ public class MainDB{
         */
 
 
-          //  getSessio();
+
             /*SessionDAO sessionDAO = new SessionDAO();
             sessionDAO.getSession();*/
            // System.out.println(sessionDAO.getHoursSession(2));
