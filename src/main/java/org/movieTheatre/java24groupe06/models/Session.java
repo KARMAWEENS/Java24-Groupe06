@@ -1,6 +1,7 @@
 package org.movieTheatre.java24groupe06.models;
 
 public class Session {
+    private int SessionID;
     private Movie movie;
     private SeatsRoomLeft seatsRoomLeft;
     private String Time;
@@ -9,7 +10,7 @@ public class Session {
         return SessionID;
     }
 
-    private int SessionID;
+
 
 
     public Session(int SessionID, Movie movie, SeatsRoomLeft seatsRoomLeft, String hours){
@@ -29,9 +30,7 @@ public class Session {
     public String getTime() {
         return Time;
     }
-    public int getRoomID(){
-        return seatsRoomLeft.getId();
-    }
+
     public int getNbHandicapsSeats(){
         return seatsRoomLeft.getNbHandicapsSeats();
     }
