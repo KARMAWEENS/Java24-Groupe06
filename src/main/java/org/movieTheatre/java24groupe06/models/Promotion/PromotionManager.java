@@ -20,18 +20,12 @@ public class PromotionManager  {
     }
 
     public double calculateBestPrice() {
-
-        System.out.println("PromotionM bestPrice" + this.tickets);
-        double minPrice = Double.MAX_VALUE;
+         minPrice = Double.MAX_VALUE;
         calculateBestPriceRecursive(promotions, 0);
         return minPrice;
     }
 
-    public double findBestPrice() {
-        minPrice = Double.MAX_VALUE;
-        calculateBestPrice();
-        return minPrice;
-    }
+
     private void calculateBestPriceRecursive(IPromotion[] arr, int currentIndex) {
         if (currentIndex == arr.length - 1) {
             double priceForThisCombo = calculatePriceWithComboReduction(arr);
@@ -40,7 +34,6 @@ public class PromotionManager  {
             }
             return;
         }
-
         for (int i = currentIndex; i < arr.length; i++) {
             swap(arr, currentIndex, i);
             calculateBestPriceRecursive(arr, currentIndex + 1);

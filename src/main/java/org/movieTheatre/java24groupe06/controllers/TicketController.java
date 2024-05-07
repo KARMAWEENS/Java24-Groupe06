@@ -51,7 +51,7 @@ public class TicketController implements TicketViewController.Listener {
     }
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
         int count = ticketManager.updateCount(ticketClass, isIncrement);
-        double price = promotionManager.findBestPrice();
+        double price = promotionManager.calculateBestPrice();
         updateUI(ticketClass,count, price);
     }
     private <T extends Ticket> void updateUI(Class<T> ticketClass, int count, double price) {

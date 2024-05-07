@@ -6,18 +6,16 @@ public class Session {
     private SeatsRoomLeft seatsRoomLeft;
     private String Time;
 
-    public int getSessionID() {
-        return SessionID;
-    }
-
-
-
 
     public Session(int SessionID, Movie movie, SeatsRoomLeft seatsRoomLeft, String hours){
         this.Time =hours;
         this.seatsRoomLeft = seatsRoomLeft;
         this.movie=movie;
         this.SessionID = SessionID;
+    }
+
+    public int getSessionID() {
+        return SessionID;
     }
 
     public Movie getMovie() {
@@ -34,7 +32,6 @@ public class Session {
     public int getNbHandicapsSeats(){
         return seatsRoomLeft.getNbHandicapsSeats();
     }
-
     public int getNbRegularSeats(){
         return seatsRoomLeft.getNbRegularSeats();
     }
