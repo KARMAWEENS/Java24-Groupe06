@@ -42,13 +42,11 @@ public class TicketController implements TicketViewController.Listener {
     }
 
     public void initializeTicket() throws CantLoadFXMLException {
-
         try {
             ticketViewController.openOnNewStage();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
         int count = ticketManager.updateCount(ticketClass, isIncrement);
@@ -63,19 +61,16 @@ public class TicketController implements TicketViewController.Listener {
                 ticketViewController.updateTicketAdultLabel(count);
                 updateRegularSeatsLabel();
                 break;
-
             case "TicketChildren":
                 setNbSelectedChildrenSeats(count);
                 ticketViewController.updateTicketChildrenLabel(count);
                 updateRegularSeatsLabel();
                 break;
-
             case "TicketVIP":
                 setNbSelectedVIPSeats(count);
                 ticketViewController.updateTicketVIPLabel(count);
                 ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats()-count);
                 break;
-
             case "TicketHandicap":
                 setNbSelectedHandicapSeats(count);
                 ticketViewController.updateTicketHandicapLabel(count);
@@ -89,7 +84,6 @@ public class TicketController implements TicketViewController.Listener {
         ticketViewController.updateAvailableChildrenSeatsLabel(calculatedRegularSeats());
         ticketViewController.updateAvailableAdultSeatsLabel(calculatedRegularSeats());
     }
-
     private int calculatedRegularSeats() {
         return session.getNbRegularSeats() - ticketManager.countTicketsOfType(TicketChildren.class) - ticketManager.countTicketsOfType(TicketAdult.class);
     }
