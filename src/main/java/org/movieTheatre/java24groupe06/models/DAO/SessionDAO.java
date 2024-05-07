@@ -12,21 +12,21 @@ public class SessionDAO extends AbstractDAO{
     public List<Session> getSession(Movie movie) throws SQLException {
         String query = String.format("SELECT * FROM Sessions WHERE movieID = %s",movie.getID());
         return getListResult(query, rs ->
-                new Session(movie, new SeatsRoomLeft(rs.getInt("regularSeatsLeft"),
+                new Session(rs.getInt("SessionID"), movie, new SeatsRoomLeft(rs.getInt("regularSeatsLeft"),
                                     rs.getInt("HandicapSeatsLeft"),
                                     rs.getInt("VIPSeatsLeft"),
                                     rs.getInt("RoomID")), rs.getString("Time")));
     }
 
     public void update(Session session, int nbSelectedAdultSeats, int nbSelectedChildrenSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
-        String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE RoomID = ? AND Time = ?";
+        String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE SessionID = ?";
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, nbSelectedAdultSeats + nbSelectedChildrenSeats);
             stmt.setInt(2, nbSelectedHandicapSeats);
             stmt.setInt(3, nbSelectedVIPSeats);
-            stmt.setInt(4, session.getRoomID());
-            stmt.setString(5, session.getTime());
+            stmt.setInt(4, session.getSessionID());
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
