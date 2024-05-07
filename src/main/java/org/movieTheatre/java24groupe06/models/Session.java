@@ -3,26 +3,27 @@ package org.movieTheatre.java24groupe06.models;
 public class Session {
     private Movie movie;
     private SeatsRoomLeft seatsRoomLeft;
-    private String hour;
+    private String Time;
+
+
+    public Session(Movie movie, SeatsRoomLeft seatsRoomLeft, String hours){
+        this.Time =hours;
+        this.seatsRoomLeft = seatsRoomLeft;
+        this.movie=movie;
+    }
 
     public Movie getMovie() {
         return movie;
     }
-
     public SeatsRoomLeft getRoom() {
         return seatsRoomLeft;
     }
 
-    public String getHours() {
-        return hour;
+    public String getTime() {
+        return Time;
     }
     public int getRoomID(){
         return seatsRoomLeft.getId();
-    }
-    public Session(Movie movie, SeatsRoomLeft seatsRoomLeft, String hours){
-        this.hour=hours;
-        this.seatsRoomLeft = seatsRoomLeft;
-        this.movie=movie;
     }
     public int getNbHandicapsSeats(){
         return seatsRoomLeft.getNbHandicapsSeats();

@@ -89,9 +89,7 @@ public class ConnectionSingletonDB implements Closeable {
      */
     public PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
         if (this.connection == null || this.connection.isClosed()) {
-
             setConnection(establishConnection());
-
         }
 
         PreparedStatement stmt = connection.prepareStatement(query);

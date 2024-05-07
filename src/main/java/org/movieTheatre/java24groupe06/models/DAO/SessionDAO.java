@@ -15,18 +15,18 @@ public class SessionDAO extends AbstractDAO{
                 new Session(movie, new SeatsRoomLeft(rs.getInt("regularSeatsLeft"),
                                     rs.getInt("HandicapSeatsLeft"),
                                     rs.getInt("VIPSeatsLeft"),
-                                    rs.getInt("RoomID")), rs.getString("Hours")));
+                                    rs.getInt("RoomID")), rs.getString("Time")));
     }
 
     public void update(Session session, int nbSelectedAdultSeats, int nbSelectedChildrenSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
-        String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE RoomID = ? AND Hours = ?";
+        String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE RoomID = ? AND Time = ?";
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, nbSelectedAdultSeats + nbSelectedChildrenSeats);
             stmt.setInt(2, nbSelectedHandicapSeats);
             stmt.setInt(3, nbSelectedVIPSeats);
             stmt.setInt(4, session.getRoomID());
-            stmt.setString(5, session.getHours());
+            stmt.setString(5, session.getTime());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

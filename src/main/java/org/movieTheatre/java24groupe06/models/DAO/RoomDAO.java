@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RoomDAO {
+    // TODO CETTE CLASS EST POURRI JCROIS ON PEUT LA DELETE
     private ConnectionSingletonDB connectionSingletonDB;
     public RoomDAO() {
         this.connectionSingletonDB = ConnectionSingletonDB.getCurrent();
@@ -21,7 +22,7 @@ public class RoomDAO {
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, RoomID);
             ResultSet rs = pstmt.executeQuery();
-
+            // TODO CETTE CLASS EST POURRI JCROIS ON PEUT LA DELETE
             while (rs.next()) {
               int nbRegularSeats = rs.getInt("nbRegularSeats");
               int nbHandicapSeats = rs.getInt("nbHandicapSeats");
@@ -34,5 +35,5 @@ public class RoomDAO {
         }
         return seatsRoomLeft;
     }
-
+    // TODO CETTE CLASS EST POURRI JCROIS ON PEUT LA DELETE
 }

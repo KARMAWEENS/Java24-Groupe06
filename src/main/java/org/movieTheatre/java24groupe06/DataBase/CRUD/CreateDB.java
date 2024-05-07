@@ -92,35 +92,6 @@ public class CreateDB {
 
 
 
-    /**
-     * Creates a new table in the database if it does not already exist.
-     *
-     * This method constructs a SQL CREATE TABLE statement using the provided table name and attributes,
-     * and executes the statement using the provided Connection object.
-     *
-     * @param conn The Connection object to use for executing the SQL statement.
-     * @param tableName The name of the table to create.
-     * @param attributes The attributes of the table to create, specified as a varargs parameter.
-     * @throws SQLException If there is an error executing the SQL statement.
-     */
-
-
-    //!!!! Y A MOYEN QU ON DOIVE CHANGER CONNECTION CONN EN CONNECTIONSINGLETON A VOIR PAS SUR
-
-    /**
-     * Inserts data into a table in the database.
-     *
-     * This method constructs a SQL INSERT INTO statement using the provided table name and attributes,
-     * and executes the statement using the provided Connection object.
-     *
-     * @param conn The Connection object to use for executing the SQL statement.
-     * @param tableName The name of the table to insert data into.
-
-     * @throws SQLException If there is an error executing the SQL statement.
-     */
-
-
-
 
 
 

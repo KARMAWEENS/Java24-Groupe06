@@ -27,16 +27,6 @@ public class MainDB{
         ConnectionSingletonDB connSingleton = ConnectionSingletonDB.getCurrent();
         Connection conn = connSingleton.getConnection();
 
-        CreateMovies createMovies = new CreateMovies();
-        createMovies.buildMoviesList();
-
-        for (Movie.MovieBuilder movieBuilder : createMovies.getMoviesBuilderList()){
-
-
-        }
-
-
-
 //            for (Movie movie : createMovies2.getMovieList()){
 //                ActorsDAO.getActors(movie.getID());
 //            }
