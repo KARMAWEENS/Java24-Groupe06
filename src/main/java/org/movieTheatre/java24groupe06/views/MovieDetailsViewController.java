@@ -135,10 +135,6 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         return "MovieDetails-view.fxml";
     }
 
-    public Stage getStage() {
-        return stage;
-    }
-
     public interface Listener {
         void previousBtnClicked(Stage stage);
         void sessionBtnClicked(Session session);

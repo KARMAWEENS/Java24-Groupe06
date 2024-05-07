@@ -29,7 +29,6 @@ public class MovieApplication extends Application implements MainPageController.
 
     @Override
     public void createTicketStage(Session session) {
-        System.out.println(session.getSessionID());
        ticketController = new TicketController(this, session);
         try {
             ticketController.initializeTicket();
