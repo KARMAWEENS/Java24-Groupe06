@@ -122,8 +122,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public void createSessionButton() throws SQLException {
          sessionList = listener.getSession(movie);
         for(Session session : sessionList){
-         SessionButton sessionButton = new SessionButton(session);
-            System.out.println( "" +session.getNbHandicapsSeats());
+         Button sessionButton = new Button(session.getTime());
             sessionButton.setOnAction(event -> {
             listener.sessionBtnClicked(session);
             });
