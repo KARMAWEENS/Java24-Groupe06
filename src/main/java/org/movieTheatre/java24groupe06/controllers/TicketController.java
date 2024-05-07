@@ -24,6 +24,9 @@ public class TicketController implements TicketViewController.Listener {
     public TicketController(Listener listener, Session session) {
         this.listener = listener;
         this.session = session;
+        this.ticketViewController = new TicketViewController(this);
+        this.ticketManager = new TicketManager(session);
+        this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
     }
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
@@ -39,9 +42,7 @@ public class TicketController implements TicketViewController.Listener {
     }
 
     public void initializeTicket() throws CantLoadFXMLException {
-       ticketViewController = new TicketViewController(this);
-       ticketManager = new TicketManager(session);
-       promotionManager = new PromotionManager(ticketManager.getTicketsList());
+
         try {
             ticketViewController.openOnNewStage();
         } catch (IOException e) {
@@ -89,9 +90,14 @@ public class TicketController implements TicketViewController.Listener {
         ticketViewController.updateAvailableAdultSeatsLabel(calculatedRegularSeats());
     }
 
-    // Peut etre rename la méthode jcp
     private int calculatedRegularSeats() {
         return session.getNbRegularSeats() - ticketManager.countTicketsOfType(TicketChildren.class) - ticketManager.countTicketsOfType(TicketAdult.class);
+    }
+
+    @Override
+    public void onButtonBuyClicked() {
+        SessionDAO sessionDAO = new SessionDAO();
+        sessionDAO.update(session,nbSelectedAdultSeats, nbSelectedChildrenSeats, nbSelectedVIPSeats, nbSelectedHandicapSeats);
     }
 
     @Override
@@ -109,15 +115,7 @@ public class TicketController implements TicketViewController.Listener {
     @Override
     public void onButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
     @Override
-    public void onButtonBuyClicked() {
-        SessionDAO sessionDAO = new SessionDAO();
-         sessionDAO.update(session,nbSelectedAdultSeats, nbSelectedChildrenSeats, nbSelectedVIPSeats, nbSelectedHandicapSeats);
-    }
-
-    @Override
     public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
-
-
 
     public interface Listener {
 
