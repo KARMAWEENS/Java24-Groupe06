@@ -14,13 +14,17 @@ public class UpdateSessionSeatsHandlerThread extends Handler<UpdateSessionSeatsH
 
     @Override
     public void run() {
-while (true) {
+    while (true) {
             try {
+                // On attend un connexion de ButtonClicked
                 Socket client = serverSocket.accept();
                 ObjectSocket objectSocket = new ObjectSocket(client);
+                // On attend l'envoie des places achetées
                 DTOBuy dtoBuy = objectSocket.read();
                 SessionDAO sessionDAO = new SessionDAO();
+                // On retire les places achetées dans la DB
                 sessionDAO.update(dtoBuy.getSession(),dtoBuy.getNbRegularSeatsBuy(),dtoBuy.getNbVIPSeatsBuy(),dtoBuy.getNbHandicapsSeatsBuy());
+                // On check si on doit informer d'autres clients qui sont sur la meme session
                 listener.onSeatsUpdated(dtoBuy.getSession());
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 
-public class MovieApplication extends Application implements MainPageController.Listener, MovieDetailsController.Listener, TicketController.Listener {
+public class MovieApplication extends Application implements MainPageController.Listener, MovieDetailsController.Listener, TicketController.Listener,ReadTicketThread.Listener{
     MovieDetailsController movieDetailsController;
     MainPageController mainPageController;
     TicketController ticketController;
@@ -37,16 +37,24 @@ public class MovieApplication extends Application implements MainPageController.
 
     @Override
     public void createTicketStage(int sessionID, Movie movie) {
-
+// TODO peut etre se passe le DTO depuis le debut
 
         try {
+            // C est liee a CreateSessionHandlerThread
             Socket socket = new Socket("localhost", 8083);
             ObjectSocket objectSocket = new ObjectSocket(socket);
+            // On cree le DTO avec les infos du button clicked
             DTOCreateSession dtoCreateSession = new DTOCreateSession(sessionID,movie);
+            // On envoie l'objet DTO
             objectSocket.write(dtoCreateSession);
+            // On attend de recevoir la session
             Session session = objectSocket.read();
+
             ticketController = new TicketController(this, session);
             ticketController.initializeTicket();
+            // On lance un truc qui attend que qq un de la meme session achete
+            Thread thread = new Thread(new ReadTicketThread(objectSocket, session, this));
+            thread.start();
         } catch (CantLoadFXMLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -54,5 +62,10 @@ public class MovieApplication extends Application implements MainPageController.
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void updateUITicketBought() {
+        ticketController.ticketsBoughtUpdateUI();
     }
 }

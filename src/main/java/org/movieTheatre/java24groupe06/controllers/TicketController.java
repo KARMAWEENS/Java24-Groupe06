@@ -84,6 +84,18 @@ public class TicketController implements TicketViewController.Listener {
         ticketViewController.updateTotalPriceLabel(price);
     }
 
+
+    public void ticketsBoughtUpdateUI(){
+        System.out.println("j utilise ticketsBoughtUpdateUI");
+        ticketViewController.updateAvailableAdultSeatsLabel(session.getNbRegularSeats());
+        ticketViewController.updateAvailableChildrenSeatsLabel(session.getNbRegularSeats());
+        ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats());
+        ticketViewController.updateAvailableHandicapSeatsLabel(session.getNbHandicapsSeats());
+
+    }
+
+
+
     private void updateRegularSeatsLabel() {
         ticketViewController.updateAvailableChildrenSeatsLabel(calculatedRegularSeats());
         ticketViewController.updateAvailableAdultSeatsLabel(calculatedRegularSeats());
@@ -95,8 +107,10 @@ public class TicketController implements TicketViewController.Listener {
     @Override
     public void onButtonBuyClicked() {
         try {
+            // Je me connect a UpdateSessionSeatsHandlerThread
            Socket socket = new Socket("localhost", 8082);
             ObjectSocket objectSocket = new ObjectSocket(socket);
+            // On envoie a UpdateSessionSeatsHandlerThread les places achetées
             objectSocket.write(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
         } catch (IOException e) {
             throw new RuntimeException(e);

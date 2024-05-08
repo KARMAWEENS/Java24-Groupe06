@@ -20,9 +20,12 @@ public class SessionHandlerThread extends Handler<SessionHandlerThread.Listener>
     public void run() {
         while (true) {
             try {
+               // On attend un connexion de MovieDetailsController
                Socket client = serverSocket.accept();
                ObjectSocket objectSocket = new ObjectSocket(client);
+               // On attend un Movie le movie passé a getSession
                Movie movie = objectSocket.read();
+               // On renvoie une liste de session lie au film
                 objectSocket.write(getSession(movie));
             } catch (Exception e) {
                 throw new RuntimeException(e);

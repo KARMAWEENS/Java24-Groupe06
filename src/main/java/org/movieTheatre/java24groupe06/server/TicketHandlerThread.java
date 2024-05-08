@@ -30,6 +30,7 @@ public class TicketHandlerThread implements Runnable {
 
     public void updateUI(Session session) {
         try {
+            System.out.println("il faut chang");
             SessionDAO sessionDAO = new SessionDAO();
            SeatsRoomLeft seatsRoomLeft = sessionDAO.getSeatsRoomLeftBySessionId(session);
             objectSocket.write(seatsRoomLeft);

@@ -18,15 +18,21 @@ public class Server  implements MovieListHandlerThread.Listener, SessionHandlerT
     CreateSessionHandlerThread createSessionHandler;
 
     private void go() throws IOException {
+        // C est lie a mainPageController
         ServerSocket serverSocketMovieList = new ServerSocket(8080);
         Thread movieListHandlerThread = new Thread(new MovieListHandlerThread(serverSocketMovieList,this));
         movieListHandlerThread.start();
+
+        // C est lie a MovieDetailsController
         ServerSocket serverSocketSession = new ServerSocket(8081);
         Thread sessionHandlerThread = new Thread(new SessionHandlerThread(serverSocketSession,this));
         sessionHandlerThread.start();
+
+
         ServerSocket serverSocketUpdateSessionSeats = new ServerSocket(8082);
         Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSessionSeatsHandlerThread(serverSocketUpdateSessionSeats,this));
         updateSessionSeatsHandlerThread.start();
+
         ServerSocket serverSocketCreateSession = new ServerSocket(8083);
          createSessionHandler = new CreateSessionHandlerThread(serverSocketCreateSession,this);
         Thread createSessionHandlerThread = new Thread(createSessionHandler);

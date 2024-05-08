@@ -33,9 +33,12 @@ public class MainPageController implements MainPageViewController.Listener {
 
     public void initializeMainStage(Stage stage) {
         try {
+            // On se connecte
             Socket socketMovieList = new Socket("localhost",8080);
             ObjectSocket objectSocketMovieList = new ObjectSocket(socketMovieList);
-            setMovieList( objectSocketMovieList.read());
+            // J attends les films de MovieListHandlerThread
+            setMovieList(objectSocketMovieList.read());
+
             MainPageViewController mainPageViewController = new MainPageViewController(this, movieList, stage);
             mainPageViewController.openOn(stage);
         } catch (IOException | ClassNotFoundException e) {

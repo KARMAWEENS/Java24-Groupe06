@@ -30,7 +30,7 @@ public class   ObjectSocket {
      * @param <T> The type of the object to read (deduced from the context of the method call)
      * @throws IOException If the object cannot be read
      * @throws ClassNotFoundException If the object class cannot be found
-     */
+ */
     public <T> T read() throws IOException, ClassNotFoundException {
         return (T) in.readObject();
     }

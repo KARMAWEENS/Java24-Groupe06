@@ -41,4 +41,7 @@ public class Session implements Serializable {
         return seatsRoomLeft.getNbVIPSeats();
    }
 
+    public void setSeatsRoomLeft(SeatsRoomLeft seatsRoomLeft) {
+        this.seatsRoomLeft = seatsRoomLeft;
+    }
 }

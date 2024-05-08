@@ -38,9 +38,12 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     @Override
     public List<Session> getSession(Movie movie){
         try {
+            // On se connection a SessionHandlerThread
            Socket socketSession = new Socket("localhost",8081);
             ObjectSocket objectSocketSession = new ObjectSocket(socketSession);
+            // On donne le film pour recevoir les sessions
             objectSocketSession.write(movie);
+            // On return quand on a recu les sessions du film en parametres
             return objectSocketSession.read();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

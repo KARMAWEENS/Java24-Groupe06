@@ -21,12 +21,18 @@ public class CreateSessionHandlerThread extends Handler<CreateSessionHandlerThre
     public void run() {
         try {
             while (true) {
+                // On attend connexion de createTicketStage
                 Socket client = serverSocket.accept();
                 ObjectSocket objectSocket = new ObjectSocket(client);
+                // On attend l'object DTO
                 DTOCreateSession dtoCreateSession = objectSocket.read();
                 SessionDAO sessionDAO = new SessionDAO();
+                // On cree un session a l'aide de l'object DTO
                 Session session = sessionDAO.getSessionBySessionId(dtoCreateSession.getSessionID(), dtoCreateSession.getMovie());
+                // On renvoie la session crée grace a DTO
                 objectSocket.write(session);
+
+                //Maj de seatRoomLeft
                 TicketHandlerThread ticketHandlerThread = new TicketHandlerThread(objectSocket,this,session);
                 ticketHandlerThreadslist.add(ticketHandlerThread);
                 Thread thread = new Thread(ticketHandlerThread);
