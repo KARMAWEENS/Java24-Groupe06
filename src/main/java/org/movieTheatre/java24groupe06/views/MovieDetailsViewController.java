@@ -11,9 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
-import org.movieTheatre.java24groupe06.views.Components.SessionButton;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.sql.SQLException;
@@ -122,9 +120,9 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public void createSessionButton() throws SQLException {
          sessionList = listener.getSession(movie);
         for(Session session : sessionList){
-         Button sessionButton = new Button(session.getTime());
+            Button sessionButton = new Button(session.getTime());
             sessionButton.setOnAction(event -> {
-            listener.sessionBtnClicked(session);
+            listener.sessionBtnClicked(session.getSessionID(),movie);
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
@@ -137,7 +135,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
     public interface Listener {
         void previousBtnClicked(Stage stage);
-        void sessionBtnClicked(Session session);
+        void sessionBtnClicked(int sessionID, Movie movie);
 
         List<Session> getSession(Movie movie);
     }

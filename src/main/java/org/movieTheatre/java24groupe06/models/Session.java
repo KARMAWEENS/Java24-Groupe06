@@ -1,6 +1,8 @@
 package org.movieTheatre.java24groupe06.models;
 
-public class Session {
+import java.io.Serializable;
+
+public class Session implements Serializable {
     private int SessionID;
     private Movie movie;
     private SeatsRoomLeft seatsRoomLeft;

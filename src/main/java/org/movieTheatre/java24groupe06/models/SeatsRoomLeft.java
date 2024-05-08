@@ -1,6 +1,8 @@
 package org.movieTheatre.java24groupe06.models;
 
-public class SeatsRoomLeft {
+import java.io.Serializable;
+
+public class SeatsRoomLeft implements Serializable {
 
     public int getNbRegularSeats() {
         return nbRegularSeats;
@@ -20,6 +22,5 @@ public class SeatsRoomLeft {
         this.nbRegularSeats = nbRegularSeats;
         this.nbHandicapsSeats = nbHandicapsSeats;
         this.nbVIPSeats =nbVIPSeats ;
-
     }
 }

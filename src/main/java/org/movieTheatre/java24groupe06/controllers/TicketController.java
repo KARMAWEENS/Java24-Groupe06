@@ -1,13 +1,16 @@
 package org.movieTheatre.java24groupe06.controllers;
 
+import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
+import org.movieTheatre.java24groupe06.server.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
 import java.io.IOException;
+import java.net.Socket;
 
 
 public class TicketController implements TicketViewController.Listener {
@@ -24,9 +27,7 @@ public class TicketController implements TicketViewController.Listener {
     public TicketController(Listener listener, Session session) {
         this.listener = listener;
         this.session = session;
-        this.ticketViewController = new TicketViewController(this);
-        this.ticketManager = new TicketManager(session);
-        this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
+
     }
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
@@ -43,6 +44,9 @@ public class TicketController implements TicketViewController.Listener {
 
     public void initializeTicket() throws CantLoadFXMLException {
         try {
+            this.ticketViewController = new TicketViewController(this);
+            this.ticketManager = new TicketManager(session);
+            this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
             ticketViewController.openOnNewStage();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -90,8 +94,13 @@ public class TicketController implements TicketViewController.Listener {
 
     @Override
     public void onButtonBuyClicked() {
-        SessionDAO sessionDAO = new SessionDAO();
-        sessionDAO.update(session,nbSelectedAdultSeats, nbSelectedChildrenSeats, nbSelectedVIPSeats, nbSelectedHandicapSeats);
+        try {
+           Socket socket = new Socket("localhost", 8082);
+            ObjectSocket objectSocket = new ObjectSocket(socket);
+            objectSocket.write(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

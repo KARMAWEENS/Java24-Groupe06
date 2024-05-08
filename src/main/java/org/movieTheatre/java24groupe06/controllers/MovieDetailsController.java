@@ -1,12 +1,12 @@
 package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.stage.Stage;
-import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.server.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.net.Socket;
 import java.util.List;
 
 public class MovieDetailsController implements MovieDetailsViewController.Listener{
@@ -32,22 +32,25 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     @Override
-    public void sessionBtnClicked(Session session) {
-        listener.createTicketStage(session);
+    public void sessionBtnClicked(int sessionID, Movie movie) {
+        listener.createTicketStage(sessionID, movie);
     }
     @Override
     public List<Session> getSession(Movie movie){
-        SessionDAO sessionDAO = new SessionDAO();
         try {
-             return sessionDAO.getSession(movie);
-        } catch (SQLException e) {
+           Socket socketSession = new Socket("localhost",8081);
+            ObjectSocket objectSocketSession = new ObjectSocket(socketSession);
+            objectSocketSession.write(movie);
+            return objectSocketSession.read();
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public interface Listener {
          void closeMovieDetailsStage(Stage stage);
 
-        void createTicketStage(Session session);
+        void createTicketStage(int sessionID, Movie movie);
     }
 }

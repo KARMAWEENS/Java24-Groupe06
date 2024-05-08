@@ -1,6 +1,7 @@
 package org.movieTheatre.java24groupe06.models;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * It contains details about the movie such as title, duration, synopsis, release date, producer, image path and showing status.
  * The Movie class uses the Builder pattern for its creation, which allows for more readable and flexible construction of the Movie object.
  */
-public class Movie {
+public class Movie implements Serializable {
     private String title;
     private int duration;
     private List<String> actors;
