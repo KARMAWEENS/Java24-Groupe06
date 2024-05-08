@@ -1,5 +1,7 @@
 package org.movieTheatre.java24groupe06.server;
 
+import org.movieTheatre.java24groupe06.models.Session;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,6 +15,7 @@ public class Server  implements MovieListHandlerThread.Listener, SessionHandlerT
             throw new RuntimeException(e);
         }
     }
+    CreateSessionHandlerThread createSessionHandler;
 
     private void go() throws IOException {
         ServerSocket serverSocketMovieList = new ServerSocket(8080);
@@ -25,7 +28,8 @@ public class Server  implements MovieListHandlerThread.Listener, SessionHandlerT
         Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSessionSeatsHandlerThread(serverSocketUpdateSessionSeats,this));
         updateSessionSeatsHandlerThread.start();
         ServerSocket serverSocketCreateSession = new ServerSocket(8083);
-        Thread createSessionHandlerThread = new Thread(new CreateSessionHandlerThread(serverSocketCreateSession,this));
+         createSessionHandler = new CreateSessionHandlerThread(serverSocketCreateSession,this);
+        Thread createSessionHandlerThread = new Thread(createSessionHandler);
         createSessionHandlerThread.start();
     }
 
@@ -33,5 +37,10 @@ public class Server  implements MovieListHandlerThread.Listener, SessionHandlerT
     @Override
     public void onMovieReceived() {
         System.out.println("Movie received");
+    }
+
+    @Override
+    public void onSeatsUpdated(Session session) {
+        createSessionHandler.broadcast(session);
     }
 }

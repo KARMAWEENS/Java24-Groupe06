@@ -18,7 +18,7 @@ public class SeatsRoomLeft implements Serializable {
     private int nbRegularSeats;
     private int nbHandicapsSeats;
     private int nbVIPSeats;
-    public SeatsRoomLeft(int nbRegularSeats, int nbHandicapsSeats, int nbVIPSeats, int id) {
+    public SeatsRoomLeft(int nbRegularSeats, int nbHandicapsSeats, int nbVIPSeats) {
         this.nbRegularSeats = nbRegularSeats;
         this.nbHandicapsSeats = nbHandicapsSeats;
         this.nbVIPSeats =nbVIPSeats ;

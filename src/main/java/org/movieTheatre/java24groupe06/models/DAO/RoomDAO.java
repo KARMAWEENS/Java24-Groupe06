@@ -27,7 +27,7 @@ public class RoomDAO {
               int nbRegularSeats = rs.getInt("nbRegularSeats");
               int nbHandicapSeats = rs.getInt("nbHandicapSeats");
               int nbVIPSeats = rs.getInt("nbVIPSeats");
-              seatsRoomLeft = new SeatsRoomLeft(nbRegularSeats, nbHandicapSeats, nbVIPSeats, RoomID);
+              seatsRoomLeft = new SeatsRoomLeft(nbRegularSeats, nbHandicapSeats, nbVIPSeats);
             }
         } catch (SQLException e) {
             System.out.println("Error getting session hours: " + e.getMessage());

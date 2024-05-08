@@ -47,6 +47,7 @@ public abstract class AbstractDAO {
         }
     }
 
+    @FunctionalInterface
     public interface RowMapper<T> {
         T mapRow(ResultSet rs) throws SQLException;
     }

@@ -1,5 +1,6 @@
 package org.movieTheatre.java24groupe06.controllers;
 
+import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.server.ObjectSocket;
 
@@ -11,10 +12,11 @@ public class ReadTicketThread implements Runnable{
     @Override
     public void run() {
         try {
-            Socket socket = new Socket("localhost", 8082);
+            Socket socket = new Socket("localhost", 8083);
             ObjectSocket objectSocket = new ObjectSocket(socket);
             while(true){
-               Session session = objectSocket.read();
+               SeatsRoomLeft seatsRoomLeft = objectSocket.read();
+
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

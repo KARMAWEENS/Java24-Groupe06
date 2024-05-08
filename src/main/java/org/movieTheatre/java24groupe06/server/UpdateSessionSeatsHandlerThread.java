@@ -7,7 +7,7 @@ import org.movieTheatre.java24groupe06.models.Session;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class UpdateSessionSeatsHandlerThread extends Handler {
+public class UpdateSessionSeatsHandlerThread extends Handler<UpdateSessionSeatsHandlerThread.Listener> {
     public UpdateSessionSeatsHandlerThread(ServerSocket serverSocketUpdateSessionSeats,Listener listener) {
         super(serverSocketUpdateSessionSeats, listener);
     }
@@ -21,11 +21,13 @@ while (true) {
                 DTOBuy dtoBuy = objectSocket.read();
                 SessionDAO sessionDAO = new SessionDAO();
                 sessionDAO.update(dtoBuy.getSession(),dtoBuy.getNbRegularSeatsBuy(),dtoBuy.getNbVIPSeatsBuy(),dtoBuy.getNbHandicapsSeatsBuy());
+                listener.onSeatsUpdated(dtoBuy.getSession());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
     public interface Listener {
+        void onSeatsUpdated(Session session);
     }
 }
