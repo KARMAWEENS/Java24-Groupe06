@@ -33,12 +33,9 @@ public abstract class AbstractViewController<T> {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource(getFXMLPath()));
             loader.setController(this);
             this.root = loader.load();
-            this.initialize();
+
         }
         return this.root;
-    }
-    protected void initialize() {
-        System.out.println("Initializing view " + this.getClass().getSimpleName());
     }
     public void openOn(Stage stage) throws IOException {
         Scene scene = new Scene(getRoot());

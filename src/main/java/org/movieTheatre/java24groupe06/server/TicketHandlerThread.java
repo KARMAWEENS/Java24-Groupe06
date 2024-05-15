@@ -10,12 +10,10 @@ import java.sql.SQLException;
 
 public class TicketHandlerThread implements Runnable {
     ObjectSocket objectSocket;
-    Listener listener;
     Session session;
 
-    public TicketHandlerThread(ObjectSocket objectSocket, Listener listener, Session session) {
+    public TicketHandlerThread(ObjectSocket objectSocket, Session session) {
         this.objectSocket = objectSocket;
-        this.listener = listener;
         this.session = session;
     }
 
@@ -39,6 +37,5 @@ public class TicketHandlerThread implements Runnable {
         }
     }
 
-    public interface Listener {
-    }
+
 }

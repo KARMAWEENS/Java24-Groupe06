@@ -2,31 +2,39 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
+import org.movieTheatre.java24groupe06.server.NetworkTicketGetSessionAndThread;
 import org.movieTheatre.java24groupe06.server.ObjectSocket;
 
 import java.io.IOException;
 import java.net.Socket;
 
 
-public class MovieApplication extends Application implements MainPageController.Listener, MovieDetailsController.Listener, TicketController.Listener,ReadTicketThread.Listener{
+public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener,ReadTicketThread.Listener{
     MovieDetailsController movieDetailsController;
-    MainPageController mainPageController;
+    WelcomePageController welcomePageController;
     TicketController ticketController;
+    ObjectSocket objectSocket;
 
     @Override
     public void start(Stage stage) {
-        mainPageController = new MainPageController(this);
-        mainPageController.initializeMainStage(stage);
+        try {
+          Socket socket = new Socket("localhost",7999);
+          objectSocket = new ObjectSocket(socket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        welcomePageController = new WelcomePageController(this,objectSocket);
+        welcomePageController.initializeMainStage(stage);
     }
 
     @Override
     public void createDetailsMovieStage(Movie movie) {
-        movieDetailsController = new MovieDetailsController(this);
+        movieDetailsController = new MovieDetailsController(this,objectSocket);
         movieDetailsController.initializeMovieDetailsPage(movie);
     }
 
@@ -41,16 +49,18 @@ public class MovieApplication extends Application implements MainPageController.
 
         try {
             // C est liee a CreateSessionHandlerThread
-            Socket socket = new Socket("localhost", 8083);
-            ObjectSocket objectSocket = new ObjectSocket(socket);
+
+
             // On cree le DTO avec les infos du button clicked
+
             DTOCreateSession dtoCreateSession = new DTOCreateSession(sessionID,movie);
+            NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = new NetworkTicketGetSessionAndThread(dtoCreateSession);
             // On envoie l'objet DTO
-            objectSocket.write(dtoCreateSession);
+            objectSocket.write(networkTicketGetSessionAndThread);
             // On attend de recevoir la session
             Session session = objectSocket.read();
 
-            ticketController = new TicketController(this, session);
+            ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();
             // On lance un truc qui attend que qq un de la meme session achete
             Thread thread = new Thread(new ReadTicketThread(objectSocket, session, this));

@@ -3,6 +3,7 @@ package org.movieTheatre.java24groupe06.controllers;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.server.NetworkGetSession;
 import org.movieTheatre.java24groupe06.server.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 import java.io.IOException;
@@ -10,10 +11,11 @@ import java.net.Socket;
 import java.util.List;
 
 public class MovieDetailsController implements MovieDetailsViewController.Listener{
-
+    private ObjectSocket objectSocket;
     private Listener listener;
-    public MovieDetailsController(Listener listener){
+    public MovieDetailsController(Listener listener,ObjectSocket objectSocket){
         this.listener = listener;
+        this.objectSocket = objectSocket;
     }
 
     public void initializeMovieDetailsPage(Movie movie) {
@@ -39,12 +41,11 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     public List<Session> getSession(Movie movie){
         try {
             // On se connection a SessionHandlerThread
-           Socket socketSession = new Socket("localhost",8081);
-            ObjectSocket objectSocketSession = new ObjectSocket(socketSession);
             // On donne le film pour recevoir les sessions
-            objectSocketSession.write(movie);
+            NetworkGetSession networkGetSession = new NetworkGetSession(movie);
+            objectSocket.write(networkGetSession);
             // On return quand on a recu les sessions du film en parametres
-            return objectSocketSession.read();
+            return objectSocket.read();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

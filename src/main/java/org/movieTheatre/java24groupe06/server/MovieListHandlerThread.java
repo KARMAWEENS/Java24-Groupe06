@@ -19,8 +19,6 @@ public class MovieListHandlerThread extends Handler {
         try {
             while (true) {
                 // On attend un connexion de MainPageController
-                Socket socket = serverSocket.accept();
-                ObjectSocket objectSocket = new ObjectSocket(socket);
                 // On envoie la liste complete de film
                 objectSocket.write(createMovieList());
             }

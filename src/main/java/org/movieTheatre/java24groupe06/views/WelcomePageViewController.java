@@ -1,11 +1,8 @@
 package org.movieTheatre.java24groupe06.views;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
@@ -21,7 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MainPageViewController extends AbstractViewController<MainPageViewController.Listener> implements Initializable {
+public class WelcomePageViewController extends AbstractViewController<WelcomePageViewController.Listener> implements Initializable {
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -39,10 +36,10 @@ public class MainPageViewController extends AbstractViewController<MainPageViewC
 
     @Override
     public String getFXMLPath() {
-        return "mainPage-View.fxml";
+        return "welcomePage-View.fxml";
     }
 
-    public MainPageViewController(Listener listener, List<Movie> moviesList, Stage stage) {
+    public WelcomePageViewController(Listener listener, List<Movie> moviesList, Stage stage) {
         super(listener);
         this.moviesList = moviesList;
         this.stage = stage;
@@ -59,12 +56,19 @@ public class MainPageViewController extends AbstractViewController<MainPageViewC
     private void setColumn(int width) {
         this.nbColumn = width;
     }
-
-    private void setWidthListener(MainPageViewController mainPageViewController, Stage stage) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            setWidthListener(this, stage);
+            show();
+        } catch (CantLoadFXMLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void setWidthListener(WelcomePageViewController welcomePageViewController, Stage stage) {
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("Width: " + newVal);
             try {
-                mainPageViewController.onWidthChanged(newVal.intValue());
+                welcomePageViewController.onWidthChanged(newVal.intValue());
             } catch (CantLoadFXMLException e) {
                 // quasiment tt le temps unreachable sauf si le fichier devient inaccessible pdt le run de l app
                 AlertManager alertManager = new AlertManager();
@@ -134,15 +138,6 @@ public class MainPageViewController extends AbstractViewController<MainPageViewC
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            setWidthListener(this, stage);
-            show();
-        } catch (CantLoadFXMLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public interface Listener extends MainScenePosterTemplateController.Listener {
 

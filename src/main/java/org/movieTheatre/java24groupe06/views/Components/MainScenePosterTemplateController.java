@@ -1,15 +1,11 @@
 package org.movieTheatre.java24groupe06.views.Components;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 import org.movieTheatre.java24groupe06.views.AbstractViewController;
-import org.movieTheatre.java24groupe06.views.MainPageViewController;
 
 public class MainScenePosterTemplateController extends AbstractViewController<MainScenePosterTemplateController.Listener> implements SetImageWithException {
 

@@ -11,21 +11,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateSessionHandlerThread extends Handler<CreateSessionHandlerThread.Listener> implements TicketHandlerThread.Listener {
+public class CreateSessionHandlerThread extends Handler<CreateSessionHandlerThread.Listener>  {
     List<TicketHandlerThread> ticketHandlerThreadslist = new ArrayList<>();
-
-    public CreateSessionHandlerThread(ServerSocket serverSocketCreateSession,Listener listener){
-        super(serverSocketCreateSession, listener);
+    private DTOCreateSession dtoCreateSession;
+    public CreateSessionHandlerThread(ObjectSocket objectSocket,Listener listener,DTOCreateSession dtoCreateSession){
+        super(objectSocket, listener);
+        this.dtoCreateSession = dtoCreateSession;
     }
     @Override
     public void run() {
         try {
-            while (true) {
+
                 // On attend connexion de createTicketStage
-                Socket client = serverSocket.accept();
-                ObjectSocket objectSocket = new ObjectSocket(client);
                 // On attend l'object DTO
-                DTOCreateSession dtoCreateSession = objectSocket.read();
+
                 SessionDAO sessionDAO = new SessionDAO();
                 // On cree un session a l'aide de l'object DTO
                 Session session = sessionDAO.getSessionBySessionId(dtoCreateSession.getSessionID(), dtoCreateSession.getMovie());
@@ -33,12 +32,11 @@ public class CreateSessionHandlerThread extends Handler<CreateSessionHandlerThre
                 objectSocket.write(session);
 
                 //Maj de seatRoomLeft
-                TicketHandlerThread ticketHandlerThread = new TicketHandlerThread(objectSocket,this,session);
+                TicketHandlerThread ticketHandlerThread = new TicketHandlerThread(objectSocket,session);
                 ticketHandlerThreadslist.add(ticketHandlerThread);
                 Thread thread = new Thread(ticketHandlerThread);
                 thread.start();
-            }
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch (IOException  | SQLException e) {
             throw new RuntimeException(e);
         }
 

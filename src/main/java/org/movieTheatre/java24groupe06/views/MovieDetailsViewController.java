@@ -130,7 +130,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
     @Override
     public String getFXMLPath() {
-        return "MovieDetails-view.fxml";
+        return "movieDetails-view.fxml";
     }
 
     public interface Listener {

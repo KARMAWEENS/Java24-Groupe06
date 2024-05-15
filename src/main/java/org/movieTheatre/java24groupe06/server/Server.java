@@ -18,25 +18,41 @@ public class Server  implements MovieListHandlerThread.Listener, SessionHandlerT
     CreateSessionHandlerThread createSessionHandler;
 
     private void go() throws IOException {
-        // C est lie a mainPageController
-        ServerSocket serverSocketMovieList = new ServerSocket(8080);
-        Thread movieListHandlerThread = new Thread(new MovieListHandlerThread(serverSocketMovieList,this));
-        movieListHandlerThread.start();
 
-        // C est lie a MovieDetailsController
-        ServerSocket serverSocketSession = new ServerSocket(8081);
-        Thread sessionHandlerThread = new Thread(new SessionHandlerThread(serverSocketSession,this));
-        sessionHandlerThread.start();
+        ServerSocket serverSocket = new ServerSocket(7999);
+        Socket socket = serverSocket.accept();
+
+        ObjectSocket objectSocket = new ObjectSocket(socket);
 
 
-        ServerSocket serverSocketUpdateSessionSeats = new ServerSocket(8082);
-        Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSessionSeatsHandlerThread(serverSocketUpdateSessionSeats,this));
-        updateSessionSeatsHandlerThread.start();
+        try {
+            while (true) {
+                Object object = objectSocket.read();
 
-        ServerSocket serverSocketCreateSession = new ServerSocket(8083);
-         createSessionHandler = new CreateSessionHandlerThread(serverSocketCreateSession,this);
-        Thread createSessionHandlerThread = new Thread(createSessionHandler);
-        createSessionHandlerThread.start();
+                if (object instanceof NetworkGetFIlm) {
+                    Thread movieListHandlerThread = new Thread(new MovieListHandlerThread(objectSocket, this));
+                    movieListHandlerThread.start();
+                } else if (object instanceof NetworkGetSession) {
+
+                    NetworkGetSession networkGetSession = (NetworkGetSession) object;
+                    Thread sessionHandlerThread = new Thread(new SessionHandlerThread(objectSocket, this, networkGetSession.getMovie()));
+                    sessionHandlerThread.start();
+                } else if (object instanceof NetworkTicketGetSessionAndThread) {
+                    NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = (NetworkTicketGetSessionAndThread) object;
+                    createSessionHandler = new CreateSessionHandlerThread(objectSocket, this, networkTicketGetSessionAndThread.getDtoCreateSession());
+                    Thread createSessionHandlerThread = new Thread(createSessionHandler);
+                    createSessionHandlerThread.start();
+                } else if (object instanceof NetworkUpdateSession) {
+                    NetworkUpdateSession networkUpdateSession = (NetworkUpdateSession) object;
+                    Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSessionSeatsHandlerThread(objectSocket, this, networkUpdateSession.getDtoBuy()));
+                    updateSessionSeatsHandlerThread.start();
+                }
+
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 
