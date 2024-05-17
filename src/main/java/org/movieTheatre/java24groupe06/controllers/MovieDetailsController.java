@@ -3,8 +3,8 @@ package org.movieTheatre.java24groupe06.controllers;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.server.NetworkGetDTOSessionList;
-import org.movieTheatre.java24groupe06.server.ObjectSocket;
+import org.movieTheatre.java24groupe06.Network.Event.NetworkGetDTOSessionList;
+import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 
 import java.io.IOException;

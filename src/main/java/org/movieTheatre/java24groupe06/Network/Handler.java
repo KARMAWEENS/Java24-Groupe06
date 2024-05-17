@@ -1,6 +1,4 @@
-package org.movieTheatre.java24groupe06.server;
-
-import java.net.ServerSocket;
+package org.movieTheatre.java24groupe06.Network;
 
 public abstract class Handler implements Runnable {
     protected ObjectSocket objectSocket;

@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.server;
+package org.movieTheatre.java24groupe06.Network;
 
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
@@ -30,11 +30,7 @@ public class CreateSessionHandlerThread extends Handler {
     public void run() {
         try {
 
-                // On attend connexion de createTicketStage
-                // On attend l'object DTO
-
                 SessionDAO sessionDAO = new SessionDAO();
-                // On cree un session a l'aide de l'object DTO
                 Session session = sessionDAO.getSessionBySessionId(dtoCreateSession.getSessionID(), dtoCreateSession.getMovie());
                 // On renvoie la session crée grace a DTO
                 objectSocket.write(session);

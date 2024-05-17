@@ -2,12 +2,11 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.server.NetworkGetFIlm;
-import org.movieTheatre.java24groupe06.server.ObjectSocket;
+import org.movieTheatre.java24groupe06.Network.Event.NetworkGetFIlm;
+import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.WelcomePageViewController;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.List;
 
 public class WelcomePageController implements WelcomePageViewController.Listener {

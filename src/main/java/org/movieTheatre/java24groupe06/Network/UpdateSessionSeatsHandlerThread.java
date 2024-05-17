@@ -1,12 +1,8 @@
-package org.movieTheatre.java24groupe06.server;
+package org.movieTheatre.java24groupe06.Network;
 
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Session;
-
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.List;
 
 public class UpdateSessionSeatsHandlerThread extends Handler {
 

@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.server;
+package org.movieTheatre.java24groupe06.Network;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

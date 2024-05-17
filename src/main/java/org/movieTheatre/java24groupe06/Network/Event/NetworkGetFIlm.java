@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.server;
+package org.movieTheatre.java24groupe06.Network.Event;
 
 import java.io.Serializable;
 

@@ -6,8 +6,8 @@ import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
-import org.movieTheatre.java24groupe06.server.NetworkTicketGetSessionAndThread;
-import org.movieTheatre.java24groupe06.server.ObjectSocket;
+import org.movieTheatre.java24groupe06.Network.Event.NetworkTicketGetSessionAndThread;
+import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 
 import java.io.IOException;
 import java.net.Socket;

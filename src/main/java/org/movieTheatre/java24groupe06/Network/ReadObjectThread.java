@@ -1,5 +1,8 @@
-package org.movieTheatre.java24groupe06.server;
+package org.movieTheatre.java24groupe06.Network;
 
+import org.movieTheatre.java24groupe06.Network.Event.NetworkGetDTOSessionList;
+import org.movieTheatre.java24groupe06.Network.Event.NetworkGetFIlm;
+import org.movieTheatre.java24groupe06.Network.Event.NetworkTicketGetSessionAndThread;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
@@ -30,13 +33,14 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
                 if (object instanceof NetworkGetFIlm) {
                     sendMovieList();
                 } else if (object instanceof NetworkGetDTOSessionList) {
+                    //LIIRRRRE
+                    // C'est trop style on peu replace networkGetDTOSessionList avec pattern variable go non ?
                     NetworkGetDTOSessionList networkGetDTOSessionList = (NetworkGetDTOSessionList) object;
                     sendDTOSessionList(networkGetDTOSessionList.getMovie());
                 } else if (object instanceof NetworkTicketGetSessionAndThread) {
                     NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = (NetworkTicketGetSessionAndThread) object;
-                   CreateSessionHandlerThread createSessionHandler = new CreateSessionHandlerThread(objectSocket, networkTicketGetSessionAndThread.getDtoCreateSession(), serverSocket2, this);
+                    CreateSessionHandlerThread createSessionHandler = new CreateSessionHandlerThread(objectSocket, networkTicketGetSessionAndThread.getDtoCreateSession(), serverSocket2, this);
                     Thread createSessionHandlerThread = new Thread(createSessionHandler);
-                    System.out.println("je suis dans le create session handler thread");
                     createSessionHandlerThreads.add(createSessionHandler);
                     createSessionHandlerThread.start();
                 } else if (object instanceof NetworkUpdateSession) {

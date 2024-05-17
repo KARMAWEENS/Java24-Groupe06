@@ -1,6 +1,4 @@
-package org.movieTheatre.java24groupe06.server;
-
-import org.movieTheatre.java24groupe06.models.Session;
+package org.movieTheatre.java24groupe06.Network;
 
 import java.io.IOException;
 import java.net.ServerSocket;

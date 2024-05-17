@@ -3,11 +3,10 @@ package org.movieTheatre.java24groupe06.controllers;
 import javafx.application.Platform;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.server.ObjectSocket;
+import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
 
 public class ReadTicketThread implements Runnable {
 
