@@ -1,10 +1,13 @@
 package org.movieTheatre.java24groupe06.server;
 
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
+import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
+import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThread.Listener, CreateSessionHandlerThread.Listener {
@@ -27,10 +30,8 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
                 if (object instanceof NetworkGetFIlm) {
                     sendMovieList();
                 } else if (object instanceof NetworkGetDTOSessionList) {
-
                     NetworkGetDTOSessionList networkGetDTOSessionList = (NetworkGetDTOSessionList) object;
-                    Thread sessionHandlerThread = new Thread(new SessionHandlerThread(objectSocket, networkGetDTOSessionList.getMovie()));
-                    sessionHandlerThread.start();
+                    sendDTOSessionList(networkGetDTOSessionList.getMovie());
                 } else if (object instanceof NetworkTicketGetSessionAndThread) {
                     NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = (NetworkTicketGetSessionAndThread) object;
                    CreateSessionHandlerThread createSessionHandler = new CreateSessionHandlerThread(objectSocket, networkTicketGetSessionAndThread.getDtoCreateSession(), serverSocket2, this);
@@ -47,6 +48,8 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
             }
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -54,6 +57,13 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
         CreateMovies createMovies = new CreateMovies();
         objectSocket.write(createMovies.buildMoviesList());
     }
+
+    public void sendDTOSessionList(Movie movie) throws SQLException, IOException {
+
+        SessionDAO sessionDAO = new SessionDAO();
+        objectSocket.write(sessionDAO.getDTOSessionList(movie));
+    }
+
 
     @Override
     public void onSeatsUpdated(Session session) {
