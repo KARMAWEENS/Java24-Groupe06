@@ -49,21 +49,17 @@ public class MovieApplication extends Application implements WelcomePageControll
 
         try {
             // C est liee a CreateSessionHandlerThread
-
-
             // On cree le DTO avec les infos du button clicked
-
             DTOCreateSession dtoCreateSession = new DTOCreateSession(sessionID,movie);
             NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = new NetworkTicketGetSessionAndThread(dtoCreateSession);
             // On envoie l'objet DTO
             objectSocket.write(networkTicketGetSessionAndThread);
             // On attend de recevoir la session
+            // On lance un truc qui attend que qq un de la meme session achete
             Session session = objectSocket.read();
-
             ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();
-            // On lance un truc qui attend que qq un de la meme session achete
-            Thread thread = new Thread(new ReadTicketThread(objectSocket, session, this));
+            Thread thread = new Thread(new ReadTicketThread( session, this));
             thread.start();
         } catch (CantLoadFXMLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

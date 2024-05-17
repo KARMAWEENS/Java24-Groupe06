@@ -10,30 +10,31 @@ import java.net.Socket;
 import java.util.List;
 
 public class ReadTicketThread implements Runnable {
-    ObjectSocket objectSocket;
+
     Session session;
     Listener listener;
 
-    public ReadTicketThread(ObjectSocket objectSocket,Session session, Listener listener) {
-        this.objectSocket = objectSocket;
+    public ReadTicketThread(Session session, Listener listener) {
         this.session = session;
         this.listener = listener;
     }
 
     @Override
     public void run() {
+        System.out.println("je suis dans le run");
         try {
+            Socket socket = new Socket("localhost", 8000);
+            ObjectSocket objectSocket = new ObjectSocket(socket);
             while (true) {
                 Object seatsRoomLeft = objectSocket.read();
                 if(seatsRoomLeft instanceof SeatsRoomLeft){
                     SeatsRoomLeft seatsRoomLeft1 = (SeatsRoomLeft) seatsRoomLeft;
-                    System.out.println("j'ai racu");
                     session.setSeatsRoomLeft(seatsRoomLeft1);
                     Platform.runLater(() -> listener.updateUITicketBought());
                 }
-
             }
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("je suis dans le catch");
             throw new RuntimeException(e);
         }
     }

@@ -5,14 +5,13 @@ import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.sql.SQLException;
 
-public class TicketHandlerThread implements Runnable {
+public class TicketHandler {
     ObjectSocket objectSocket;
     Session session;
 
-    public TicketHandlerThread(ObjectSocket objectSocket, Session session) {
+    public TicketHandler(ObjectSocket objectSocket, Session session) {
         this.objectSocket = objectSocket;
         this.session = session;
     }
@@ -21,10 +20,6 @@ public class TicketHandlerThread implements Runnable {
         return this.session;
     }
 
-    @Override
-    public void run() {
-
-    }
 
     public void updateUI(Session session) {
         try {

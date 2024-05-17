@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionHandlerThread extends Handler<SessionHandlerThread.Listener> {
+public class SessionHandlerThread extends Handler{
     Movie movie;
-    public SessionHandlerThread(ObjectSocket objectSocket,Listener listener,Movie movie) {
-        super(objectSocket, listener);
+    public SessionHandlerThread(ObjectSocket objectSocket,Movie movie) {
+        super(objectSocket);
         this.movie = movie;
     }
 
@@ -42,7 +42,4 @@ public class SessionHandlerThread extends Handler<SessionHandlerThread.Listener>
         }
     }
 
-    public interface Listener {
-        void onMovieReceived();
-    }
 }

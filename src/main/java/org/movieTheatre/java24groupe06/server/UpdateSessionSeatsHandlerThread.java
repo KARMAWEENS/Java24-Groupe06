@@ -6,13 +6,18 @@ import org.movieTheatre.java24groupe06.models.Session;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
-public class UpdateSessionSeatsHandlerThread extends Handler<UpdateSessionSeatsHandlerThread.Listener> {
-    public UpdateSessionSeatsHandlerThread(ObjectSocket objectSocket,Listener listener,DTOBuy dtoBuy) {
-        super(objectSocket, listener);
-    this.dtoBuy = dtoBuy;
+public class UpdateSessionSeatsHandlerThread extends Handler {
+
+    DTOBuy dtoBuy;
+    Listener listener;
+    public UpdateSessionSeatsHandlerThread(ObjectSocket objectSocket,DTOBuy dtoBuy, Listener listener) {
+        super(objectSocket);
+        this.dtoBuy = dtoBuy;
+        this.listener = listener;
     }
-DTOBuy dtoBuy;
+
     @Override
     public void run() {
 

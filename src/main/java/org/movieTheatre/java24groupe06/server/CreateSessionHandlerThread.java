@@ -8,15 +8,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CreateSessionHandlerThread extends Handler<CreateSessionHandlerThread.Listener>  {
-    List<TicketHandlerThread> ticketHandlerThreadslist = new ArrayList<>();
+public class CreateSessionHandlerThread extends Handler {
+
     private DTOCreateSession dtoCreateSession;
-    public CreateSessionHandlerThread(ObjectSocket objectSocket,Listener listener,DTOCreateSession dtoCreateSession){
-        super(objectSocket, listener);
+    ServerSocket serverSocket;
+    Listener listener;
+    private TicketHandler ticketHandler;
+
+    public TicketHandler getTicketHandler(){
+        return ticketHandler;
+    }
+
+    public CreateSessionHandlerThread(ObjectSocket objectSocket,DTOCreateSession dtoCreateSession,ServerSocket serverSocket,Listener listener) {
+        super(objectSocket);
         this.dtoCreateSession = dtoCreateSession;
+        this.serverSocket = serverSocket;
+        this.listener = listener;
     }
     @Override
     public void run() {
@@ -31,27 +39,17 @@ public class CreateSessionHandlerThread extends Handler<CreateSessionHandlerThre
                 // On renvoie la session crée grace a DTO
                 objectSocket.write(session);
 
-                //Maj de seatRoomLeft
-                TicketHandlerThread ticketHandlerThread = new TicketHandlerThread(objectSocket,session);
-                ticketHandlerThreadslist.add(ticketHandlerThread);
-                Thread thread = new Thread(ticketHandlerThread);
-                thread.start();
+                Socket socket = serverSocket.accept();
+                ObjectSocket objectSocket = new ObjectSocket(socket);
+                ticketHandler = new TicketHandler(objectSocket,session);
+
         } catch (IOException  | SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
-    public void broadcast(Session session){
-        for (TicketHandlerThread ticketHandlerThread : ticketHandlerThreadslist) {
-           if(ticketHandlerThread.getSession().getSessionID() == session.getSessionID()){
-               System.out.println("faut changer ui ");
-               ticketHandlerThread.updateUI(session);
-           }
-           else {
-               System.out.println("faut pas changer ui ");
-           }
-        }
-    }
+
     public interface Listener {
+        void onSeatsUpdated(Session session);
     }
 }

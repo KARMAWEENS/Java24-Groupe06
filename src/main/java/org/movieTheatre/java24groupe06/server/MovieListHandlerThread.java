@@ -10,8 +10,8 @@ import java.util.List;
 
 public class MovieListHandlerThread extends Handler {
 
-    public MovieListHandlerThread(ObjectSocket objectSocket,Listener listener) {
-        super(objectSocket, listener);
+    public MovieListHandlerThread(ObjectSocket objectSocket) {
+        super(objectSocket);
     }
 
     @Override
@@ -28,8 +28,5 @@ public class MovieListHandlerThread extends Handler {
     public List<Movie> createMovieList() {
         CreateMovies createMovies = new CreateMovies();
       return  createMovies.buildMoviesList();
-    }
-    public interface Listener {
-
     }
 }
