@@ -52,10 +52,11 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         return "Movies Details";
     }
 
-    public MovieDetailsViewController(Listener listener,Movie movie) {
-          super(listener);
-          this.movie = movie;
-     }
+    public MovieDetailsViewController(Listener listener, Movie movie) {
+        super(listener);
+        this.movie = movie;
+    }
+
     public void displayMovieDetails() {
 
         SetTextMovie(movie);
@@ -118,12 +119,11 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
 
     public void createSessionButton() throws SQLException {
-        System.out.println("je suis dans createSession");
-         sessionList = listener.getSession(movie);
-        for(Session session : sessionList){
+        sessionList = listener.getSession(movie);
+        for (Session session : sessionList) {
             Button sessionButton = new Button(session.getTime());
             sessionButton.setOnAction(event -> {
-            listener.sessionBtnClicked(session.getSessionID(),movie);
+                listener.sessionBtnClicked(session.getSessionID(), movie);
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
@@ -136,6 +136,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
     public interface Listener {
         void previousBtnClicked(Stage stage);
+
         void sessionBtnClicked(int sessionID, Movie movie);
 
         List<Session> getSession(Movie movie);
