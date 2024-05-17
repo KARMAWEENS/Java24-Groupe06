@@ -26,7 +26,6 @@ public void setPoster() {
     setImageWithException(imageView, movie.getPathImg());
 }
     public void onPosterClicked() {
-        System.out.println("j'ai cliqué ahri");
         listener.OnClickImage(movie);
     }
 

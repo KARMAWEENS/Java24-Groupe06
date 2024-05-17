@@ -39,8 +39,6 @@ public class WelcomePageController implements WelcomePageViewController.Listener
         }
     }
 
-
-
     @Override
     public void OnClickImage(Movie movie) {
         listener.createDetailsMovieStage(movie);

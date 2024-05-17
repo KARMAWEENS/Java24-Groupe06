@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class WelcomePageViewController extends AbstractViewController<WelcomePageViewController.Listener> implements Initializable {
+public class WelcomePageViewController extends AbstractViewController<WelcomePageViewController.Listener> implements Initializable, MainScenePosterTemplateController.Listener  {
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -124,7 +124,7 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             for (int column = 0; column < nbColumn; column++) {
                 if (index < moviesList.size()) {
                     try {
-                        MainScenePosterTemplateController mainScenePosterTemplateController = new MainScenePosterTemplateController(this.listener, moviesList.get(index));
+                        MainScenePosterTemplateController mainScenePosterTemplateController = new MainScenePosterTemplateController(this, moviesList.get(index));
                         gridPane.add(mainScenePosterTemplateController.getRoot(), column, row);
                         mainScenePosterTemplateController.setPoster();
                         index++;
@@ -138,9 +138,14 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
         }
     }
 
+    @Override
+    public void OnClickImage(Movie movie) {
+        listener.OnClickImage(movie);
+    }
 
-    public interface Listener extends MainScenePosterTemplateController.Listener {
 
+    public interface Listener{
+        void OnClickImage(Movie movie);
     }
 }
 

@@ -27,7 +27,6 @@ public class MovieApplication extends Application implements WelcomePageControll
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         welcomePageController = new WelcomePageController(this,objectSocket);
         welcomePageController.initializeMainStage(stage);
     }
@@ -49,7 +48,6 @@ public class MovieApplication extends Application implements WelcomePageControll
             NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = new NetworkTicketGetSessionAndThread(dtoCreateSession);
             objectSocket.write(networkTicketGetSessionAndThread);
             Session session = objectSocket.read();
-            System.out.println(session.getNbRegularSeats());
             ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();
             Thread thread = new Thread(new ReadTicketThread( session, this));
