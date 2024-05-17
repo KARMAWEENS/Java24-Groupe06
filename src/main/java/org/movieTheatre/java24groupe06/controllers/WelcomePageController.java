@@ -20,7 +20,6 @@ public class WelcomePageController implements WelcomePageViewController.Listener
         this.listener = listener;
         this.objectSocket = objectSocket;
     }
-
     public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
     }
@@ -38,7 +37,6 @@ public class WelcomePageController implements WelcomePageViewController.Listener
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void OnClickImage(Movie movie) {
         listener.createDetailsMovieStage(movie);

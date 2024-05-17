@@ -1,5 +1,6 @@
 package org.movieTheatre.java24groupe06.server;
 
+import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
@@ -22,12 +23,9 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
     public void run() {
         try {
             while (true) {
-                System.out.println("je reas");
                 Object object = objectSocket.read();
-                System.out.println(object.getClass());
                 if (object instanceof NetworkGetFIlm) {
-                    Thread movieListHandlerThread = new Thread(new MovieListHandlerThread(objectSocket));
-                    movieListHandlerThread.start();
+                    sendMovieList();
                 } else if (object instanceof NetworkGetDTOSessionList) {
 
                     NetworkGetDTOSessionList networkGetDTOSessionList = (NetworkGetDTOSessionList) object;
@@ -50,6 +48,11 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void sendMovieList() throws IOException {
+        CreateMovies createMovies = new CreateMovies();
+        objectSocket.write(createMovies.buildMoviesList());
     }
 
     @Override

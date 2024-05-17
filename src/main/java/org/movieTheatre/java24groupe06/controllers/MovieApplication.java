@@ -36,7 +36,6 @@ public class MovieApplication extends Application implements WelcomePageControll
         movieDetailsController = new MovieDetailsController(this,objectSocket);
         movieDetailsController.initializeMovieDetailsPage(movie);
     }
-
     @Override
     public void closeMovieDetailsStage(Stage movieDetailsStage) {
         movieDetailsStage.close();

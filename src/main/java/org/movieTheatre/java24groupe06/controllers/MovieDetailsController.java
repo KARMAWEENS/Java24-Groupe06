@@ -6,19 +6,21 @@ import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.server.NetworkGetDTOSessionList;
 import org.movieTheatre.java24groupe06.server.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
+
 import java.io.IOException;
 import java.util.List;
 
-public class MovieDetailsController implements MovieDetailsViewController.Listener{
+public class MovieDetailsController implements MovieDetailsViewController.Listener {
     private ObjectSocket objectSocket;
     private Listener listener;
-    public MovieDetailsController(Listener listener,ObjectSocket objectSocket){
+
+    public MovieDetailsController(Listener listener, ObjectSocket objectSocket) {
         this.listener = listener;
         this.objectSocket = objectSocket;
     }
 
     public void initializeMovieDetailsPage(Movie movie) {
-            MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this,movie);
+        MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this, movie);
         try {
             movieDetailsViewController.openOnNewStage();
         } catch (IOException e) {
@@ -29,15 +31,16 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
 
     @Override
     public void previousBtnClicked(Stage stage) {
-    listener.closeMovieDetailsStage(stage);
+        listener.closeMovieDetailsStage(stage);
     }
 
     @Override
     public void sessionBtnClicked(DTOCreateSession dtoCreateSession) {
         listener.createTicketStage(dtoCreateSession);
     }
+
     @Override
-    public List<DTOCreateSession> getDTOSessionList(Movie movie){
+    public List<DTOCreateSession> getDTOSessionList(Movie movie) {
         try {
             NetworkGetDTOSessionList networkGetDTOSessionList = new NetworkGetDTOSessionList(movie);
             objectSocket.write(networkGetDTOSessionList);
@@ -49,7 +52,7 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     public interface Listener {
-         void closeMovieDetailsStage(Stage stage);
+        void closeMovieDetailsStage(Stage stage);
 
         void createTicketStage(DTOCreateSession dtoCreateSession);
     }

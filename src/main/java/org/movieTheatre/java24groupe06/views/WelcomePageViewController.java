@@ -108,7 +108,6 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             setRow(calculatedRow());
             show();
         }    setStyleStage();
-
     }
 
     private void setStyleStage() {
