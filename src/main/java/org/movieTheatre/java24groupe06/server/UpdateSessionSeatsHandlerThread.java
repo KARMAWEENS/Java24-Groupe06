@@ -27,7 +27,7 @@ DTOBuy dtoBuy;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }
+        
     }
     public interface Listener {
         void onSeatsUpdated(Session session);

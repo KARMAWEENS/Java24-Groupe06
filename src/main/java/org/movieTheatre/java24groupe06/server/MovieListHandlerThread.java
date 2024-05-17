@@ -10,18 +10,16 @@ import java.util.List;
 
 public class MovieListHandlerThread extends Handler {
 
-    public MovieListHandlerThread(ServerSocket serverSocket,Listener listener) {
-        super(serverSocket, listener);
+    public MovieListHandlerThread(ObjectSocket objectSocket,Listener listener) {
+        super(objectSocket, listener);
     }
 
     @Override
     public void run() {
         try {
-            while (true) {
                 // On attend un connexion de MainPageController
                 // On envoie la liste complete de film
                 objectSocket.write(createMovieList());
-            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

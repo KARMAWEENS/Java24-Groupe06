@@ -24,10 +24,14 @@ public class ReadTicketThread implements Runnable {
     public void run() {
         try {
             while (true) {
-                SeatsRoomLeft seatsRoomLeft = objectSocket.read();
-                System.out.println("j'ai racu");
-                session.setSeatsRoomLeft(seatsRoomLeft);
-                Platform.runLater(() -> listener.updateUITicketBought());
+                Object seatsRoomLeft = objectSocket.read();
+                if(seatsRoomLeft instanceof SeatsRoomLeft){
+                    SeatsRoomLeft seatsRoomLeft1 = (SeatsRoomLeft) seatsRoomLeft;
+                    System.out.println("j'ai racu");
+                    session.setSeatsRoomLeft(seatsRoomLeft1);
+                    Platform.runLater(() -> listener.updateUITicketBought());
+                }
+
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

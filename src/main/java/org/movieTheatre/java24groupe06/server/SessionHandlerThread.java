@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SessionHandlerThread extends Handler<SessionHandlerThread.Listener> {
-    public SessionHandlerThread(ServerSocket serverSocket, Listener listener) {
-        super(serverSocket, listener);
+    Movie movie;
+    public SessionHandlerThread(ObjectSocket objectSocket,Listener listener,Movie movie) {
+        super(objectSocket, listener);
+        this.movie = movie;
     }
 
     @Override
     public void run() {
-        while (true) {
+
             try {
                // On attend un connexion de MovieDetailsController
-               Socket client = serverSocket.accept();
-               ObjectSocket objectSocket = new ObjectSocket(client);
                // On attend un Movie le movie passé a getSession
                // On renvoie une liste de session lie au film
 
@@ -30,7 +30,7 @@ public class SessionHandlerThread extends Handler<SessionHandlerThread.Listener>
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }
+
     }
 
     private List<Session> getSession(Movie movie) {

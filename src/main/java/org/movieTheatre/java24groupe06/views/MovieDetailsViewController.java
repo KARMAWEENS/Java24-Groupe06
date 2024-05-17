@@ -118,6 +118,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
 
     public void createSessionButton() throws SQLException {
+        System.out.println("je suis dans createSession");
          sessionList = listener.getSession(movie);
         for(Session session : sessionList){
             Button sessionButton = new Button(session.getTime());
