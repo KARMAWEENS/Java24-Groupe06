@@ -1,14 +1,10 @@
 package org.movieTheatre.java24groupe06.server;
 
+import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.views.TicketViewController;
 
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SessionHandlerThread extends Handler{
@@ -26,17 +22,17 @@ public class SessionHandlerThread extends Handler{
                // On attend un Movie le movie passé a getSession
                // On renvoie une liste de session lie au film
 
-                objectSocket.write(getSession(movie));
+                objectSocket.write(getDTOSessionList(movie));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
     }
 
-    private List<Session> getSession(Movie movie) {
+    private List<DTOCreateSession> getDTOSessionList(Movie movie) {
         SessionDAO sessionDAO = new SessionDAO();
         try {
-         return sessionDAO.getSession(movie);
+         return sessionDAO.getDTOSessionList(movie);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

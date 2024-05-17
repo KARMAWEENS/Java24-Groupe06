@@ -4,8 +4,6 @@ import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThread.Listener, CreateSessionHandlerThread.Listener {
@@ -30,10 +28,10 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
                 if (object instanceof NetworkGetFIlm) {
                     Thread movieListHandlerThread = new Thread(new MovieListHandlerThread(objectSocket));
                     movieListHandlerThread.start();
-                } else if (object instanceof NetworkGetSession) {
+                } else if (object instanceof NetworkGetDTOSessionList) {
 
-                    NetworkGetSession networkGetSession = (NetworkGetSession) object;
-                    Thread sessionHandlerThread = new Thread(new SessionHandlerThread(objectSocket, networkGetSession.getMovie()));
+                    NetworkGetDTOSessionList networkGetDTOSessionList = (NetworkGetDTOSessionList) object;
+                    Thread sessionHandlerThread = new Thread(new SessionHandlerThread(objectSocket, networkGetDTOSessionList.getMovie()));
                     sessionHandlerThread.start();
                 } else if (object instanceof NetworkTicketGetSessionAndThread) {
                     NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = (NetworkTicketGetSessionAndThread) object;

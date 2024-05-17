@@ -1,13 +1,12 @@
 package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.server.NetworkGetSession;
+import org.movieTheatre.java24groupe06.server.NetworkGetDTOSessionList;
 import org.movieTheatre.java24groupe06.server.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.List;
 
 public class MovieDetailsController implements MovieDetailsViewController.Listener{
@@ -34,14 +33,14 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     @Override
-    public void sessionBtnClicked(int sessionID, Movie movie) {
-        listener.createTicketStage(sessionID, movie);
+    public void sessionBtnClicked(DTOCreateSession dtoCreateSession) {
+        listener.createTicketStage(dtoCreateSession);
     }
     @Override
-    public List<Session> getSession(Movie movie){
+    public List<DTOCreateSession> getDTOSessionList(Movie movie){
         try {
-            NetworkGetSession networkGetSession = new NetworkGetSession(movie);
-            objectSocket.write(networkGetSession);
+            NetworkGetDTOSessionList networkGetDTOSessionList = new NetworkGetDTOSessionList(movie);
+            objectSocket.write(networkGetDTOSessionList);
             return objectSocket.read();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -52,6 +51,6 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     public interface Listener {
          void closeMovieDetailsStage(Stage stage);
 
-        void createTicketStage(int sessionID, Movie movie);
+        void createTicketStage(DTOCreateSession dtoCreateSession);
     }
 }

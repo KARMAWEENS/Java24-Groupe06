@@ -44,19 +44,12 @@ public class MovieApplication extends Application implements WelcomePageControll
     }
 
     @Override
-    public void createTicketStage(int sessionID, Movie movie) {
-// TODO peut etre se passe le DTO depuis le debut
-
+    public void createTicketStage(DTOCreateSession dtoCreateSession) {
         try {
-            // C est liee a CreateSessionHandlerThread
-            // On cree le DTO avec les infos du button clicked
-            DTOCreateSession dtoCreateSession = new DTOCreateSession(sessionID,movie);
             NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = new NetworkTicketGetSessionAndThread(dtoCreateSession);
-            // On envoie l'objet DTO
             objectSocket.write(networkTicketGetSessionAndThread);
-            // On attend de recevoir la session
-            // On lance un truc qui attend que qq un de la meme session achete
             Session session = objectSocket.read();
+            System.out.println(session.getNbRegularSeats());
             ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();
             Thread thread = new Thread(new ReadTicketThread( session, this));

@@ -6,19 +6,23 @@ import java.io.Serializable;
 
 public class DTOCreateSession implements Serializable {
     private int sessionID;
+    private Movie movie;
+    private String time;
+
+    public DTOCreateSession(int sessionID, Movie movie, String time) {
+        this.sessionID = sessionID;
+        this.movie = movie;
+        this.time = time;
+    }
 
     public int getSessionID() {
         return sessionID;
     }
-
     public Movie getMovie() {
         return movie;
     }
-
-    private Movie movie;
-
-    public DTOCreateSession(int sessionID, Movie movie) {
-        this.sessionID = sessionID;
-        this.movie = movie;
+    public String getTime(){
+        return time;
     }
+
 }

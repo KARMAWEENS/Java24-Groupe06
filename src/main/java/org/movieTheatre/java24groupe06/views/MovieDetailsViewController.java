@@ -9,8 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class MovieDetailsViewController extends AbstractViewController<MovieDetailsViewController.Listener> implements SetImageWithException {
 
     private Movie movie;
-    private List<Session> sessionList;
+    private List<DTOCreateSession> DTOSessionsList;
     @FXML
     private Label title;
     @FXML
@@ -119,11 +119,11 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
 
 
     public void createSessionButton() throws SQLException {
-        sessionList = listener.getSession(movie);
-        for (Session session : sessionList) {
-            Button sessionButton = new Button(session.getTime());
+        DTOSessionsList = listener.getDTOSessionList(movie);
+        for (DTOCreateSession dtoCreateSession : DTOSessionsList) {
+            Button sessionButton = new Button(dtoCreateSession.getTime());
             sessionButton.setOnAction(event -> {
-                listener.sessionBtnClicked(session.getSessionID(), movie);
+                listener.sessionBtnClicked(dtoCreateSession);
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
@@ -137,8 +137,8 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public interface Listener {
         void previousBtnClicked(Stage stage);
 
-        void sessionBtnClicked(int sessionID, Movie movie);
+        void sessionBtnClicked(DTOCreateSession dtoCreateSession);
 
-        List<Session> getSession(Movie movie);
+        List<DTOCreateSession> getDTOSessionList(Movie movie);
     }
 }

@@ -4,9 +4,9 @@ import org.movieTheatre.java24groupe06.models.Movie;
 
 import java.io.Serializable;
 
-public class NetworkGetSession implements Serializable {
+public class NetworkGetDTOSessionList implements Serializable {
     Movie movie;
-    public NetworkGetSession(Movie movie){
+    public NetworkGetDTOSessionList(Movie movie){
        this.movie = movie;
     }
 
