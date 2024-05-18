@@ -14,13 +14,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener, SessionInitializer.Listener {
+public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener {
     ObjectSocket objectSocket;
-    private List<SessionInitializer> createSessionHandlerList;
+    private List<SessionInitializer> currentTicketPageList;
 
-    public ClientRequestHandler(ObjectSocket objectSocket,List<SessionInitializer> createSessionHandlerList) {
+    public ClientRequestHandler(ObjectSocket objectSocket,List<SessionInitializer> currentTicketPageList) {
         this.objectSocket = objectSocket;
-        this.createSessionHandlerList = createSessionHandlerList;
+        this.currentTicketPageList = currentTicketPageList;
     }
 
     @Override
@@ -37,16 +37,15 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
                     Session session = getSession(requestSessionEvent.getDtoCreateSession());
                     sendSession(session);
 
-                    SessionInitializer createSessionHandler = new SessionInitializer(objectSocket, session,this);
-                    Thread createSessionHandlerThread = new Thread(createSessionHandler);
-                    createSessionHandlerList.add(createSessionHandler);
-                    createSessionHandlerThread.start();
+                    SessionInitializer createSessionHandler = new SessionInitializer(objectSocket, session);
+                    Thread TicketPageThread = new Thread(createSessionHandler);
+                    currentTicketPageList.add(createSessionHandler);
+                    TicketPageThread.start();
                 } else if (object instanceof UpdateSessionEvent) {
                     UpdateSessionEvent updateSessionEvent = (UpdateSessionEvent) object;
                     Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(), this));
                     updateSessionSeatsHandlerThread.start();
                 }
-
             }
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
@@ -79,8 +78,8 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
     }
 
     public void broadcast(Session session) {
-        System.out.println(createSessionHandlerList.size());
-        for (SessionInitializer createSessionHandlerThread : createSessionHandlerList) {
+        System.out.println(currentTicketPageList.size());
+        for (SessionInitializer createSessionHandlerThread : currentTicketPageList) {
             if (createSessionHandlerThread.getTicketHandler().getSession().getSessionID() == session.getSessionID()) {
                 System.out.println("faut changer ui ");
                 createSessionHandlerThread.getTicketHandler().updateUI(session);

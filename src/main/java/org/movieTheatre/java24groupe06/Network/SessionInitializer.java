@@ -8,7 +8,7 @@ import java.net.Socket;
 public class SessionInitializer implements Runnable {
 
     private Session session;
-    Listener listener;
+
     private TicketSessionHandler ticketSessionHandler;
     ObjectSocket objectSocket;
 
@@ -16,10 +16,9 @@ public class SessionInitializer implements Runnable {
         return ticketSessionHandler;
     }
 
-    public SessionInitializer(ObjectSocket objectSocket, Session session, Listener listener) {
+    public SessionInitializer(ObjectSocket objectSocket, Session session) {
         this.objectSocket = objectSocket;
         this.session = session;
-        this.listener = listener;
     }
 
     @Override
@@ -34,7 +33,4 @@ public class SessionInitializer implements Runnable {
 
     }
 
-    public interface Listener {
-        void onSeatsUpdated(Session session);
-    }
 }
