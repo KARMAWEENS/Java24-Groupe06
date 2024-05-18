@@ -20,7 +20,6 @@ public class ReadTicketThread implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("je suis dans le run");
         try {
             Socket socket = new Socket("localhost", 8000);
             ObjectSocket objectSocket = new ObjectSocket(socket);
@@ -28,8 +27,10 @@ public class ReadTicketThread implements Runnable {
                 Object seatsRoomLeft = objectSocket.read();
                 if(seatsRoomLeft instanceof SeatsRoomLeft){
                     SeatsRoomLeft seatsRoomLeft1 = (SeatsRoomLeft) seatsRoomLeft;
+                    System.out.println(seatsRoomLeft1.getNbRegularSeats());
                     session.setSeatsRoomLeft(seatsRoomLeft1);
-                    Platform.runLater(() -> listener.updateUITicketBought());
+                    Platform.runLater(() -> listener.updateUITicketBought(session));
+                    System.out.println("je m'update");
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -39,6 +40,6 @@ public class ReadTicketThread implements Runnable {
     }
 
     public interface Listener{
-        void updateUITicketBought();
+        void updateUITicketBought(Session session);
     }
 }

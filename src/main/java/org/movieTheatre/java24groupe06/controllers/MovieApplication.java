@@ -11,12 +11,15 @@ import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener,ReadTicketThread.Listener{
     MovieDetailsController movieDetailsController;
     WelcomePageController welcomePageController;
     TicketController ticketController;
+    List<TicketController> ticketControllerList = new ArrayList<>();
     ObjectSocket objectSocket;
 
     @Override
@@ -48,6 +51,7 @@ public class MovieApplication extends Application implements WelcomePageControll
             objectSocket.write(requestSessionEvent);
             Session session = objectSocket.read();
             ticketController = new TicketController(this, session,objectSocket);
+            ticketControllerList.add(ticketController);
             ticketController.initializeTicket();
             Thread thread = new Thread(new ReadTicketThread( session, this));
             thread.start();
@@ -61,7 +65,11 @@ public class MovieApplication extends Application implements WelcomePageControll
     }
 
     @Override
-    public void updateUITicketBought() {
-        ticketController.ticketsBoughtUpdateUI();
+    public void updateUITicketBought(Session session) {
+        for(TicketController ticketController :ticketControllerList ) {
+            if (session.equals(ticketController.getSession())){
+            ticketController.ticketsBoughtUpdateUI();
+            }
+        }
     }
 }

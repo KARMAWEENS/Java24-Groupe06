@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    List<SessionInitializer> createSessionHandlerThreads =new ArrayList<>();
 
     public static ServerSocket ticketServerSocket;
 
@@ -26,7 +25,7 @@ public class Server {
         while (true) {
             Socket client = mainServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(client);
-            Thread clientRequestHandler = new Thread(new ClientRequestHandler(objectSocket,createSessionHandlerThreads));
+            Thread clientRequestHandler = new Thread(new ClientRequestHandler(objectSocket));
             clientRequestHandler.start();
         }
 

@@ -12,15 +12,15 @@ import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener {
     ObjectSocket objectSocket;
-    private List<SessionInitializer> currentTicketPageList;
+    public static List<SessionHandler> currentTicketPageList = new ArrayList<>();
 
-    public ClientRequestHandler(ObjectSocket objectSocket,List<SessionInitializer> currentTicketPageList) {
+    public ClientRequestHandler(ObjectSocket objectSocket) {
         this.objectSocket = objectSocket;
-        this.currentTicketPageList = currentTicketPageList;
     }
 
     @Override
@@ -36,11 +36,7 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
                 } else if (object instanceof RequestSessionEvent requestSessionEvent) {
                     Session session = getSession(requestSessionEvent.getDtoCreateSession());
                     sendSession(session);
-
-                    SessionInitializer createSessionHandler = new SessionInitializer(objectSocket, session);
-                    Thread TicketPageThread = new Thread(createSessionHandler);
-                    currentTicketPageList.add(createSessionHandler);
-                    TicketPageThread.start();
+                    initializeSessionHandlerThread(session);
                 } else if (object instanceof UpdateSessionEvent) {
                     UpdateSessionEvent updateSessionEvent = (UpdateSessionEvent) object;
                     Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(), this));
@@ -52,6 +48,12 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void initializeSessionHandlerThread(Session session) {
+        SessionHandler sessionHandler = new SessionHandler(session);
+        Thread TicketPageThread = new Thread(sessionHandler);
+        TicketPageThread.start();
     }
 
     public void sendMovieList() throws IOException {
@@ -78,13 +80,9 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
     }
 
     public void broadcast(Session session) {
-        System.out.println(currentTicketPageList.size());
-        for (SessionInitializer createSessionHandlerThread : currentTicketPageList) {
-            if (createSessionHandlerThread.getTicketHandler().getSession().getSessionID() == session.getSessionID()) {
-                System.out.println("faut changer ui ");
-                createSessionHandlerThread.getTicketHandler().updateUI(session);
-            } else {
-                System.out.println("faut pas changer ui ");
+        for (SessionHandler sessionHandlerThread : currentTicketPageList) {
+            if (sessionHandlerThread.getSession().equals(session)) {
+                sessionHandlerThread.updateUI(session);
             }
         }
     }

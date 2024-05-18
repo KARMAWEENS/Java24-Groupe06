@@ -18,7 +18,7 @@ public class TicketController implements TicketViewController.Listener {
     TicketManager ticketManager;
     public Listener listener;
     ObjectSocket objectSocket;
-    public Session session;
+    private Session session;
     private int nbSelectedAdultSeats;
     private int nbSelectedChildrenSeats;
     private int nbSelectedVIPSeats;
@@ -42,6 +42,9 @@ this.objectSocket = objectSocket;
         this.nbSelectedHandicapSeats = nbHandicapSeats;
     }
 
+    public Session getSession(){
+        return session;
+    }
     public void initializeTicket() throws CantLoadFXMLException {
         try {
             this.ticketViewController = new TicketViewController(this);
