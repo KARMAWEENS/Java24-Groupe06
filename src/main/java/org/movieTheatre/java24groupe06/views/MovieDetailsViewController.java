@@ -81,7 +81,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         title.setText(movie.getTitle());
         synopsis.setText(movie.getSynopsis());
         duration.setText(String.valueOf(movie.getDuration()) + " minutes");
-        genre.setText((checkList(movie.getGenre(), "genre")));
+        genre.setText((checkList(movie.getGenres(), "genre")));
         actors.setText((checkList(movie.getActors(), "acteur")));
         producer.setText(movie.getProducer());
         date.setText(movie.getReleaseDate());

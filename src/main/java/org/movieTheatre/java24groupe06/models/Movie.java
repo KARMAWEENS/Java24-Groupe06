@@ -2,7 +2,6 @@ package org.movieTheatre.java24groupe06.models;
 
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,7 +62,7 @@ public class Movie implements Serializable {
     public String getPathImg() {
         return this.pathImg;
     }
-    public List<String> getGenre() {
+    public List<String> getGenres() {
         return genre;
     }
 
