@@ -4,9 +4,9 @@ import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 
 import java.io.Serializable;
 
-public class NetworkTicketGetSessionAndThread implements Serializable {
+public class RequestSessionEvent implements Serializable {
     DTOCreateSession dtoCreateSession;
-    public NetworkTicketGetSessionAndThread(DTOCreateSession dtoCreateSession){
+    public RequestSessionEvent(DTOCreateSession dtoCreateSession){
         this.dtoCreateSession = dtoCreateSession;
     }
     public DTOCreateSession getDtoCreateSession() {

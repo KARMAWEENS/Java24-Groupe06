@@ -5,7 +5,7 @@ import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
-import org.movieTheatre.java24groupe06.Network.Event.NetworkUpdateSession;
+import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
@@ -108,8 +108,8 @@ this.objectSocket = objectSocket;
         try {
             // Je me connect a UpdateSessionSeatsHandlerThread
             // On envoie a UpdateSessionSeatsHandlerThread les places achetées
-            NetworkUpdateSession networkUpdateSession = new NetworkUpdateSession(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
-            objectSocket.write(networkUpdateSession);
+            UpdateSessionEvent updateSessionEvent = new UpdateSessionEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+            objectSocket.write(updateSessionEvent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.movieTheatre.java24groupe06.controllers;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.Network.Event.NetworkGetDTOSessionList;
+import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
 
@@ -42,8 +42,8 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     @Override
     public List<DTOCreateSession> getDTOSessionList(Movie movie) {
         try {
-            NetworkGetDTOSessionList networkGetDTOSessionList = new NetworkGetDTOSessionList(movie);
-            objectSocket.write(networkGetDTOSessionList);
+            GetDTOSessionListEvent getDTOSessionListEvent = new GetDTOSessionListEvent(movie);
+            objectSocket.write(getDTOSessionListEvent);
             return objectSocket.read();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

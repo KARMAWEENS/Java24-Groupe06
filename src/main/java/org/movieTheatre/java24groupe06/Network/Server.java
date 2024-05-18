@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    List<CreateSessionNetworkHandlerThread> createSessionHandlerThreads =new ArrayList<>();
+    List<InitializeSessionHandler> createSessionHandlerThreads =new ArrayList<>();
     public static void main(String[] args) {
         Server serve = new Server();
         try {

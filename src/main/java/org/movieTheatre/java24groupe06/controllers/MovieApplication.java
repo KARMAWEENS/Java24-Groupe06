@@ -6,7 +6,7 @@ import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
-import org.movieTheatre.java24groupe06.Network.Event.NetworkTicketGetSessionAndThread;
+import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 
 import java.io.IOException;
@@ -44,8 +44,8 @@ public class MovieApplication extends Application implements WelcomePageControll
     @Override
     public void createTicketStage(DTOCreateSession dtoCreateSession) {
         try {
-            NetworkTicketGetSessionAndThread networkTicketGetSessionAndThread = new NetworkTicketGetSessionAndThread(dtoCreateSession);
-            objectSocket.write(networkTicketGetSessionAndThread);
+            RequestSessionEvent requestSessionEvent = new RequestSessionEvent(dtoCreateSession);
+            objectSocket.write(requestSessionEvent);
             Session session = objectSocket.read();
             ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();

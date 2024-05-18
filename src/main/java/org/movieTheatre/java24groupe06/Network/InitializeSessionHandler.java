@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class CreateSessionNetworkHandlerThread extends NetworkHandler {
+public class InitializeSessionHandler extends NetworkHandler {
 
     private Session session;
     ServerSocket serverSocket;
@@ -17,7 +17,7 @@ public class CreateSessionNetworkHandlerThread extends NetworkHandler {
         return ticketHandler;
     }
 
-    public CreateSessionNetworkHandlerThread(ObjectSocket objectSocket, Session session, ServerSocket serverSocket, Listener listener) {
+    public InitializeSessionHandler(ObjectSocket objectSocket, Session session, ServerSocket serverSocket, Listener listener) {
         super(objectSocket);
         this.session = session;
         this.serverSocket = serverSocket;
