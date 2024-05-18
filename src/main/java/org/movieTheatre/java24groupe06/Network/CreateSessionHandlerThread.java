@@ -11,35 +11,31 @@ import java.sql.SQLException;
 
 public class CreateSessionHandlerThread extends Handler {
 
-    private DTOCreateSession dtoCreateSession;
+    private Session session;
     ServerSocket serverSocket;
     Listener listener;
     private TicketHandler ticketHandler;
 
-    public TicketHandler getTicketHandler(){
+    public TicketHandler getTicketHandler() {
         return ticketHandler;
     }
 
-    public CreateSessionHandlerThread(ObjectSocket objectSocket,DTOCreateSession dtoCreateSession,ServerSocket serverSocket,Listener listener) {
+    public CreateSessionHandlerThread(ObjectSocket objectSocket, Session session, ServerSocket serverSocket, Listener listener) {
         super(objectSocket);
-        this.dtoCreateSession = dtoCreateSession;
+        this.session = session;
         this.serverSocket = serverSocket;
         this.listener = listener;
     }
+
     @Override
     public void run() {
         try {
 
-                SessionDAO sessionDAO = new SessionDAO();
-                Session session = sessionDAO.getSessionBySessionId(dtoCreateSession.getSessionID(), dtoCreateSession.getMovie());
-                // On renvoie la session crée grace a DTO
-                objectSocket.write(session);
+            Socket socket = serverSocket.accept();
+            ObjectSocket objectSocket = new ObjectSocket(socket);
+            ticketHandler = new TicketHandler(objectSocket, session);
 
-                Socket socket = serverSocket.accept();
-                ObjectSocket objectSocket = new ObjectSocket(socket);
-                ticketHandler = new TicketHandler(objectSocket,session);
-
-        } catch (IOException  | SQLException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
