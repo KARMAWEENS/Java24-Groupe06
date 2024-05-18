@@ -18,12 +18,12 @@ public class Server {
     }
 
     private void go() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(7999);
-        ServerSocket serverSocket2 = new ServerSocket(8000);
+        ServerSocket mainServerSocket = new ServerSocket(7999);
+        ServerSocket ticketServerSocket = new ServerSocket(8000);
         while (true) {
-            Socket client = serverSocket.accept();
+            Socket client = mainServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(client);
-            Thread readObjectThread = new Thread(new ClientRequestHandler(objectSocket,serverSocket2,createSessionHandlerThreads));
+            Thread readObjectThread = new Thread(new ClientRequestHandler(objectSocket,ticketServerSocket,createSessionHandlerThreads));
             readObjectThread.start();
         }
 

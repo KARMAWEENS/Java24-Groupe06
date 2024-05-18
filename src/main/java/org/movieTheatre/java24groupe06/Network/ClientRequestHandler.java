@@ -20,12 +20,12 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
     CreateSessionNetworkHandlerThread createSessionHandler;
     ServerSocket serverSocket2;
     Session session;
-    private List<CreateSessionNetworkHandlerThread> createSessionHandlerThreadsList;
+    private List<CreateSessionNetworkHandlerThread> createSessionHandlerList;
 
-    public ClientRequestHandler(ObjectSocket objectSocket, ServerSocket serverSocket2, List<CreateSessionNetworkHandlerThread> createSessionHandlerThreadsList) {
+    public ClientRequestHandler(ObjectSocket objectSocket, ServerSocket serverSocket2, List<CreateSessionNetworkHandlerThread> createSessionHandlerList) {
         this.objectSocket = objectSocket;
         this.serverSocket2 = serverSocket2;
-        this.createSessionHandlerThreadsList = createSessionHandlerThreadsList;
+        this.createSessionHandlerList = createSessionHandlerList;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
 
                     CreateSessionNetworkHandlerThread createSessionHandler = new CreateSessionNetworkHandlerThread(objectSocket, session, serverSocket2, this);
                     Thread createSessionHandlerThread = new Thread(createSessionHandler);
-                    createSessionHandlerThreadsList.add(createSessionHandler);
+                    createSessionHandlerList.add(createSessionHandler);
                     createSessionHandlerThread.start();
 
                 } else if (object instanceof NetworkUpdateSession) {
@@ -93,8 +93,8 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
     }
 
     public void broadcast(Session session) {
-        System.out.println(createSessionHandlerThreadsList.size());
-        for (CreateSessionNetworkHandlerThread createSessionHandlerThread : createSessionHandlerThreadsList) {
+        System.out.println(createSessionHandlerList.size());
+        for (CreateSessionNetworkHandlerThread createSessionHandlerThread : createSessionHandlerList) {
             if (createSessionHandlerThread.getTicketHandler().getSession().getSessionID() == session.getSessionID()) {
                 System.out.println("faut changer ui ");
                 createSessionHandlerThread.getTicketHandler().updateUI(session);
