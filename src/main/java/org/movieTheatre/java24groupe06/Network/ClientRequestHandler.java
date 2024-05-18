@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener {
+public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener,SessionHandler.Listener {
     ObjectSocket objectSocket;
     public static List<SessionHandler> currentTicketPageList = new ArrayList<>();
 
@@ -44,14 +44,14 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
                 }
             }
         } catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException(e);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static void initializeSessionHandlerThread(Session session) {
-        SessionHandler sessionHandler = new SessionHandler(session);
+    private void initializeSessionHandlerThread(Session session) {
+        SessionHandler sessionHandler = new SessionHandler(session,this);
         Thread TicketPageThread = new Thread(sessionHandler);
         TicketPageThread.start();
     }
@@ -85,5 +85,11 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
                 sessionHandlerThread.updateUI(session);
             }
         }
+    }
+
+    @Override
+    public void onConnectionLost(SessionHandler sessionHandler) {
+        currentTicketPageList.remove(sessionHandler);
+        System.out.println(currentTicketPageList.size());
     }
 }

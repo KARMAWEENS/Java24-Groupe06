@@ -72,4 +72,9 @@ public class MovieApplication extends Application implements WelcomePageControll
             }
         }
     }
+
+    @Override
+    public void onCloseTicketView(TicketController ticketController) {
+        ticketControllerList.remove(ticketController);
+    }
 }

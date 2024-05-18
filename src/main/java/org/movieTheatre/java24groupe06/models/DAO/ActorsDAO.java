@@ -8,13 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActorsDAO extends AbstractDAO{
-
+public class ActorsDAO extends AbstractDAO {
+    //hop hop hop
     public List<String> getActorsByMovieId(int movieId) throws SQLException {
-        String query =String.format("SELECT a.FullName\n" +
+
+        String query = "SELECT a.FullName\n" +
                 "FROM Actors a\n" +
                 "JOIN MoviesCasting mc ON a.actorID = mc.actorID\n" +
-                "WHERE mc.movieID = ?", movieId);
-        return getListResult(query, rs -> rs.getString("fullName"), movieId);
+                "WHERE mc.movieID = ?";
+        List<String> actors = getListResult(query, rs -> rs.getString("fullName"), movieId);
+        if (actors.isEmpty()) {
+            throw new SQLException("pas d'acteur trouvé pour l'ID: " + movieId);
+        }
+        return actors;
     }
 }
