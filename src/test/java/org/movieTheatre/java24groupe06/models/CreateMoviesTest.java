@@ -42,7 +42,7 @@ public class CreateMoviesTest {
             assertEquals("Simulated database error", e.getMessage());
         }
     }
-
+    // hop hop hop
     private void simulateDatabaseError() {
         throw new RuntimeException("Simulated database error");
 
