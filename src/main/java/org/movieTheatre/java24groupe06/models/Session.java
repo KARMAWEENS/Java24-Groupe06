@@ -3,7 +3,7 @@ package org.movieTheatre.java24groupe06.models;
 import java.io.Serializable;
 
 public class Session implements Serializable {
-    private int SessionID;
+    private int ID;
     private Movie movie;
     private SeatsRoomLeft seatsRoomLeft;
     private String Time;
@@ -13,11 +13,11 @@ public class Session implements Serializable {
         this.Time =hours;
         this.seatsRoomLeft = seatsRoomLeft;
         this.movie=movie;
-        this.SessionID = SessionID;
+        this.ID = SessionID;
     }
 
     public int getSessionID() {
-        return SessionID;
+        return ID;
     }
 
     public Movie getMovie() {
@@ -43,5 +43,8 @@ public class Session implements Serializable {
 
     public void setSeatsRoomLeft(SeatsRoomLeft seatsRoomLeft) {
         this.seatsRoomLeft = seatsRoomLeft;
+    }
+    public boolean equals(Session session) {
+        return this.ID == session.ID;
     }
 }

@@ -1,23 +1,26 @@
 package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.models.Session;
-import org.movieTheatre.java24groupe06.server.ObjectSocket;
+import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
+import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.MovieDetailsViewController;
+
 import java.io.IOException;
-import java.net.Socket;
 import java.util.List;
 
-public class MovieDetailsController implements MovieDetailsViewController.Listener{
-
+public class MovieDetailsController implements MovieDetailsViewController.Listener {
+    private ObjectSocket objectSocket;
     private Listener listener;
-    public MovieDetailsController(Listener listener){
+
+    public MovieDetailsController(Listener listener, ObjectSocket objectSocket) {
         this.listener = listener;
+        this.objectSocket = objectSocket;
     }
 
     public void initializeMovieDetailsPage(Movie movie) {
-            MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this,movie);
+        MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this, movie);
         try {
             movieDetailsViewController.openOnNewStage();
         } catch (IOException e) {
@@ -28,23 +31,20 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
 
     @Override
     public void previousBtnClicked(Stage stage) {
-    listener.closeMovieDetailsStage(stage);
+        listener.closeMovieDetailsStage(stage);
     }
 
     @Override
-    public void sessionBtnClicked(int sessionID, Movie movie) {
-        listener.createTicketStage(sessionID, movie);
+    public void sessionBtnClicked(DTOCreateSession dtoCreateSession) {
+        listener.createTicketStage(dtoCreateSession);
     }
+
     @Override
-    public List<Session> getSession(Movie movie){
+    public List<DTOCreateSession> getDTOSessionList(Movie movie) {
         try {
-            // On se connection a SessionHandlerThread
-           Socket socketSession = new Socket("localhost",8081);
-            ObjectSocket objectSocketSession = new ObjectSocket(socketSession);
-            // On donne le film pour recevoir les sessions
-            objectSocketSession.write(movie);
-            // On return quand on a recu les sessions du film en parametres
-            return objectSocketSession.read();
+            GetDTOSessionListEvent getDTOSessionListEvent = new GetDTOSessionListEvent(movie);
+            objectSocket.write(getDTOSessionListEvent);
+            return objectSocket.read();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -52,8 +52,8 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     public interface Listener {
-         void closeMovieDetailsStage(Stage stage);
+        void closeMovieDetailsStage(Stage stage);
 
-        void createTicketStage(int sessionID, Movie movie);
+        void createTicketStage(DTOCreateSession dtoCreateSession);
     }
 }

@@ -1,16 +1,15 @@
 package org.movieTheatre.java24groupe06.controllers;
 
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
-import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
-import org.movieTheatre.java24groupe06.server.ObjectSocket;
+import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
+import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
 import java.io.IOException;
-import java.net.Socket;
 
 
 public class TicketController implements TicketViewController.Listener {
@@ -18,16 +17,17 @@ public class TicketController implements TicketViewController.Listener {
     PromotionManager promotionManager;
     TicketManager ticketManager;
     public Listener listener;
-    public Session session;
+    ObjectSocket objectSocket;
+    private Session session;
     private int nbSelectedAdultSeats;
     private int nbSelectedChildrenSeats;
     private int nbSelectedVIPSeats;
     private int nbSelectedHandicapSeats;
 
-    public TicketController(Listener listener, Session session) {
+    public TicketController(Listener listener, Session session,ObjectSocket objectSocket) {
         this.listener = listener;
         this.session = session;
-
+this.objectSocket = objectSocket;
     }
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
@@ -42,6 +42,9 @@ public class TicketController implements TicketViewController.Listener {
         this.nbSelectedHandicapSeats = nbHandicapSeats;
     }
 
+    public Session getSession(){
+        return session;
+    }
     public void initializeTicket() throws CantLoadFXMLException {
         try {
             this.ticketViewController = new TicketViewController(this);
@@ -87,11 +90,10 @@ public class TicketController implements TicketViewController.Listener {
 
     public void ticketsBoughtUpdateUI(){
         System.out.println("j utilise ticketsBoughtUpdateUI");
-        ticketViewController.updateAvailableAdultSeatsLabel(session.getNbRegularSeats());
-        ticketViewController.updateAvailableChildrenSeatsLabel(session.getNbRegularSeats());
-        ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats());
-        ticketViewController.updateAvailableHandicapSeatsLabel(session.getNbHandicapsSeats());
-
+        ticketViewController.updateAvailableAdultSeatsLabel(session.getNbRegularSeats()-nbSelectedAdultSeats-nbSelectedChildrenSeats);
+        ticketViewController.updateAvailableChildrenSeatsLabel(session.getNbRegularSeats()-nbSelectedAdultSeats-nbSelectedChildrenSeats);
+        ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats()-nbSelectedVIPSeats);
+        ticketViewController.updateAvailableHandicapSeatsLabel(session.getNbHandicapsSeats()-nbSelectedHandicapSeats);
     }
 
 
@@ -108,10 +110,9 @@ public class TicketController implements TicketViewController.Listener {
     public void onButtonBuyClicked() {
         try {
             // Je me connect a UpdateSessionSeatsHandlerThread
-           Socket socket = new Socket("localhost", 8082);
-            ObjectSocket objectSocket = new ObjectSocket(socket);
             // On envoie a UpdateSessionSeatsHandlerThread les places achetées
-            objectSocket.write(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+            UpdateSessionEvent updateSessionEvent = new UpdateSessionEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+            objectSocket.write(updateSessionEvent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
