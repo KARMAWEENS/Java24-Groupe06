@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    List<CreateSessionHandlerThread> createSessionHandlerThreads =new ArrayList<>();
+    List<CreateSessionNetworkHandlerThread> createSessionHandlerThreads =new ArrayList<>();
     public static void main(String[] args) {
         Server serve = new Server();
         try {
@@ -23,7 +23,7 @@ public class Server {
         while (true) {
             Socket client = serverSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(client);
-            Thread readObjectThread = new Thread(new ReadObjectThread(objectSocket,serverSocket2,createSessionHandlerThreads));
+            Thread readObjectThread = new Thread(new ClientRequestHandler(objectSocket,serverSocket2,createSessionHandlerThreads));
             readObjectThread.start();
         }
 

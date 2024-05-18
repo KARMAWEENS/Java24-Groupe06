@@ -1,15 +1,12 @@
 package org.movieTheatre.java24groupe06.Network;
 
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
-import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
 
-public class CreateSessionHandlerThread extends Handler {
+public class CreateSessionNetworkHandlerThread extends NetworkHandler {
 
     private Session session;
     ServerSocket serverSocket;
@@ -20,7 +17,7 @@ public class CreateSessionHandlerThread extends Handler {
         return ticketHandler;
     }
 
-    public CreateSessionHandlerThread(ObjectSocket objectSocket, Session session, ServerSocket serverSocket, Listener listener) {
+    public CreateSessionNetworkHandlerThread(ObjectSocket objectSocket, Session session, ServerSocket serverSocket, Listener listener) {
         super(objectSocket);
         this.session = session;
         this.serverSocket = serverSocket;

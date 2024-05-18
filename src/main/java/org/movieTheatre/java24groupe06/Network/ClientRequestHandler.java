@@ -3,6 +3,7 @@ package org.movieTheatre.java24groupe06.Network;
 import org.movieTheatre.java24groupe06.Network.Event.NetworkGetDTOSessionList;
 import org.movieTheatre.java24groupe06.Network.Event.NetworkGetFIlm;
 import org.movieTheatre.java24groupe06.Network.Event.NetworkTicketGetSessionAndThread;
+import org.movieTheatre.java24groupe06.Network.Event.NetworkUpdateSession;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
@@ -14,14 +15,14 @@ import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThread.Listener, CreateSessionHandlerThread.Listener {
+public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener, CreateSessionNetworkHandlerThread.Listener {
     ObjectSocket objectSocket;
-    CreateSessionHandlerThread createSessionHandler;
+    CreateSessionNetworkHandlerThread createSessionHandler;
     ServerSocket serverSocket2;
     Session session;
-    private List<CreateSessionHandlerThread> createSessionHandlerThreadsList;
+    private List<CreateSessionNetworkHandlerThread> createSessionHandlerThreadsList;
 
-    public ReadObjectThread(ObjectSocket objectSocket, ServerSocket serverSocket2, List<CreateSessionHandlerThread> createSessionHandlerThreadsList) {
+    public ClientRequestHandler(ObjectSocket objectSocket, ServerSocket serverSocket2, List<CreateSessionNetworkHandlerThread> createSessionHandlerThreadsList) {
         this.objectSocket = objectSocket;
         this.serverSocket2 = serverSocket2;
         this.createSessionHandlerThreadsList = createSessionHandlerThreadsList;
@@ -46,13 +47,14 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
                     session = getSession(dtoCreateSession);
                     sendSession(session);
 
-                    CreateSessionHandlerThread createSessionHandler = new CreateSessionHandlerThread(objectSocket, session, serverSocket2, this);
+                    CreateSessionNetworkHandlerThread createSessionHandler = new CreateSessionNetworkHandlerThread(objectSocket, session, serverSocket2, this);
                     Thread createSessionHandlerThread = new Thread(createSessionHandler);
                     createSessionHandlerThreadsList.add(createSessionHandler);
                     createSessionHandlerThread.start();
+
                 } else if (object instanceof NetworkUpdateSession) {
                     NetworkUpdateSession networkUpdateSession = (NetworkUpdateSession) object;
-                    Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSessionSeatsHandlerThread(objectSocket, networkUpdateSession.getDtoBuy(), this));
+                    Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSeatsHandler(objectSocket, networkUpdateSession.getDtoBuy(), this));
                     updateSessionSeatsHandlerThread.start();
                 }
 
@@ -92,7 +94,7 @@ public class ReadObjectThread implements Runnable, UpdateSessionSeatsHandlerThre
 
     public void broadcast(Session session) {
         System.out.println(createSessionHandlerThreadsList.size());
-        for (CreateSessionHandlerThread createSessionHandlerThread : createSessionHandlerThreadsList) {
+        for (CreateSessionNetworkHandlerThread createSessionHandlerThread : createSessionHandlerThreadsList) {
             if (createSessionHandlerThread.getTicketHandler().getSession().getSessionID() == session.getSessionID()) {
                 System.out.println("faut changer ui ");
                 createSessionHandlerThread.getTicketHandler().updateUI(session);

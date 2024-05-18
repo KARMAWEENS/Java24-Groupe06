@@ -4,11 +4,11 @@ import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Session;
 
-public class UpdateSessionSeatsHandlerThread extends Handler {
+public class UpdateSeatsHandler extends NetworkHandler {
 
     DTOBuy dtoBuy;
     Listener listener;
-    public UpdateSessionSeatsHandlerThread(ObjectSocket objectSocket,DTOBuy dtoBuy, Listener listener) {
+    public UpdateSeatsHandler(ObjectSocket objectSocket, DTOBuy dtoBuy, Listener listener) {
         super(objectSocket);
         this.dtoBuy = dtoBuy;
         this.listener = listener;
@@ -18,12 +18,8 @@ public class UpdateSessionSeatsHandlerThread extends Handler {
     public void run() {
 
             try {
-                // On attend un connexion de ButtonClicked
-                // On attend l'envoie des places achetées
                 SessionDAO sessionDAO = new SessionDAO();
-                // On retire les places achetées dans la DB
                 sessionDAO.update(dtoBuy.getSession(),dtoBuy.getNbRegularSeatsBuy(),dtoBuy.getNbVIPSeatsBuy(),dtoBuy.getNbHandicapsSeatsBuy());
-                // On check si on doit informer d'autres clients qui sont sur la meme session
                 listener.onSeatsUpdated(dtoBuy.getSession());
             } catch (Exception e) {
                 throw new RuntimeException(e);

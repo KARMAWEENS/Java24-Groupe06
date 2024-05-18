@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.Network;
+package org.movieTheatre.java24groupe06.Network.Event;
 
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 
