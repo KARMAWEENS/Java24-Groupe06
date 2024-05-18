@@ -15,7 +15,27 @@ public class SessionDAO extends AbstractDAO {
                 new DTOCreateSession(rs.getInt("SessionID"), movie, rs.getString("Time")));
     }
 
-    // TODO UTILISER GETSINGLE RESULT
+    public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws SQLException {
+        String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",session.getSessionID());
+        return getSingleResult(query, rs ->
+                new SeatsRoomLeft(
+                        rs.getInt("regularSeatsLeft"),
+                        rs.getInt("HandicapSeatsLeft"),
+                        rs.getInt("VIPSeatsLeft")
+                ));
+    }
+
+    public Session getSessionBySessionId(int sessionID, Movie movie) throws SQLException {
+        String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",sessionID);
+        return  getSingleResult(query, rs ->
+                new Session(sessionID, movie,
+                        new SeatsRoomLeft(
+                                rs.getInt("regularSeatsLeft"),
+                                rs.getInt("HandicapSeatsLeft"),
+                                rs.getInt("VIPSeatsLeft")),
+                        rs.getString("Time")));
+    }
+
     public void update(Session session, int nbRegularSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
         String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE SessionID = ?";
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
@@ -31,42 +51,5 @@ public class SessionDAO extends AbstractDAO {
         }
     }
 
-    // TODO UTILISER GETSINGLE RESULT
-    public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws SQLException {
-        String query = "SELECT * FROM Sessions WHERE SessionID =?";
-        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, session.getSessionID());
 
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                return new SeatsRoomLeft(resultSet.getInt("regularSeatsLeft"),
-                        resultSet.getInt("HandicapSeatsLeft"),
-                        resultSet.getInt("VIPSeatsLeft"));
-            } else {
-                return null; // Ajuste le comportement si aucune session n'est trouvée
-            }
-        }
-    }
-
-    public Session getSessionBySessionId(int sessionID, Movie movie) throws SQLException {
-        String query = "SELECT * FROM Sessions WHERE SessionID =?";
-        try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, sessionID);
-
-
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                return new Session(sessionID, movie, new SeatsRoomLeft(resultSet.getInt("regularSeatsLeft"),
-                        resultSet.getInt("HandicapSeatsLeft"),
-                        resultSet.getInt("VIPSeatsLeft")),
-                        resultSet.getString("Time"));
-            } else {
-                return null; // Ajuste le comportement si aucune session n'est trouvée
-            }
-        }
-    }
 }
