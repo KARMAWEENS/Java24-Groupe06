@@ -4,12 +4,12 @@ import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Session;
 
-public class UpdateSeatsHandler extends NetworkHandler {
-
+public class UpdateSeatsHandler implements Runnable {
+ObjectSocket objectSocket;
     DTOBuy dtoBuy;
     Listener listener;
     public UpdateSeatsHandler(ObjectSocket objectSocket, DTOBuy dtoBuy, Listener listener) {
-        super(objectSocket);
+        this.objectSocket = objectSocket;
         this.dtoBuy = dtoBuy;
         this.listener = listener;
     }

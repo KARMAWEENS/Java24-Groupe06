@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    List<InitializeSessionHandler> createSessionHandlerThreads =new ArrayList<>();
+    List<SessionInitializer> createSessionHandlerThreads =new ArrayList<>();
+
+    public static ServerSocket ticketServerSocket;
+
     public static void main(String[] args) {
-        Server serve = new Server();
+        Server server = new Server();
         try {
-            serve.go();
+            server.go();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -19,12 +22,12 @@ public class Server {
 
     private void go() throws IOException {
         ServerSocket mainServerSocket = new ServerSocket(7999);
-        ServerSocket ticketServerSocket = new ServerSocket(8000);
+         ticketServerSocket = new ServerSocket(8000);
         while (true) {
             Socket client = mainServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(client);
-            Thread readObjectThread = new Thread(new ClientRequestHandler(objectSocket,ticketServerSocket,createSessionHandlerThreads));
-            readObjectThread.start();
+            Thread clientRequestHandler = new Thread(new ClientRequestHandler(objectSocket,createSessionHandlerThreads));
+            clientRequestHandler.start();
         }
 
     }

@@ -2,7 +2,7 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.Movie;
-import org.movieTheatre.java24groupe06.Network.Event.GetFilmEvent;
+import org.movieTheatre.java24groupe06.Network.Event.GetMovieEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.WelcomePageViewController;
 
@@ -26,8 +26,8 @@ public class WelcomePageController implements WelcomePageViewController.Listener
     public void initializeMainStage(Stage stage) {
         try {
 
-            GetFilmEvent getFilmEvent = new GetFilmEvent();
-            objectSocket.write(getFilmEvent);
+            GetMovieEvent getMovieEvent = new GetMovieEvent();
+            objectSocket.write(getMovieEvent);
             setMovieList(objectSocket.read());
             WelcomePageViewController welcomePageViewController = new WelcomePageViewController(this, movieList, stage);
             welcomePageViewController.openOn(stage);
