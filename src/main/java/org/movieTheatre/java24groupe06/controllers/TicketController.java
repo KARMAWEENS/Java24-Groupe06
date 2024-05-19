@@ -2,6 +2,7 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;

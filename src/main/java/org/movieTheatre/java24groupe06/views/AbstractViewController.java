@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -48,6 +49,7 @@ public abstract class AbstractViewController<T> {
     public void openOnNewStage() throws IOException {
         Stage newStage = new Stage();
         this.stage = newStage;
+        this.stage.initModality(Modality.APPLICATION_MODAL); // Ajoutez cette ligne pour rendre la fenêtre modale
         openOn(newStage);
     }
     public void close() throws IllegalStateException {

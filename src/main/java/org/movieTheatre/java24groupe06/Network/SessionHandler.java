@@ -11,17 +11,14 @@ import java.sql.SQLException;
 public class SessionHandler  {
 
     private Session session;
-    private int id;
+
 
     ObjectSocket objectSocket;
 
-    public SessionHandler(Session session,ObjectSocket objectSocket,int id) {
+    public SessionHandler(Session session,ObjectSocket objectSocket) {
         this.session = session;
         this.objectSocket = objectSocket;
-        this.id =id;
-    }
-    public int getId(){
-        return this.id;
+
     }
     public Session getSession() {
         return this.session;
