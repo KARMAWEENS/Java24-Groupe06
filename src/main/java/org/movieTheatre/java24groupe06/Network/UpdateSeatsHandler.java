@@ -4,7 +4,7 @@ import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Session;
 
-public class UpdateSeatsHandler implements Runnable {
+public class UpdateSeatsHandler extends Thread {
 ObjectSocket objectSocket;
     DTOBuy dtoBuy;
     Listener listener;

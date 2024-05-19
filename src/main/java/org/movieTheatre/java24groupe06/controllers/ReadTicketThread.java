@@ -8,21 +8,23 @@ import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ReadTicketThread implements Runnable {
+public class ReadTicketThread extends Thread {
 
     Session session;
     Listener listener;
 
-    public ReadTicketThread(Session session, Listener listener) {
+    ObjectSocket objectSocket;
+
+    public ReadTicketThread(Session session, Listener listener,ObjectSocket objectSocket) {
         this.session = session;
         this.listener = listener;
+        this.objectSocket=objectSocket;
     }
 
     @Override
     public void run() {
         try {
-            Socket socket = new Socket("localhost", 8000);
-            ObjectSocket objectSocket = new ObjectSocket(socket);
+
             while (true) {
                 Object seatsRoomLeft = objectSocket.read();
                 if(seatsRoomLeft instanceof SeatsRoomLeft){
@@ -30,11 +32,9 @@ public class ReadTicketThread implements Runnable {
                     System.out.println(seatsRoomLeft1.getNbRegularSeats());
                     session.setSeatsRoomLeft(seatsRoomLeft1);
                     Platform.runLater(() -> listener.updateUITicketBought(session));
-                    System.out.println("je m'update");
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("je suis dans le catch");
             throw new RuntimeException(e);
         }
     }

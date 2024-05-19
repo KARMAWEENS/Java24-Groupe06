@@ -29,7 +29,10 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     @FXML
     private Button returnButton;
 
-
+    // a mettre dans abstrat
+    public Stage getStage(){
+        return stage;
+    }
 
     public TicketViewController(Listener listener) {
         super(listener);

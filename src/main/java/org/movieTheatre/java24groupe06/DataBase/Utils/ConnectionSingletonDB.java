@@ -23,7 +23,7 @@ public class ConnectionSingletonDB implements Closeable {
         return this.connection;
     }
     private void setConnection(Connection connection) throws SQLException {
-        System.out.println("connexion ouverte");
+
         this.connection=connection;
     }
     private static Connection establishConnection() throws SQLException {
@@ -75,7 +75,7 @@ public class ConnectionSingletonDB implements Closeable {
         try{
             if(this.connection != null){
                 this.connection.close();
-                System.out.println("connexion ferme ");
+
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

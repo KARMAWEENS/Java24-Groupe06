@@ -1,5 +1,10 @@
 package org.movieTheatre.java24groupe06.controllers;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -52,6 +57,8 @@ this.objectSocket = objectSocket;
             this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
             ticketViewController.openOnNewStage();
             ticketsBoughtUpdateUI();
+            Stage stage = ticketViewController.getStage();
+            stage.setOnCloseRequest(event -> handleWindowCloseRequest(event));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +113,20 @@ this.objectSocket = objectSocket;
     private int calculatedRegularSeats() {
         return session.getNbRegularSeats() - ticketManager.countTicketsOfType(TicketChildren.class) - ticketManager.countTicketsOfType(TicketAdult.class);
     }
-
+    private void handleWindowCloseRequest(WindowEvent event) {
+        event.consume();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Voulez-vous vraiment fermer la fenêtre?");
+        alert.setContentText("Aucun ticket n'a été acheté");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+        alert.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.YES) {
+                listener.onCloseTicketView(this);
+                ticketViewController.close(); // Ferme la fenêtre si l'utilisateur clique sur Oui
+            }
+        });
+    }
     @Override
     public void onButtonBuyClicked() {
         try {
@@ -140,5 +160,6 @@ this.objectSocket = objectSocket;
 
     public interface Listener {
 
+        void onCloseTicketView(TicketController ticketController);
     }
 }
