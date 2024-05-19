@@ -13,16 +13,18 @@ public class ReadTicketThread extends Thread {
     Session session;
     Listener listener;
 
-    public ReadTicketThread(Session session, Listener listener) {
+    ObjectSocket objectSocket;
+
+    public ReadTicketThread(Session session, Listener listener,ObjectSocket objectSocket) {
         this.session = session;
         this.listener = listener;
+        this.objectSocket=objectSocket;
     }
 
     @Override
     public void run() {
         try {
-            Socket socket = new Socket("localhost", 8000);
-            ObjectSocket objectSocket = new ObjectSocket(socket);
+
             while (true) {
                 Object seatsRoomLeft = objectSocket.read();
                 if(seatsRoomLeft instanceof SeatsRoomLeft){

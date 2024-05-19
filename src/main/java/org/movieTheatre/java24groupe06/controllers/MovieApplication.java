@@ -22,6 +22,8 @@ public class MovieApplication extends Application implements WelcomePageControll
     List<TicketController> ticketControllerList = new ArrayList<>();
     ObjectSocket objectSocket;
 
+    ReadTicketThread readTicketThread;
+
     @Override
     public void start(Stage stage) {
         try {
@@ -53,13 +55,19 @@ public class MovieApplication extends Application implements WelcomePageControll
             ticketController = new TicketController(this, session,objectSocket);
             ticketControllerList.add(ticketController);
             ticketController.initializeTicket();
-            ReadTicketThread readTicketThread = new ReadTicketThread(session,this);
+            Socket socket = new Socket("localhost", 8000);
+            ObjectSocket objectSocket2 = new ObjectSocket(socket);
+             readTicketThread = new ReadTicketThread(session,this,objectSocket2);
             readTicketThread.start();
         } catch (CantLoadFXMLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-
+@Override
+public void onCloseTicketView(TicketController ticketController){
+        ticketControllerList.remove(ticketController);
+        readTicketThread.objectSocket.close();
+}
     public static void main(String[] args) {
         launch(args);
     }
