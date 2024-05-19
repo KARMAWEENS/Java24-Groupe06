@@ -51,6 +51,7 @@ this.objectSocket = objectSocket;
             this.ticketManager = new TicketManager(session);
             this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
             ticketViewController.openOnNewStage();
+            ticketsBoughtUpdateUI();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -134,6 +135,8 @@ this.objectSocket = objectSocket;
     public void onButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
     @Override
     public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
+    @Override
+    public void onReturnButtonClicked(){ticketViewController.close();}
 
     public interface Listener {
 

@@ -1,7 +1,10 @@
 package org.movieTheatre.java24groupe06.views;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
 
@@ -23,6 +26,8 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     private Label  availableHandicapSeats;
     @FXML
     private Label availableVIPSeats;
+    @FXML
+    private Button returnButton;
 
 
 
@@ -69,6 +74,11 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     public void updateAvailableHandicapSeatsLabel(int seatsHandicapLeft){
         availableHandicapSeats.setText(String.valueOf(seatsHandicapLeft));
     }
+    public void btnClicked(ActionEvent event){
+        Stage stage = (Stage) returnButton.getScene().getWindow();
+        stage.close();
+        listener.onReturnButtonClicked();
+    }
 
 
 
@@ -111,5 +121,6 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         void onButtonMinusDisabledClicked();
         void onButtonPlusDisabledClicked();
         void onButtonBuyClicked();
+        void onReturnButtonClicked();
     }
 }
