@@ -79,9 +79,9 @@ public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.L
     }
 
     public void broadcast(Session session) {
-        for (SessionHandler sessionHandlerThread : currentTicketPageList) {
-            if (sessionHandlerThread.getSession().equals(session)) {
-                sessionHandlerThread.updateUI(session);
+        for (SessionHandler sessionHandler : currentTicketPageList) {
+            if (sessionHandler.getSession().equals(session)) {
+                sessionHandler.updateUI(session);
             }
         }
     }

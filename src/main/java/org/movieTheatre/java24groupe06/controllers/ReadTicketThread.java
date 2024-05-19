@@ -8,7 +8,7 @@ import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ReadTicketThread implements Runnable {
+public class ReadTicketThread extends Thread {
 
     Session session;
     Listener listener;
@@ -30,11 +30,9 @@ public class ReadTicketThread implements Runnable {
                     System.out.println(seatsRoomLeft1.getNbRegularSeats());
                     session.setSeatsRoomLeft(seatsRoomLeft1);
                     Platform.runLater(() -> listener.updateUITicketBought(session));
-                    System.out.println("je m'update");
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("je suis dans le catch");
             throw new RuntimeException(e);
         }
     }

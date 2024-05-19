@@ -53,8 +53,8 @@ public class MovieApplication extends Application implements WelcomePageControll
             ticketController = new TicketController(this, session,objectSocket);
             ticketControllerList.add(ticketController);
             ticketController.initializeTicket();
-            Thread thread = new Thread(new ReadTicketThread( session, this));
-            thread.start();
+            ReadTicketThread readTicketThread = new ReadTicketThread(session,this);
+            readTicketThread.start();
         } catch (CantLoadFXMLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

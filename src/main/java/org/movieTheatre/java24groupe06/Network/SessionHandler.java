@@ -35,7 +35,6 @@ public class SessionHandler implements Runnable {
 
     public void updateUI(Session session) {
         try {
-            System.out.println("je suis dans update UI et je sout la list");
             SessionDAO sessionDAO = new SessionDAO();
             SeatsRoomLeft seatsRoomLeft = sessionDAO.getSeatsRoomLeftBySessionId(session);
             objectSocket.write(seatsRoomLeft);
