@@ -2,6 +2,7 @@ package org.movieTheatre.java24groupe06.views;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
 
@@ -24,7 +25,10 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     @FXML
     private Label availableVIPSeats;
 
-
+    // a mettre dans abstrat
+    public Stage getStage(){
+        return stage;
+    }
 
     public TicketViewController(Listener listener) {
         super(listener);

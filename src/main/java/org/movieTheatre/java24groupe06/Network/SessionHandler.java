@@ -8,26 +8,17 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 
-public class SessionHandler implements Runnable {
+public class SessionHandler  {
 
     private Session session;
 
 
     ObjectSocket objectSocket;
 
-    public SessionHandler(Session session) {
+    public SessionHandler(Session session,ObjectSocket objectSocket) {
         this.session = session;
-    }
+        this.objectSocket = objectSocket;
 
-    @Override
-    public void run() {
-        try {
-            Socket socket = Server.ticketServerSocket.accept();
-            ClientRequestHandler.currentTicketPageList.add(this);
-            objectSocket = new ObjectSocket(socket);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
     public Session getSession() {
         return this.session;
@@ -35,7 +26,6 @@ public class SessionHandler implements Runnable {
 
     public void updateUI(Session session) {
         try {
-            System.out.println("je suis dans update UI et je sout la list");
             SessionDAO sessionDAO = new SessionDAO();
             SeatsRoomLeft seatsRoomLeft = sessionDAO.getSeatsRoomLeftBySessionId(session);
             objectSocket.write(seatsRoomLeft);

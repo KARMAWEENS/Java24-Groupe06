@@ -11,11 +11,12 @@ import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener {
+public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.Listener, CheckConnexion.Listener {
     ObjectSocket objectSocket;
     public static List<SessionHandler> currentTicketPageList = new ArrayList<>();
 
@@ -34,26 +35,37 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
                     Movie movie = getDTOSessionListEvent.getMovie();
                     sendDTOSessionList(movie);
                 } else if (object instanceof RequestSessionEvent requestSessionEvent) {
+
                     Session session = getSession(requestSessionEvent.getDtoCreateSession());
                     sendSession(session);
-                    initializeSessionHandlerThread(session);
-                } else if (object instanceof UpdateSessionEvent) {
-                    UpdateSessionEvent updateSessionEvent = (UpdateSessionEvent) object;
-                    Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(), this));
-                    updateSessionSeatsHandlerThread.start();
+
+                    initializeSessionHandler(session);
+
+                } else if (object instanceof UpdateSessionEvent updateSessionEvent) {
+                    UpdateSeatsHandler updateSeatsHandler = new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(),this);
+                    updateSeatsHandler.start();
                 }
             }
         } catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException(e);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static void initializeSessionHandlerThread(Session session) {
-        SessionHandler sessionHandler = new SessionHandler(session);
-        Thread TicketPageThread = new Thread(sessionHandler);
-        TicketPageThread.start();
+    private void initializeSessionHandler(Session session) {
+
+
+        try {
+          Socket socket = Server.ticketServerSocket.accept();
+            ObjectSocket objectSocket2 = new ObjectSocket(socket);
+            SessionHandler sessionHandler = new SessionHandler(session, objectSocket2);
+            currentTicketPageList.add(sessionHandler);
+            CheckConnexion checkConnexion = new CheckConnexion(sessionHandler,objectSocket2,this);
+            checkConnexion.start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void sendMovieList() throws IOException {
@@ -80,10 +92,15 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
     }
 
     public void broadcast(Session session) {
-        for (SessionHandler sessionHandlerThread : currentTicketPageList) {
-            if (sessionHandlerThread.getSession().equals(session)) {
-                sessionHandlerThread.updateUI(session);
+            for (SessionHandler sessionHandler : currentTicketPageList) {
+                if (sessionHandler.getSession().equals(session)) {
+                    sessionHandler.updateUI(session);
+                }
             }
-        }
+    }
+
+    @Override
+    public void onConnexionLost(SessionHandler sessionHandler) {
+        currentTicketPageList.remove(sessionHandler);
     }
 }
