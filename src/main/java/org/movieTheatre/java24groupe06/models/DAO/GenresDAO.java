@@ -13,11 +13,16 @@ import java.util.List;
 //  c est les memes juste string qui change
 public class GenresDAO extends AbstractDAO{
 
-    public List<String> getGenresByMovieId(int movieID) throws SQLException {
-        String query =String.format("SELECT g.genre\n" +
+    public List<String> getGenresByMovieId(int movieID) throws SQLException{
+        String query = String.format("SELECT g.genre\n" +
                 "FROM Genres g\n" +
                 "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +
                 "WHERE mg.movieID = ?;", movieID);
-        return getListResult(query, rs -> rs.getString("genre"), movieID);
+        List<String> genres = getListResult(query, rs -> rs.getString("genre"), movieID);
+        if (genres.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return genres;
     }
 }

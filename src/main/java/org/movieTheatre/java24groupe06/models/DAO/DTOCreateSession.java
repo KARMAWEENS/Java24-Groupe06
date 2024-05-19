@@ -13,10 +13,10 @@ public class DTOCreateSession implements Serializable {
 
     public DTOCreateSession(int sessionID, Movie movie, String time) {
         if (movie == null) {
-            throw new IllegalArgumentException("Movie ne peut pas être null");
+            throw new IllegalArgumentException("Movie cannot be null");
         }
         if (time == null || time.isEmpty()) {
-            throw new IllegalArgumentException("Time ne peut pas être null ou vide");
+            throw new IllegalArgumentException("Time cannot be null or empty");
         }
         this.sessionID = sessionID;
         this.movie = movie;

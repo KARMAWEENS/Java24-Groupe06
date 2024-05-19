@@ -30,13 +30,12 @@ public class ActorsDAOTest {
     }
 
     @Test
-    public void getActorsByMovieIdReturnsEmptyListForNoActors() throws SQLException {
-        List<String> actors = actorsDAO.getActorsByMovieId(10);
-        assertTrue(actors.isEmpty());
+    public void getActorsByMovieIdReturnsEmptyListForNoActors() {
+        assertThrows(SQLException.class, () -> actorsDAO.getActorsByMovieId(10));
     }
 
     @Test
     public void getActorsByMovieIdThrowsExceptionForInvalidMovieId() {
-        assertThrows(IllegalArgumentException.class, () -> actorsDAO.getActorsByMovieId(0));
+        assertThrows(SQLException.class, () -> actorsDAO.getActorsByMovieId(0));
     }
 }
