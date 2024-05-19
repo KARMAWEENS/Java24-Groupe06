@@ -31,20 +31,24 @@ public abstract class AbstractDAO {
             while (rs.next()) {
                 results.add(mapper.mapRow(rs));
             }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error executing query: " + query, e);
         }
         return results;
     }
 
     // Méthode générique pour obtenir un simple élément
-    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
+    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) {
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query, params);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 return mapper.mapRow(rs);
             }
-            return null;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error executing query: " + query, e);
         }
+        return null;
     }
 
     @FunctionalInterface
