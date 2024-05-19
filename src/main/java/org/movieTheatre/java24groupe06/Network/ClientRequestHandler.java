@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listener {
+public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.Listener {
     ObjectSocket objectSocket;
     public static List<SessionHandler> currentTicketPageList = new ArrayList<>();
 
@@ -37,10 +37,9 @@ public class ClientRequestHandler implements Runnable, UpdateSeatsHandler.Listen
                     Session session = getSession(requestSessionEvent.getDtoCreateSession());
                     sendSession(session);
                     initializeSessionHandlerThread(session);
-                } else if (object instanceof UpdateSessionEvent) {
-                    UpdateSessionEvent updateSessionEvent = (UpdateSessionEvent) object;
-                    Thread updateSessionSeatsHandlerThread = new Thread(new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(), this));
-                    updateSessionSeatsHandlerThread.start();
+                } else if (object instanceof UpdateSessionEvent updateSessionEvent) {
+                    UpdateSeatsHandler updateSeatsHandler = new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(),this);
+                    updateSeatsHandler.start();
                 }
             }
         } catch (ClassNotFoundException | IOException e) {
