@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActorsDAO extends AbstractDAO {
-    //hop hop hop
+
     public List<String> getActorsByMovieId(int movieId) throws SQLException {
 
         String query = "SELECT a.FullName\n" +

@@ -19,7 +19,7 @@ public class ActorsDAOTest {
     public void setup() {
         actorsDAO = new ActorsDAO();
     }
-    // hop hop hop
+
     @Test
     public void getActorsByMovieIdReturnsExpectedActors() throws SQLException {
         List<String> actors = actorsDAO.getActorsByMovieId(2);
