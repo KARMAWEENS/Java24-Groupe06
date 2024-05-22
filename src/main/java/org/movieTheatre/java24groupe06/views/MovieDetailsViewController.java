@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
@@ -58,16 +57,15 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     }
 
     public void displayMovieDetails() {
-
-        SetTextMovie(movie);
-        setImageWithException(imageView, movie.getPathImg());
-        setImageViewProprety();
         try {
+            setTextMovie(movie);
+            setImage(imageView, movie.getPathImg());
+            setImageViewProprety();
             createSessionButton();
+            sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
     }
 
     private void setImageViewProprety() {
@@ -78,10 +76,10 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         imageView.minHeight(332);
     }
 
-    private void SetTextMovie(Movie movie) {
+    private void setTextMovie(Movie movie) {
         title.setText(movie.getTitle());
         synopsis.setText(movie.getSynopsis());
-        duration.setText(String.valueOf(movie.getDuration()) + " minutes");
+        duration.setText(movie.getDuration() + " minutes");
         genre.setText((checkList(movie.getGenres(), "genre")));
         actors.setText((checkList(movie.getActors(), "acteur")));
         producer.setText(movie.getProducer());

@@ -23,7 +23,7 @@ public class MainScenePosterTemplateController extends AbstractViewController<Ma
 
 public void setPoster() {
     titleLabel.setText(movie.getTitle());
-    setImageWithException(imageView, movie.getPathImg());
+    setImage(imageView, movie.getPathImg());
 }
     public void onPosterClicked() {
         listener.OnClickImage(movie);

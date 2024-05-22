@@ -11,8 +11,6 @@ import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener{
@@ -45,12 +43,10 @@ public class MovieApplication extends Application implements WelcomePageControll
     @Override
     public void createTicketStage(DTOCreateSession dtoCreateSession) {
         try {
-            RequestSessionEvent requestSessionEvent = new RequestSessionEvent(dtoCreateSession);
-            objectSocket.write(requestSessionEvent);
+            objectSocket.write(new RequestSessionEvent(dtoCreateSession));
             Session session = objectSocket.read();
             ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();
-
         } catch (CantLoadFXMLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -59,10 +55,7 @@ public class MovieApplication extends Application implements WelcomePageControll
 public void closeTicketView(){
         ticketController.close();
 }
-    @Override
-    public void updateUITicketBought(Session session) {
-        ticketController.ticketsBoughtUpdateUI();
-    }
+
     public static void main(String[] args) {
         launch(args);
     }

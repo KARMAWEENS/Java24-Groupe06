@@ -60,7 +60,7 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             setWidthListener(this, stage);
-            show();
+            displayGridMovies();
         } catch (CantLoadFXMLException e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +106,7 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             setWidthStage(widthStage);
             setColumn(calculatedColumn(widthStage));
             setRow(calculatedRow());
-            show();
+            displayGridMovies();
         }    setStyleStage();
     }
 
@@ -116,7 +116,7 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
         gridPane.setAlignment(Pos.CENTER);
     }
 
-    public void show() throws CantLoadFXMLException {
+    public void displayGridMovies() throws CantLoadFXMLException {
         createPane();
         int index = 0;
         for (int row = 0; row < nbRow; row++) {

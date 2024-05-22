@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 
 public interface SetImageWithException {
 
-     default void setImageWithException(ImageView imageView, String imagePath) {
+     default void setImage(ImageView imageView, String imagePath) {
         try {
             Image image = new Image(new FileInputStream(imagePath));
             imageView.setImage(image);

@@ -2,7 +2,6 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
@@ -34,7 +33,7 @@ public class TicketController implements TicketViewController.Listener, ReadTick
     public TicketController(Listener listener, Session session,ObjectSocket objectSocket) {
         this.listener = listener;
         this.session = session;
-this.objectSocket = objectSocket;
+        this.objectSocket = objectSocket;
     }
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
@@ -54,18 +53,22 @@ this.objectSocket = objectSocket;
     }
     public void initializeTicket() throws CantLoadFXMLException {
         try {
-            this.ticketViewController = new TicketViewController(this);
-            this.ticketManager = new TicketManager(session);
-            this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
+            ticketViewController = new TicketViewController(this);
+            ticketManager = new TicketManager(session);
+            promotionManager = new PromotionManager(ticketManager.getTicketsList());
             ticketViewController.openOnNewStage();
-            ticketsBoughtUpdateUI();
-            Stage stage = ticketViewController.getStage();
-            stage.setOnCloseRequest(event -> handleWindowCloseRequest(event));
+            updateSeatsLabel();
+            getStage().setOnCloseRequest(event -> handleWindowCloseRequest(event));
             initializeSocket();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private Stage getStage() {
+        return ticketViewController.getStage();
+    }
+
     public void initializeSocket(){
         try {
             Socket socket = new Socket("localhost", 8000);
@@ -111,8 +114,7 @@ this.objectSocket = objectSocket;
     }
 
 
-    public void ticketsBoughtUpdateUI(){
-        System.out.println("j utilise ticketsBoughtUpdateUI");
+    public void updateSeatsLabel(){
         ticketViewController.updateAvailableAdultSeatsLabel(session.getNbRegularSeats()-nbSelectedAdultSeats-nbSelectedChildrenSeats);
         ticketViewController.updateAvailableChildrenSeatsLabel(session.getNbRegularSeats()-nbSelectedAdultSeats-nbSelectedChildrenSeats);
         ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats()-nbSelectedVIPSeats);
@@ -144,8 +146,6 @@ this.objectSocket = objectSocket;
     @Override
     public void onButtonBuyClicked() {
         try {
-            // Je me connect a UpdateSessionSeatsHandlerThread
-            // On envoie a UpdateSessionSeatsHandlerThread les places achetées
             UpdateSessionEvent updateSessionEvent = new UpdateSessionEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
             objectSocket.write(updateSessionEvent);
         } catch (IOException e) {
@@ -181,12 +181,10 @@ this.objectSocket = objectSocket;
 
     @Override
     public void updateUITicketBought(Session session) {
-        listener.updateUITicketBought(session);
+        updateSeatsLabel();
     }
 
     public interface Listener {
         void closeTicketView();
-
-        void updateUITicketBought(Session session);
     }
 }

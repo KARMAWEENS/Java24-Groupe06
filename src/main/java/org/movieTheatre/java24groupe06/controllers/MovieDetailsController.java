@@ -20,13 +20,13 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     public void initializeMovieDetailsPage(Movie movie) {
-    movieDetailsViewController = new MovieDetailsViewController(this, movie);
         try {
+            movieDetailsViewController = new MovieDetailsViewController(this, movie);
             movieDetailsViewController.openOnNewStage();
+            movieDetailsViewController.displayMovieDetails();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        movieDetailsViewController.displayMovieDetails();
     }
 
     @Override
@@ -43,13 +43,11 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     @Override
     public List<DTOCreateSession> getDTOSessionList(Movie movie) {
         try {
-            GetDTOSessionListEvent getDTOSessionListEvent = new GetDTOSessionListEvent(movie);
-            objectSocket.write(getDTOSessionListEvent);
+            objectSocket.write(new GetDTOSessionListEvent(movie));
             return objectSocket.read();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void close() {
@@ -58,7 +56,6 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
 
     public interface Listener {
         void closeMovieDetails();
-
         void createTicketStage(DTOCreateSession dtoCreateSession);
     }
 }
