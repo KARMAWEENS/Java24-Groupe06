@@ -3,7 +3,6 @@ package org.movieTheatre.java24groupe06.Network;
 import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.Event.GetMovieEvent;
 import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
-import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
 import org.movieTheatre.java24groupe06.Network.exceptions.ClassNotFoundExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.exceptions.SQLExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.exceptions.IOExceptionHandler;
@@ -24,17 +23,12 @@ import java.util.List;
 public class ClientRequestHandlerThread extends Thread implements SessionHandlerThread.Listener {
     ObjectSocket objectSocket;
     public static List<SessionHandlerThread> currentTicketPageList = new ArrayList<>();
-    public static List<SessionHandler> currentTicketPageList = new ArrayList<>();
-    ClassNotFoundExceptionHandler classNotFoundExceptionHandler;
-    SQLExceptionHandler sqlExceptionHandler;
-    IOExceptionHandler ioExceptionHandler;
+    ClassNotFoundExceptionHandler classNotFoundExceptionHandler = new ClassNotFoundExceptionHandler();
+    SQLExceptionHandler sqlExceptionHandler = new SQLExceptionHandler();
+    IOExceptionHandler ioExceptionHandler = new IOExceptionHandler();
 
     public ClientRequestHandlerThread(ObjectSocket objectSocket) {
         this.objectSocket = objectSocket;
-
-        this.classNotFoundExceptionHandler = new ClassNotFoundExceptionHandler();
-        this.sqlExceptionHandler = new SQLExceptionHandler();
-        this.ioExceptionHandler = new IOExceptionHandler();
     }
 
     @Override
@@ -50,7 +44,7 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
                 } else if (object instanceof RequestSessionEvent requestSessionEvent) {
                     Session session = getSession(requestSessionEvent.getDtoCreateSession());
                     sendSession(session);
-                    initializeSessionHandler(session);
+                    initializeSessionHandlerThread(session);
                 } else if (object instanceof UpdateSessionSeatsEvent updateSessionSeatsEvent) {
                     updateSessionSeatsAndBroadcast(updateSessionSeatsEvent.getDtoBuy());
                 }
@@ -62,7 +56,7 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
             sqlExceptionHandler.handle(e);
         }
     }
-    private void initializeSessionHandler(Session session) {
+    private void initializeSessionHandlerThread(Session session) {
         try {
           Socket socket = Server.ticketServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(socket);

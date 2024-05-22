@@ -1,5 +1,6 @@
 package org.movieTheatre.java24groupe06.Network;
 
+import org.movieTheatre.java24groupe06.Network.exceptions.ClassNotFoundExceptionHandler;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -13,6 +14,8 @@ public class SessionHandlerThread extends Thread {
 
     ObjectSocket objectSocket;
     Listener listener;
+    ClassNotFoundExceptionHandler exceptionHandler = new ClassNotFoundExceptionHandler();
+
 
     public SessionHandlerThread(Session session, ObjectSocket objectSocket, Listener listener) {
         this.session = session;
@@ -27,7 +30,7 @@ public class SessionHandlerThread extends Thread {
         } catch (IOException e) {
             this.listener.onConnectionLost(this);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            exceptionHandler.handle(e);
         }
     }
 
