@@ -10,10 +10,9 @@ import java.net.Socket;
 
 public class ReadTicketThread extends Thread {
 
-    Session session;
-    Listener listener;
-
-    ObjectSocket objectSocket;
+    private Session session;
+    private Listener listener;
+   private ObjectSocket objectSocket;
 
     public ReadTicketThread(Session session, Listener listener,ObjectSocket objectSocket) {
         this.session = session;
@@ -24,7 +23,6 @@ public class ReadTicketThread extends Thread {
     @Override
     public void run() {
         try {
-
             while (true) {
                 Object seatsRoomLeft = objectSocket.read();
                 if(seatsRoomLeft instanceof SeatsRoomLeft){
@@ -37,6 +35,10 @@ public class ReadTicketThread extends Thread {
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void closeSocket() {
+        this.objectSocket.close();
     }
 
     public interface Listener{

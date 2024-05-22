@@ -77,9 +77,7 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     public void updateAvailableHandicapSeatsLabel(int seatsHandicapLeft){
         availableHandicapSeats.setText(String.valueOf(seatsHandicapLeft));
     }
-    public void btnClicked(ActionEvent event){
-        Stage stage = (Stage) returnButton.getScene().getWindow();
-        stage.close();
+    public void onReturnButtonClicked(ActionEvent event){
         listener.onReturnButtonClicked();
     }
 

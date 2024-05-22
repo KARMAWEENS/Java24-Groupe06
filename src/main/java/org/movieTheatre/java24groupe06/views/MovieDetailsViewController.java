@@ -112,12 +112,8 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     }
 
     public void btnClicked() {
-        // TODO faudrait surement faire pour dire au main controller
-        //  de se ferme
-        this.listener.previousBtnClicked(stage);
+        this.listener.previousBtnClicked();
     }
-
-
     public void createSessionButton() throws SQLException {
         DTOSessionsList = listener.getDTOSessionList(movie);
         for (DTOCreateSession dtoCreateSession : DTOSessionsList) {
@@ -135,7 +131,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     }
 
     public interface Listener {
-        void previousBtnClicked(Stage stage);
+        void previousBtnClicked();
 
         void sessionBtnClicked(DTOCreateSession dtoCreateSession);
 

@@ -15,15 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener,ReadTicketThread.Listener{
+public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener{
     MovieDetailsController movieDetailsController;
     WelcomePageController welcomePageController;
     TicketController ticketController;
-    List<TicketController> ticketControllerList = new ArrayList<>();
     ObjectSocket objectSocket;
-
-    ReadTicketThread readTicketThread;
-
     @Override
     public void start(Stage stage) {
         try {
@@ -42,8 +38,8 @@ public class MovieApplication extends Application implements WelcomePageControll
         movieDetailsController.initializeMovieDetailsPage(movie);
     }
     @Override
-    public void closeMovieDetailsStage(Stage movieDetailsStage) {
-        movieDetailsStage.close();
+    public void closeMovieDetails(){
+        movieDetailsController.close();
     }
 
     @Override
@@ -53,31 +49,21 @@ public class MovieApplication extends Application implements WelcomePageControll
             objectSocket.write(requestSessionEvent);
             Session session = objectSocket.read();
             ticketController = new TicketController(this, session,objectSocket);
-            ticketControllerList.add(ticketController);
             ticketController.initializeTicket();
-            Socket socket = new Socket("localhost", 8000);
-            ObjectSocket objectSocket2 = new ObjectSocket(socket);
-             readTicketThread = new ReadTicketThread(session,this,objectSocket2);
-            readTicketThread.start();
+
         } catch (CantLoadFXMLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 @Override
-public void onCloseTicketView(TicketController ticketController){
-        ticketControllerList.remove(ticketController);
-        readTicketThread.objectSocket.close();
+public void closeTicketView(){
+        ticketController.close();
 }
+    @Override
+    public void updateUITicketBought(Session session) {
+        ticketController.ticketsBoughtUpdateUI();
+    }
     public static void main(String[] args) {
         launch(args);
     }
-
-    @Override
-    public void updateUITicketBought(Session session) {
-        for(TicketController ticketController :ticketControllerList ) {
-            if (session.equals(ticketController.getSession())){
-            ticketController.ticketsBoughtUpdateUI();
-            }
-        }
     }
-}

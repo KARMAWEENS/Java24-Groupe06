@@ -25,13 +25,10 @@ public class WelcomePageController implements WelcomePageViewController.Listener
 
     public void initializeMainStage(Stage stage) {
         try {
-
-            GetMovieEvent getMovieEvent = new GetMovieEvent();
-            objectSocket.write(getMovieEvent);
+            objectSocket.write(new GetMovieEvent());
             setMovieList(objectSocket.read());
             WelcomePageViewController welcomePageViewController = new WelcomePageViewController(this, movieList, stage);
             welcomePageViewController.openOn(stage);
-
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

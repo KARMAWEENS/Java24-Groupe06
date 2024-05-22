@@ -1,6 +1,5 @@
 package org.movieTheatre.java24groupe06.controllers;
 
-import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
@@ -13,6 +12,7 @@ import java.util.List;
 public class MovieDetailsController implements MovieDetailsViewController.Listener {
     private ObjectSocket objectSocket;
     private Listener listener;
+    private MovieDetailsViewController movieDetailsViewController;
 
     public MovieDetailsController(Listener listener, ObjectSocket objectSocket) {
         this.listener = listener;
@@ -20,7 +20,7 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     public void initializeMovieDetailsPage(Movie movie) {
-        MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this, movie);
+    movieDetailsViewController = new MovieDetailsViewController(this, movie);
         try {
             movieDetailsViewController.openOnNewStage();
         } catch (IOException e) {
@@ -30,9 +30,10 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     @Override
-    public void previousBtnClicked(Stage stage) {
-        listener.closeMovieDetailsStage(stage);
+    public void previousBtnClicked() {
+        listener.closeMovieDetails();
     }
+
 
     @Override
     public void sessionBtnClicked(DTOCreateSession dtoCreateSession) {
@@ -51,8 +52,12 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
 
     }
 
+    public void close() {
+        movieDetailsViewController.close();
+    }
+
     public interface Listener {
-        void closeMovieDetailsStage(Stage stage);
+        void closeMovieDetails();
 
         void createTicketStage(DTOCreateSession dtoCreateSession);
     }

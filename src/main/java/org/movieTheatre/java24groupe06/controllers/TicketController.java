@@ -15,11 +15,13 @@ import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
 import java.io.IOException;
+import java.net.Socket;
 
 
-public class TicketController implements TicketViewController.Listener {
+public class TicketController implements TicketViewController.Listener, ReadTicketThread.Listener{
     TicketViewController ticketViewController;
     PromotionManager promotionManager;
+    ReadTicketThread readTicketThread;
     TicketManager ticketManager;
     public Listener listener;
     ObjectSocket objectSocket;
@@ -59,9 +61,22 @@ this.objectSocket = objectSocket;
             ticketsBoughtUpdateUI();
             Stage stage = ticketViewController.getStage();
             stage.setOnCloseRequest(event -> handleWindowCloseRequest(event));
+            initializeSocket();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void initializeSocket(){
+        try {
+            Socket socket = new Socket("localhost", 8000);
+            ObjectSocket objectSocket = new ObjectSocket(socket);
+            readTicketThread = new ReadTicketThread(session,this,objectSocket);
+            readTicketThread.start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
         int count = ticketManager.updateCount(ticketClass, isIncrement);
@@ -122,8 +137,7 @@ this.objectSocket = objectSocket;
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.YES) {
-                listener.onCloseTicketView(this);
-                ticketViewController.close(); // Ferme la fenêtre si l'utilisateur clique sur Oui
+                listener.closeTicketView();
             }
         });
     }
@@ -156,10 +170,23 @@ this.objectSocket = objectSocket;
     @Override
     public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
     @Override
-    public void onReturnButtonClicked(){ticketViewController.close();}
+    public void onReturnButtonClicked(){
+        listener.closeTicketView();
+    }
+
+    public void close() {
+        ticketViewController.close();
+        readTicketThread.closeSocket();
+    }
+
+    @Override
+    public void updateUITicketBought(Session session) {
+        listener.updateUITicketBought(session);
+    }
 
     public interface Listener {
+        void closeTicketView();
 
-        void onCloseTicketView(TicketController ticketController);
+        void updateUITicketBought(Session session);
     }
 }
