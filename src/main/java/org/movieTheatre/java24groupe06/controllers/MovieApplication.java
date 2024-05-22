@@ -30,7 +30,7 @@ public class MovieApplication extends Application implements WelcomePageControll
           Socket socket = new Socket("localhost",7999);
           objectSocket = new ObjectSocket(socket);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Error while connecting to server : " + e.getMessage());
         }
         welcomePageController = new WelcomePageController(this,objectSocket);
         welcomePageController.initializeMainStage(stage);

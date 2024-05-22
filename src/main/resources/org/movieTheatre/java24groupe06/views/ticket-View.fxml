@@ -17,7 +17,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="92.0" prefWidth="150.0" spacing="10.0">
                      <children>
-                        <Label fx:id="priceAdult" text="prix">
+                        <Label fx:id="priceAdult" text="20€">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin></Label>
@@ -67,7 +67,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0" spacing="10.0">
                      <children>
-                        <Label fx:id="priceChildren" text="prix" />
+                        <Label fx:id="priceChildren" text="10€" />
                         <Label fx:id="nbSelectedChildrenSeats" text="Ticket Children" />
                      </children>
                      <HBox.margin>
@@ -103,7 +103,7 @@
                <children>
                   <VBox alignment="CENTER" centerShape="false" prefHeight="93.0" prefWidth="150.0" spacing="10.0">
                      <children>
-                        <Label fx:id="priceVIP" text="prix" />
+                        <Label fx:id="priceVIP" text="30€" />
                         <Label fx:id="nbSelectedVIPSeats" prefHeight="20.0" text="Ticket VIP">
                            <VBox.margin>
                               <Insets />
@@ -142,7 +142,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0" spacing="10.0">
                      <children>
-                        <Label fx:id="pricedisabled" text="prix" />
+                        <Label fx:id="pricedisabled" text="40€" />
                         <Label fx:id="nbSelectedHandicapSeats" text="Ticket disabled" />
                      </children>
                      <HBox.margin>
