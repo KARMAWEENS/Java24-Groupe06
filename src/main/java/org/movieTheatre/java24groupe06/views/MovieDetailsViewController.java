@@ -55,7 +55,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         super(listener);
         this.movie = movie;
     }
-
+    private AlertManager alertManager = new AlertManager();
     public void displayMovieDetails() {
         try {
             setTextMovie(movie);
@@ -64,7 +64,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
             createSessionButton();
             sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            alertManager.SQLExceptionAlert();
         }
     }
 

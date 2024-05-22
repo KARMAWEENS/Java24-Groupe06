@@ -62,7 +62,8 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             setWidthListener(this, stage);
             displayGridMovies();
         } catch (CantLoadFXMLException e) {
-            throw new RuntimeException(e);
+            AlertManager alertManager = new AlertManager();
+            alertManager.CantLoadPageAlert(e);
         }
     }
     private void setWidthListener(WelcomePageViewController welcomePageViewController, Stage stage) {
