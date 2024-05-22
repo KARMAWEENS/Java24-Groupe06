@@ -28,6 +28,14 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     private Label availableVIPSeats;
     @FXML
     private Button returnButton;
+    @FXML
+    private Label priceAdult;
+    @FXML
+    private Label priceChildren;
+    @FXML
+    private Label priceVIP;
+    @FXML
+    private Label pricedisabled;
 
     // a mettre dans abstrat
     public Stage getStage(){
