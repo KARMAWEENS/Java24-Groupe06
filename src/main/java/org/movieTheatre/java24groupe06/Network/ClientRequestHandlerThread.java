@@ -97,6 +97,7 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
             }
     }
 
+
     @Override
     public void onConnectionLost(SessionHandlerThread sessionHandlerThread) {
         currentTicketPageList.remove(sessionHandlerThread);

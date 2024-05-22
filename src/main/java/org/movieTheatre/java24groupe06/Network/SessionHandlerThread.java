@@ -44,4 +44,7 @@ public class SessionHandlerThread extends Thread {
             throw new RuntimeException(e);
         }
     }
+    public interface Listener{
+        void onConnectionLost(SessionHandlerThread sessionHandlerThread);
+    }
 }
