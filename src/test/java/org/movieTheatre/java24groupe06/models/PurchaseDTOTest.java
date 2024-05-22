@@ -2,15 +2,14 @@ package org.movieTheatre.java24groupe06.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
-import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DTOBuyTest {
+public class PurchaseDTOTest {
     private Session session;
 
     @BeforeEach
@@ -35,23 +34,23 @@ public class DTOBuyTest {
 
     @Test
     public void constructorSetsAllFieldsCorrectly() {
-        DTOBuy dtoBuy = new DTOBuy(session, 2, 1, 1);
+        PurchaseDTO purchaseDto = new PurchaseDTO(session, 2, 1, 1);
 
-        assertEquals(session, dtoBuy.getSession());
-        assertEquals(2, dtoBuy.getNbRegularSeatsBuy());
-        assertEquals(1, dtoBuy.getNbVIPSeatsBuy());
-        assertEquals(1, dtoBuy.getNbHandicapsSeatsBuy());
+        assertEquals(session, purchaseDto.getSession());
+        assertEquals(2, purchaseDto.getNbRegularSeatsBuy());
+        assertEquals(1, purchaseDto.getNbVIPSeatsBuy());
+        assertEquals(1, purchaseDto.getNbHandicapsSeatsBuy());
     }
 
     @Test
     public void constructorThrowsExceptionWhenSessionIsNull() {
-        assertThrows(NullPointerException.class, () -> new DTOBuy(null, 2, 1, 1));
+        assertThrows(NullPointerException.class, () -> new PurchaseDTO(null, 2, 1, 1));
     }
 
     @Test
     public void constructorThrowsExceptionWhenNumberOfSeatsIsNegative() {
-        assertThrows(IllegalArgumentException.class, () -> new DTOBuy(session, -1, 1, 1));
-        assertThrows(IllegalArgumentException.class, () -> new DTOBuy(session, 2, -1, 1));
-        assertThrows(IllegalArgumentException.class, () -> new DTOBuy(session, 2, 1, -1));
+        assertThrows(IllegalArgumentException.class, () -> new PurchaseDTO(session, -1, 1, 1));
+        assertThrows(IllegalArgumentException.class, () -> new PurchaseDTO(session, 2, -1, 1));
+        assertThrows(IllegalArgumentException.class, () -> new PurchaseDTO(session, 2, 1, -1));
     }
 }

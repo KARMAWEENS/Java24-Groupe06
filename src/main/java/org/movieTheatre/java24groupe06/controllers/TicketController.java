@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
+import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
@@ -146,7 +146,7 @@ public class TicketController implements TicketViewController.Listener, ReadTick
     @Override
     public void onButtonBuyClicked() {
         try {
-            UpdateSessionSeatsEvent updateSessionSeatsEvent = new UpdateSessionSeatsEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+            UpdateSessionSeatsEvent updateSessionSeatsEvent = new UpdateSessionSeatsEvent(new PurchaseDTO(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
             objectSocket.write(updateSessionSeatsEvent);
         } catch (IOException e) {
             throw new RuntimeException(e);

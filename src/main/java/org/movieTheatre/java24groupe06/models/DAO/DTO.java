@@ -3,6 +3,39 @@ package org.movieTheatre.java24groupe06.models.DAO;
 import java.util.List;
 
 public class DTO {
+    private String title;
+    private int duration;
+    private int ID;
+    private String synopsis;
+    private String releaseDate;
+    private String producer;
+    private String pathImg;
+
+    public String getTitle() {
+        return title;
+    }
+    public int getDuration() {
+        return duration;
+    }
+    public int getID() {
+        return ID;
+    }
+    public String getSynopsis() {
+        return synopsis;
+    }
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+    public String getProducer() {
+        return producer;
+    }
+    public String getPathImg() {
+        return pathImg;
+    }
+    public boolean isShowing() {
+        return isShowing;
+    }
+    private boolean isShowing;
 
 
     public DTO(String title, int duration, int ID, String synopsis, String releaseDate, String producer, String pathImg, boolean isShowing) {
@@ -22,7 +55,7 @@ public class DTO {
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < objs.length; i++) {
             if (objs[i] == null) {
-                errorMessage.append(names[i]).append(" erreur ne peut pas être null");
+                errorMessage.append(names[i]).append("erreur ne peut pas être null");
             }
         }
         if (!errorMessage.isEmpty()) {
@@ -33,54 +66,11 @@ public class DTO {
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
             if (values[i] < 0) {
-                errorMessage.append(names[i]).append(" cannot be negative. ");
+                errorMessage.append(names[i]).append("cannot be negative. ");
             }
         }
         if (!errorMessage.isEmpty()) {
             throw new IllegalArgumentException(errorMessage.toString());
         }
     }
-
-    private String title;
-    private int duration;
-    private int ID;
-    private String synopsis;
-    private String releaseDate;
-    private String producer;
-    private String pathImg;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public String getSynopsis() {
-        return synopsis;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public String getProducer() {
-        return producer;
-    }
-
-    public String getPathImg() {
-        return pathImg;
-    }
-
-    public boolean isShowing() {
-        return isShowing;
-    }
-
-    private boolean isShowing;
-
 }

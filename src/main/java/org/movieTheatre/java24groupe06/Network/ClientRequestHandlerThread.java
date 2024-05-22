@@ -8,7 +8,7 @@ import org.movieTheatre.java24groupe06.Network.exceptions.SQLExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.exceptions.IOExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
-import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
+import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
@@ -86,12 +86,12 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
         objectSocket.write(session);
     }
 
-    public void updateSessionSeatsAndBroadcast(DTOBuy dtoBuy){
+    public void updateSessionSeatsAndBroadcast(PurchaseDTO purchaseDto){
         SessionDAO sessionDAO = new SessionDAO();
-        Session session = dtoBuy.getSession();
-        int nbRegularSeatsBuy = dtoBuy.getNbRegularSeatsBuy();
-        int nbVIPSeatsBuy = dtoBuy.getNbVIPSeatsBuy();
-        int nbHandicapsSeatsBuy = dtoBuy.getNbHandicapsSeatsBuy();
+        Session session = purchaseDto.getSession();
+        int nbRegularSeatsBuy = purchaseDto.getNbRegularSeatsBuy();
+        int nbVIPSeatsBuy = purchaseDto.getNbVIPSeatsBuy();
+        int nbHandicapsSeatsBuy = purchaseDto.getNbHandicapsSeatsBuy();
         sessionDAO.updateSeats(session,nbRegularSeatsBuy,nbVIPSeatsBuy,nbHandicapsSeatsBuy);
         broadcast(session);
     }
@@ -103,7 +103,6 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
                 }
             }
     }
-
 
     @Override
     public void onConnectionLost(SessionHandlerThread sessionHandlerThread) {

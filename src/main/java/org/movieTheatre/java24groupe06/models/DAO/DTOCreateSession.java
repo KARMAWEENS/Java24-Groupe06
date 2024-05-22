@@ -21,8 +21,6 @@ public class DTOCreateSession implements Serializable {
         this.sessionID = sessionID;
         this.movie = movie;
         this.time = time;
-
-
     }
 
     public int getSessionID() {

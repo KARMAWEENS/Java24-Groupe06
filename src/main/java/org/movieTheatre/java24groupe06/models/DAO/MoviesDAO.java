@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MoviesDAO extends AbstractDAO{
 
-    public List<Movie.MovieBuilder> getDB() throws SQLException {
+    public List<Movie.MovieBuilder> getMoviesBuilderList() throws SQLException {
         List<DTO> DTOList =getListDTOMovie();
         List<Movie.MovieBuilder> movieBuilderList = new ArrayList<>();
 
@@ -18,7 +18,7 @@ public class MoviesDAO extends AbstractDAO{
         return movieBuilderList;
     }
 
-    public List<DTO> getListDTOMovie() throws SQLException {;
+    public List<DTO> getListDTOMovie() throws SQLException {
         String query =String.format("SELECT * FROM Movies WHERE isShowing = true");
         return getListResult(query, rs -> new DTO(rs.getString("title"),
                                     rs.getInt("duration"),

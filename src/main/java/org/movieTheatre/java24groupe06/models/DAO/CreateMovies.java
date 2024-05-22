@@ -8,10 +8,6 @@ import java.util.List;
 
 public class CreateMovies {
     List<Movie.MovieBuilder> moviesBuilderList;
-    public List<Movie.MovieBuilder> getMoviesBuilderList() {
-        return moviesBuilderList;
-    }
-
     MoviesDAO moviesDAO = new MoviesDAO();
     ActorsDAO actorsDAO = new ActorsDAO();
     GenresDAO genresDAO = new GenresDAO();
@@ -19,7 +15,7 @@ public class CreateMovies {
            public List<Movie> buildMoviesList(){
                List<Movie> movieList = new ArrayList<>();
                try {
-                 moviesBuilderList =  moviesDAO.getDB();
+                 moviesBuilderList =  moviesDAO.getMoviesBuilderList();
                    for (Movie.MovieBuilder movieBuilder : moviesBuilderList){
                        setActors(movieBuilder);
                        setGenres(movieBuilder);
