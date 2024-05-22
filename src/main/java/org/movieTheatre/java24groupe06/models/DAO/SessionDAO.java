@@ -1,6 +1,6 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
-import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.DataBaseSingleton.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -36,7 +36,7 @@ public class SessionDAO extends AbstractDAO {
                         rs.getString("Time")));
     }
 
-    public void update(Session session, int nbRegularSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
+    public void updateSeats(Session session, int nbRegularSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
         String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE SessionID = ?";
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query)) {

@@ -3,8 +3,6 @@ package org.movieTheatre.java24groupe06.Network;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
 
@@ -25,8 +23,8 @@ public class Server {
         while (true) {
             Socket client = mainServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(client);
-            ClientRequestHandler clientRequestHandler = new ClientRequestHandler(objectSocket);
-            clientRequestHandler.start();
+            ClientRequestHandlerThread clientRequestHandlerThread = new ClientRequestHandlerThread(objectSocket);
+            clientRequestHandlerThread.start();
         }
 
     }

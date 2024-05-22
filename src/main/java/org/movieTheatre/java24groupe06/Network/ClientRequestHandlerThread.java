@@ -3,8 +3,9 @@ package org.movieTheatre.java24groupe06.Network;
 import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.Event.GetMovieEvent;
 import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
-import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
+import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
+import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
@@ -16,11 +17,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.Listener, CheckConnexion.Listener {
+public class ClientRequestHandlerThread extends Thread implements SessionHandlerThread.Listener {
     ObjectSocket objectSocket;
-    public static List<SessionHandler> currentTicketPageList = new ArrayList<>();
+    public static List<SessionHandlerThread> currentTicketPageList = new ArrayList<>();
 
-    public ClientRequestHandler(ObjectSocket objectSocket) {
+    public ClientRequestHandlerThread(ObjectSocket objectSocket) {
         this.objectSocket = objectSocket;
     }
 
@@ -35,15 +36,11 @@ public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.L
                     Movie movie = getDTOSessionListEvent.getMovie();
                     sendDTOSessionList(movie);
                 } else if (object instanceof RequestSessionEvent requestSessionEvent) {
-
                     Session session = getSession(requestSessionEvent.getDtoCreateSession());
                     sendSession(session);
-
                     initializeSessionHandler(session);
-
-                } else if (object instanceof UpdateSessionEvent updateSessionEvent) {
-                    UpdateSeatsHandler updateSeatsHandler = new UpdateSeatsHandler(objectSocket, updateSessionEvent.getDtoBuy(),this);
-                    updateSeatsHandler.start();
+                } else if (object instanceof UpdateSessionSeatsEvent updateSessionSeatsEvent) {
+                    updateSessionSeatsAndBroadcast(updateSessionSeatsEvent.getDtoBuy());
                 }
             }
         } catch (ClassNotFoundException | IOException e) {
@@ -52,17 +49,13 @@ public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.L
             throw new RuntimeException(e);
         }
     }
-
     private void initializeSessionHandler(Session session) {
-
-
         try {
           Socket socket = Server.ticketServerSocket.accept();
-            ObjectSocket objectSocket2 = new ObjectSocket(socket);
-            SessionHandler sessionHandler = new SessionHandler(session, objectSocket2);
-            currentTicketPageList.add(sessionHandler);
-            CheckConnexion checkConnexion = new CheckConnexion(sessionHandler,objectSocket2,this);
-            checkConnexion.start();
+            ObjectSocket objectSocket = new ObjectSocket(socket);
+            SessionHandlerThread sessionHandlerThread = new SessionHandlerThread(session, objectSocket,this);
+            sessionHandlerThread.start();
+            currentTicketPageList.add(sessionHandlerThread);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,21 +79,26 @@ public class ClientRequestHandler extends Thread implements UpdateSeatsHandler.L
         objectSocket.write(session);
     }
 
-    @Override
-    public void onSeatsUpdated(Session session) {
+    public void updateSessionSeatsAndBroadcast(DTOBuy dtoBuy){
+        SessionDAO sessionDAO = new SessionDAO();
+        Session session = dtoBuy.getSession();
+        int nbRegularSeatsBuy = dtoBuy.getNbRegularSeatsBuy();
+        int nbVIPSeatsBuy = dtoBuy.getNbVIPSeatsBuy();
+        int nbHandicapsSeatsBuy = dtoBuy.getNbHandicapsSeatsBuy();
+        sessionDAO.updateSeats(session,nbRegularSeatsBuy,nbVIPSeatsBuy,nbHandicapsSeatsBuy);
         broadcast(session);
     }
 
     public void broadcast(Session session) {
-            for (SessionHandler sessionHandler : currentTicketPageList) {
-                if (sessionHandler.getSession().equals(session)) {
-                    sessionHandler.updateUI(session);
+            for (SessionHandlerThread sessionHandlerThread : currentTicketPageList) {
+                if (sessionHandlerThread.getSession().equals(session)) {
+                    sessionHandlerThread.updateUI(session);
                 }
             }
     }
 
     @Override
-    public void onConnexionLost(SessionHandler sessionHandler) {
-        currentTicketPageList.remove(sessionHandler);
+    public void onConnectionLost(SessionHandlerThread sessionHandlerThread) {
+        currentTicketPageList.remove(sessionHandlerThread);
     }
 }

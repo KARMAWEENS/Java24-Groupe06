@@ -9,7 +9,7 @@ import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
-import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
+import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 
@@ -146,8 +146,8 @@ public class TicketController implements TicketViewController.Listener, ReadTick
     @Override
     public void onButtonBuyClicked() {
         try {
-            UpdateSessionEvent updateSessionEvent = new UpdateSessionEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
-            objectSocket.write(updateSessionEvent);
+            UpdateSessionSeatsEvent updateSessionSeatsEvent = new UpdateSessionSeatsEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+            objectSocket.write(updateSessionSeatsEvent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

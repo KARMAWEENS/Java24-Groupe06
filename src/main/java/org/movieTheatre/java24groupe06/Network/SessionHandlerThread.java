@@ -5,21 +5,32 @@ import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.sql.SQLException;
 
-public class SessionHandler  {
+public class SessionHandlerThread extends Thread {
 
     private Session session;
 
-
     ObjectSocket objectSocket;
+    Listener listener;
 
-    public SessionHandler(Session session,ObjectSocket objectSocket) {
+    public SessionHandlerThread(Session session, ObjectSocket objectSocket, Listener listener) {
         this.session = session;
         this.objectSocket = objectSocket;
-
+        this.listener=listener;
     }
+
+    @Override
+    public void run() {
+        try {
+            objectSocket.read();
+        } catch (IOException e) {
+            this.listener.onConnectionLost(this);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Session getSession() {
         return this.session;
     }

@@ -2,10 +2,8 @@ package org.movieTheatre.java24groupe06.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 

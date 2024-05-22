@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.DataBase.Utils;
+package org.movieTheatre.java24groupe06.DataBaseSingleton;
 
 import java.io.Closeable;
 import java.sql.*;
