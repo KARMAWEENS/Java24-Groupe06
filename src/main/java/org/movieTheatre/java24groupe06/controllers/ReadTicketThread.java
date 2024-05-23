@@ -24,11 +24,10 @@ public class ReadTicketThread extends Thread {
     public void run() {
         try {
             while (true) {
-                Object seatsRoomLeft = objectSocket.read();
-                if(seatsRoomLeft instanceof SeatsRoomLeft){
-                    SeatsRoomLeft seatsRoomLeft1 = (SeatsRoomLeft) seatsRoomLeft;
-                    System.out.println(seatsRoomLeft1.getNbRegularSeats());
-                    session.setSeatsRoomLeft(seatsRoomLeft1);
+                Object object = objectSocket.read();
+                if(object instanceof SeatsRoomLeft seatsRoomLeft){
+                    System.out.println(seatsRoomLeft.getNbRegularSeats());
+                    session.setSeatsRoomLeft(seatsRoomLeft);
                     Platform.runLater(() -> listener.updateUITicketBought(session));
                 }
             }

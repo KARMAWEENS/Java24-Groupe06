@@ -24,11 +24,7 @@ public class MovieApplication extends Application implements WelcomePageControll
         try {
             PortConfig portConfig = new PortConfig();
             portConfig.loadConfig();
-
-            System.out.println("socket main port" + PortConfig.mainPort );
             Socket socket = new Socket(PortConfig.host, PortConfig.mainPort);
-            System.out.println(PortConfig.host + "   " + PortConfig.mainPort);
-            System.out.println(socket);
             objectSocket = new ObjectSocket(socket);
         } catch (IOException e) {
 
