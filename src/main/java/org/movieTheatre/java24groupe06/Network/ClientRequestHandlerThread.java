@@ -10,7 +10,7 @@ import org.movieTheatre.java24groupe06.Network.exceptions.IOExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -85,9 +85,9 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
         objectSocket.write(sessionDAO.getDTOSessionList(movie));
     }
 
-    public Session getSession(DTOCreateSession dtoCreateSession) throws IOException, SQLException {
+    public Session getSession(CreateSessionDTO createSessionDTO) throws IOException, SQLException {
         SessionDAO sessionDAO = new SessionDAO();
-        return sessionDAO.getSessionBySessionId(dtoCreateSession.getSessionID(), dtoCreateSession.getMovie());
+        return sessionDAO.getSessionBySessionId(createSessionDTO.getSessionID(), createSessionDTO.getMovie());
     }
     public void sendSession(Session session) throws IOException {
         objectSocket.write(session);

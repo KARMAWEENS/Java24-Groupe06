@@ -9,10 +9,10 @@ import java.sql.*;
 import java.util.List;
 
 public class SessionDAO extends AbstractDAO {
-    public List<DTOCreateSession> getDTOSessionList(Movie movie) throws SQLException {
+    public List<CreateSessionDTO> getDTOSessionList(Movie movie) throws SQLException {
         String query = String.format("SELECT * FROM Sessions WHERE movieID = %s", movie.getID());
         return getListResult(query, rs ->
-                new DTOCreateSession(rs.getInt("SessionID"), movie, rs.getString("Time")));
+                new CreateSessionDTO(rs.getInt("SessionID"), movie, rs.getString("Time")));
     }
 
     public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws SQLException {

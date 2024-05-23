@@ -7,40 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesDAO extends AbstractDAO{
-
     public List<Movie.MovieBuilder> getMoviesBuilderList() throws SQLException {
-        List<DTO> DTOList =getListDTOMovie();
-        List<Movie.MovieBuilder> movieBuilderList = new ArrayList<>();
-
-        for (DTO dto :DTOList){
-             movieBuilderList.add(initializeMovieBuilder(dto));
-        }
-        return movieBuilderList;
-    }
-
-    public List<DTO> getListDTOMovie() throws SQLException {
         String query =String.format("SELECT * FROM Movies WHERE isShowing = true");
-        return getListResult(query, rs -> new DTO(rs.getString("title"),
-                                    rs.getInt("duration"),
-                                    rs.getInt("movieID"),
-                                    rs.getString("synopsis"),
-                                    rs.getString("ReleaseDate"),
-                                    rs.getString("Producer"),
-                                    rs.getString("pathImg"),
-                                    rs.getBoolean("isShowing"))
+        return getListResult(query, rs -> new Movie.MovieBuilder()
+                        .setTitle(rs.getString("title"))
+                        .setDuration(rs.getInt("duration"))
+                        .setID(rs.getInt("movieID"))
+                        .setSynopsis(rs.getString("synopsis"))
+                        .setReleaseDate(rs.getString("ReleaseDate"))
+                        .setProducer(rs.getString("Producer"))
+                        .setPathImg(rs.getString("pathImg"))
+                        .setIsShowing(rs.getBoolean("isShowing"))
             );
-    }
-
-    private Movie.MovieBuilder initializeMovieBuilder(DTO dto) throws SQLException {
-        Movie.MovieBuilder movieBuilder = new Movie.MovieBuilder()
-                .setTitle(dto.getTitle())
-                .setDuration(dto.getDuration())
-                .setSynopsis(dto.getSynopsis())
-                .setIsShowing(dto.isShowing())
-                .setReleaseDate(dto.getReleaseDate())
-                .setPathImg(dto.getPathImg())
-                .setProducer(dto.getProducer())
-                .setID(dto.getID());
-        return movieBuilder;
     }
 }

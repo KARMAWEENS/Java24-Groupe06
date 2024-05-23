@@ -5,6 +5,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
+import org.movieTheatre.java24groupe06.models.PortConfig;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
@@ -71,7 +72,7 @@ public class TicketController implements TicketViewController.Listener, ReadTick
 
     public void initializeSocket(){
         try {
-            Socket socket = new Socket("localhost", 8000);
+            Socket socket = new Socket(PortConfig.host, PortConfig.ticketPort);
             ObjectSocket objectSocket = new ObjectSocket(socket);
             readTicketThread = new ReadTicketThread(session,this,objectSocket);
             readTicketThread.start();
