@@ -28,10 +28,7 @@ public class Server {
         ServerSocket mainServerSocket = new ServerSocket(PortConfig.mainPort);
          ticketServerSocket = new ServerSocket(PortConfig.ticketPort);
         while (true) {
-            System.out.println("j attends un client");
             Socket client = mainServerSocket.accept();
-            System.out.println("j ai accept un client");
-
             ObjectSocket objectSocket = new ObjectSocket(client);
             ClientRequestHandlerThread clientRequestHandlerThread = new ClientRequestHandlerThread(objectSocket);
             clientRequestHandlerThread.start();
