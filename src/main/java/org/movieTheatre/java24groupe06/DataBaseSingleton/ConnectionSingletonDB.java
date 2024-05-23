@@ -16,7 +16,7 @@ import java.sql.*;
 // TODO gerer les exceptions
 public class ConnectionSingletonDB implements Closeable {
 
-    public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseMovieT.db";
+    public static final String DB_URL = "jdbc:sqlite:./src/main/resources/DataBase/DataBaseMovieT1.db";
     private static ConnectionSingletonDB instance = null;
     private Connection connection = null;
     public Connection getConnection() {

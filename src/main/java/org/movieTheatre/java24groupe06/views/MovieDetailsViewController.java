@@ -116,6 +116,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public void btnClicked() {
         this.listener.previousBtnClicked();
     }
+
     public void createSessionButton() throws SQLException, CustomExceptions {
         DTOSessionsList = listener.getDTOSessionList(movie);
         for (CreateSessionDTO createSessionDTO : DTOSessionsList) {

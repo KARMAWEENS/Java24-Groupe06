@@ -33,9 +33,6 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
             AlertManager.showErrorAlert("L'ouverture de la page des détails des films a échouée", e);
             throw new CustomExceptions("Failed to open movie details page" ,e, ErrorCode.MOVIE_DETAIL_ERROR);
         }
-        finally {
-            movieDetailsViewController.displayMovieDetails();
-        }
     }
 
     @Override
