@@ -3,10 +3,10 @@ package org.movieTheatre.java24groupe06.Network;
 import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.Event.GetMovieEvent;
 import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
-import org.movieTheatre.java24groupe06.Network.exceptions.ClassNotFoundExceptionHandler;
+
 import org.movieTheatre.java24groupe06.Network.exceptions.HandleExceptions;
-import org.movieTheatre.java24groupe06.Network.exceptions.SQLExceptionHandler;
-import org.movieTheatre.java24groupe06.Network.exceptions.IOExceptionHandler;
+
+
 import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
 import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
@@ -24,9 +24,9 @@ import java.util.List;
 public class ClientRequestHandlerThread extends Thread implements SessionHandlerThread.Listener {
     ObjectSocket objectSocket;
     public static List<SessionHandlerThread> currentTicketPageList = new ArrayList<>();
-    ClassNotFoundExceptionHandler classNotFoundExceptionHandler = new ClassNotFoundExceptionHandler();
-    SQLExceptionHandler sqlExceptionHandler = new SQLExceptionHandler();
-    IOExceptionHandler ioExceptionHandler = new IOExceptionHandler();
+
+
+
 
     public ClientRequestHandlerThread(ObjectSocket objectSocket) {
         this.objectSocket = objectSocket;

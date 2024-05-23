@@ -1,6 +1,6 @@
 package org.movieTheatre.java24groupe06.Network;
 
-import org.movieTheatre.java24groupe06.Network.exceptions.ClassNotFoundExceptionHandler;
+
 import org.movieTheatre.java24groupe06.Network.exceptions.HandleExceptions;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
