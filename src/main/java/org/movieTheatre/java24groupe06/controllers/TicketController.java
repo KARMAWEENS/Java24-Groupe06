@@ -5,6 +5,8 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -13,6 +15,7 @@ import org.movieTheatre.java24groupe06.models.tickets.*;
 import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
+import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.io.IOException;
 
@@ -50,7 +53,8 @@ this.objectSocket = objectSocket;
     public Session getSession(){
         return session;
     }
-    public void initializeTicket() throws CantLoadFXMLException {
+
+    public void initializeTicket() throws CantLoadFXMLException, CustomExceptions {
         try {
             this.ticketViewController = new TicketViewController(this);
             this.ticketManager = new TicketManager(session);
@@ -60,7 +64,8 @@ this.objectSocket = objectSocket;
             Stage stage = ticketViewController.getStage();
             stage.setOnCloseRequest(event -> handleWindowCloseRequest(event));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            AlertManager.showErrorAlert("Erreur lors de l'ouverture de la page des tickets", e);
+            throw new CustomExceptions("Failed to open ticket page", e, ErrorCode.INITIALIZE_TICKETS_ERROR);
         }
     }
     private <T extends Ticket> void updateTicketCountAndUI(Class<T> ticketClass, boolean isIncrement) {
@@ -128,14 +133,15 @@ this.objectSocket = objectSocket;
         });
     }
     @Override
-    public void onButtonBuyClicked() {
+    public void onButtonBuyClicked() throws CustomExceptions {
         try {
             // Je me connect a UpdateSessionSeatsHandlerThread
             // On envoie a UpdateSessionSeatsHandlerThread les places achetées
             UpdateSessionEvent updateSessionEvent = new UpdateSessionEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
             objectSocket.write(updateSessionEvent);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            AlertManager.showErrorAlert("Erreur lors de la connexion au serveur", e);
+            throw new CustomExceptions("Failed to buy tickets", e, ErrorCode.BUY_TICKET_ERROR);
         }
     }
 

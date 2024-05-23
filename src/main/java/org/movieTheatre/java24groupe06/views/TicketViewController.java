@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
 
 public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
 
@@ -117,7 +119,7 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     public void OnButtonMinusAdultClicked(MouseEvent mouseEvent) {
         listener.onButtonMinusAdultClicked();
     }
-    public void OnButtonBuyClicked(MouseEvent mouseEvent) {
+    public void OnButtonBuyClicked(MouseEvent mouseEvent) throws CustomExceptions {
         listener.onButtonBuyClicked();
     }
 
@@ -131,7 +133,7 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         void onButtonPlusVIPClicked();
         void onButtonMinusDisabledClicked();
         void onButtonPlusDisabledClicked();
-        void onButtonBuyClicked();
+        void onButtonBuyClicked() throws CustomExceptions;
         void onReturnButtonClicked();
     }
 }

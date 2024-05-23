@@ -8,6 +8,8 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
+
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.views.Components.MainScenePosterTemplateController;
@@ -138,13 +140,13 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
     }
 
     @Override
-    public void OnClickImage(Movie movie) {
+    public void OnClickImage(Movie movie) throws CustomExceptions{
         listener.OnClickImage(movie);
     }
 
 
     public interface Listener{
-        void OnClickImage(Movie movie);
+        void OnClickImage(Movie movie) throws CustomExceptions;
     }
 }
 

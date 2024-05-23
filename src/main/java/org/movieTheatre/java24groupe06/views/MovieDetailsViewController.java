@@ -9,8 +9,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
+import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
@@ -57,15 +60,14 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         this.movie = movie;
     }
 
-    public void displayMovieDetails() {
-
+    public void displayMovieDetails() throws CustomExceptions {
         SetTextMovie(movie);
         setImageWithException(imageView, movie.getPathImg());
         setImageViewProprety();
         try {
             createSessionButton();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new CustomExceptions("Failed to create session button", e, ErrorCode.SESSION_CREATION_ERROR);
         }
         sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
     }
@@ -118,12 +120,16 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     }
 
 
-    public void createSessionButton() throws SQLException {
+    public void createSessionButton() throws SQLException, CustomExceptions {
         DTOSessionsList = listener.getDTOSessionList(movie);
         for (DTOCreateSession dtoCreateSession : DTOSessionsList) {
             Button sessionButton = new Button(dtoCreateSession.getTime());
             sessionButton.setOnAction(event -> {
-                listener.sessionBtnClicked(dtoCreateSession);
+                try {
+                    listener.sessionBtnClicked(dtoCreateSession);
+                } catch (CustomExceptions e) {
+                    AlertManager.showErrorAlert("La creation d'un bouton de session a échouée", e);
+                }
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
@@ -137,8 +143,8 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public interface Listener {
         void previousBtnClicked(Stage stage);
 
-        void sessionBtnClicked(DTOCreateSession dtoCreateSession);
+        void sessionBtnClicked(DTOCreateSession dtoCreateSession) throws CustomExceptions;
 
-        List<DTOCreateSession> getDTOSessionList(Movie movie);
+        List<DTOCreateSession> getDTOSessionList(Movie movie) throws SQLException, CustomExceptions;
     }
 }
