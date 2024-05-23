@@ -64,7 +64,7 @@ public class PartialMovieDTO {
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
             if (values[i] < 0) {
-                errorMessage.append(names[i]).append("cannot be negative. ");
+                errorMessage.append(names[i]).append("cannot be negative. ") ;
             }
         }
         if (!errorMessage.isEmpty()) {
