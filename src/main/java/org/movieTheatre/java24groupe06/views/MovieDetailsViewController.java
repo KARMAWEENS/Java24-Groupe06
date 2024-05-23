@@ -12,7 +12,6 @@ import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;

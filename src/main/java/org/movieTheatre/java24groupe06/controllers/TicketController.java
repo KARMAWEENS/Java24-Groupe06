@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
-import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
 import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
 import org.movieTheatre.java24groupe06.models.PortConfig;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
@@ -75,7 +74,7 @@ public class TicketController implements TicketViewController.Listener, ReadTick
         return ticketViewController.getStage();
     }
 
-    public void initializeSocket(){
+    public void initializeSocket() throws CustomExceptions{
         try {
             Socket socket = new Socket(PortConfig.host, PortConfig.ticketPort);
             ObjectSocket objectSocket = new ObjectSocket(socket);
