@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.exceptions.SetImageWithException;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
@@ -19,7 +19,7 @@ import java.util.List;
 public class MovieDetailsViewController extends AbstractViewController<MovieDetailsViewController.Listener> implements SetImageWithException {
 
     private Movie movie;
-    private List<DTOCreateSession> DTOSessionsList;
+    private List<CreateSessionDTO> DTOSessionsList;
     @FXML
     private Label title;
     @FXML
@@ -114,10 +114,10 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     }
     public void createSessionButton() throws SQLException {
         DTOSessionsList = listener.getDTOSessionList(movie);
-        for (DTOCreateSession dtoCreateSession : DTOSessionsList) {
-            Button sessionButton = new Button(dtoCreateSession.getTime());
+        for (CreateSessionDTO createSessionDTO : DTOSessionsList) {
+            Button sessionButton = new Button(createSessionDTO.getTime());
             sessionButton.setOnAction(event -> {
-                listener.sessionBtnClicked(dtoCreateSession);
+                listener.sessionBtnClicked(createSessionDTO);
             });
             sessionButtonHBox.getChildren().add(sessionButton);
         }
@@ -131,8 +131,8 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public interface Listener {
         void previousBtnClicked();
 
-        void sessionBtnClicked(DTOCreateSession dtoCreateSession);
+        void sessionBtnClicked(CreateSessionDTO createSessionDTO);
 
-        List<DTOCreateSession> getDTOSessionList(Movie movie);
+        List<CreateSessionDTO> getDTOSessionList(Movie movie);
     }
 }

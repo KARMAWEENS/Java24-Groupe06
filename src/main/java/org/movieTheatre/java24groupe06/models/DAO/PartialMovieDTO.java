@@ -1,8 +1,6 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
-import java.util.List;
-
-public class DTO {
+public class PartialMovieDTO {
     private String title;
     private int duration;
     private int ID;
@@ -38,7 +36,7 @@ public class DTO {
     private boolean isShowing;
 
 
-    public DTO(String title, int duration, int ID, String synopsis, String releaseDate, String producer, String pathImg, boolean isShowing) {
+    public PartialMovieDTO(String title, int duration, int ID, String synopsis, String releaseDate, String producer, String pathImg, boolean isShowing) {
         checkNotNull(new Object[]{title, synopsis, releaseDate, producer, pathImg}, new String[]{"Title", "Synopsis", "Release date", "Producer", "Path image","duration","ID"});
         checkNotNegative(new int[]{duration, ID}, new String[]{"Duration", "ID"});
         this.title = title;

@@ -1,6 +1,6 @@
 package org.movieTheatre.java24groupe06.controllers;
 
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
@@ -36,12 +36,12 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
 
 
     @Override
-    public void sessionBtnClicked(DTOCreateSession dtoCreateSession) {
-        listener.createTicketStage(dtoCreateSession);
+    public void sessionBtnClicked(CreateSessionDTO createSessionDTO) {
+        listener.createTicketStage(createSessionDTO);
     }
 
     @Override
-    public List<DTOCreateSession> getDTOSessionList(Movie movie) {
+    public List<CreateSessionDTO> getDTOSessionList(Movie movie) {
         try {
             objectSocket.write(new GetDTOSessionListEvent(movie));
             return objectSocket.read();
@@ -56,6 +56,6 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
 
     public interface Listener {
         void closeMovieDetails();
-        void createTicketStage(DTOCreateSession dtoCreateSession);
+        void createTicketStage(CreateSessionDTO createSessionDTO);
     }
 }

@@ -2,14 +2,13 @@ package org.movieTheatre.java24groupe06.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
-import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DTOCreateSessionTest {
-    private DTOCreateSession dtoCreateSession;
+public class CreateSessionDTOTest {
+    private CreateSessionDTO createSessionDTO;
     private Movie movie;
 
     @BeforeEach
@@ -20,35 +19,35 @@ public class DTOCreateSessionTest {
         movieBuilder.setDuration(120);
         movie = movieBuilder.build();
 
-        dtoCreateSession = new DTOCreateSession(1, movie, "10:00");
+        createSessionDTO = new CreateSessionDTO(1, movie, "10:00");
     }
 
     @Test
     public void constructorCreatesValidObject() {
-        assertNotNull(dtoCreateSession);
-        assertEquals(1, dtoCreateSession.getSessionID());
-        assertEquals(movie, dtoCreateSession.getMovie());
-        assertEquals("10:00", dtoCreateSession.getTime());
+        assertNotNull(createSessionDTO);
+        assertEquals(1, createSessionDTO.getSessionID());
+        assertEquals(movie, createSessionDTO.getMovie());
+        assertEquals("10:00", createSessionDTO.getTime());
     }
 
     @Test
     public void getSessionIDReturnsCorrectID() {
-        assertEquals(1, dtoCreateSession.getSessionID());
+        assertEquals(1, createSessionDTO.getSessionID());
     }
 
     @Test
     public void getMovieReturnsCorrectMovie() {
-        assertEquals(movie, dtoCreateSession.getMovie());
+        assertEquals(movie, createSessionDTO.getMovie());
     }
 
     @Test
     public void getTimeReturnsCorrectTime() {
-        assertEquals("10:00", dtoCreateSession.getTime());
+        assertEquals("10:00", createSessionDTO.getTime());
     }
     @Test
     public void constructorThrowsExceptionWhenMovieIsNull() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DTOCreateSession(1, null, "10:00");
+            new CreateSessionDTO(1, null, "10:00");
         });
         assertEquals("Movie cannot be null", exception.getMessage());
     }
@@ -56,7 +55,7 @@ public class DTOCreateSessionTest {
     @Test
     public void constructorThrowsExceptionWhenTimeIsNull() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DTOCreateSession(1, movie, null);
+            new CreateSessionDTO(1, movie, null);
         });
         assertEquals("Time cannot be null or empty", exception.getMessage());
     }
@@ -64,7 +63,7 @@ public class DTOCreateSessionTest {
     @Test
     public void constructorThrowsExceptionWhenTimeIsEmpty() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DTOCreateSession(1, movie, "");
+            new CreateSessionDTO(1, movie, "");
         });
         assertEquals("Time cannot be null or empty", exception.getMessage());
     }

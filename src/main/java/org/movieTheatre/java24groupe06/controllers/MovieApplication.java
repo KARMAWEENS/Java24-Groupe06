@@ -2,7 +2,7 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.PortConfig;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -45,9 +45,9 @@ public class MovieApplication extends Application implements WelcomePageControll
     }
 
     @Override
-    public void createTicketStage(DTOCreateSession dtoCreateSession) {
+    public void createTicketStage(CreateSessionDTO createSessionDTO) {
         try {
-            objectSocket.write(new RequestSessionEvent(dtoCreateSession));
+            objectSocket.write(new RequestSessionEvent(createSessionDTO));
             Session session = objectSocket.read();
             ticketController = new TicketController(this, session,objectSocket);
             ticketController.initializeTicket();

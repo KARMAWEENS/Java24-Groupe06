@@ -2,7 +2,7 @@ package org.movieTheatre.java24groupe06.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class SessionDAOTest {
 
     @Test
     public void getDTOSessionListReturnsCorrectList() throws SQLException {
-        List<DTOCreateSession> result = sessionDAO.getDTOSessionList(movie);
+        List<CreateSessionDTO> result = sessionDAO.getDTOSessionList(movie);
         assertFalse(result.isEmpty());
     }
 

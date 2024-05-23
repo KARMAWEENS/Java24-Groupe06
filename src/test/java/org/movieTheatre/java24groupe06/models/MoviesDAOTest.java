@@ -35,8 +35,6 @@ public class MoviesDAOTest {
         assertEquals(true, movie.getIsShowing());
     }
 
-
-
     @Test
     public void getDBReturnsOnlyMoviesThatAreShowing() throws SQLException {
         List<Movie.MovieBuilder> movieBuilders = moviesDAO.getMoviesBuilderList();
