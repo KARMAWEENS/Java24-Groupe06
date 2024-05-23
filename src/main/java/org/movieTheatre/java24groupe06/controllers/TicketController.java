@@ -2,27 +2,30 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
 import org.movieTheatre.java24groupe06.models.DAO.DTOBuy;
+import org.movieTheatre.java24groupe06.models.DAO.PurchaseDTO;
+import org.movieTheatre.java24groupe06.models.PortConfig;
 import org.movieTheatre.java24groupe06.models.Promotion.*;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.models.tickets.*;
-import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionEvent;
+import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
 import org.movieTheatre.java24groupe06.views.TicketViewController;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.io.IOException;
+import java.net.Socket;
 
 
-public class TicketController implements TicketViewController.Listener {
+public class TicketController implements TicketViewController.Listener, ReadTicketThread.Listener{
     TicketViewController ticketViewController;
     PromotionManager promotionManager;
+    ReadTicketThread readTicketThread;
     TicketManager ticketManager;
     public Listener listener;
     ObjectSocket objectSocket;
@@ -35,7 +38,7 @@ public class TicketController implements TicketViewController.Listener {
     public TicketController(Listener listener, Session session,ObjectSocket objectSocket) {
         this.listener = listener;
         this.session = session;
-this.objectSocket = objectSocket;
+        this.objectSocket = objectSocket;
     }
     public void setNbSelectedSelectedAdultSeats(int nbSelectedAdultSeats) {
         this.nbSelectedAdultSeats = nbSelectedAdultSeats;
@@ -56,13 +59,28 @@ this.objectSocket = objectSocket;
 
     public void initializeTicket() throws CantLoadFXMLException, CustomExceptions {
         try {
-            this.ticketViewController = new TicketViewController(this);
-            this.ticketManager = new TicketManager(session);
-            this.promotionManager = new PromotionManager(ticketManager.getTicketsList());
+            ticketViewController = new TicketViewController(this);
+            ticketManager = new TicketManager(session);
+            promotionManager = new PromotionManager(ticketManager.getTicketsList());
             ticketViewController.openOnNewStage();
-            ticketsBoughtUpdateUI();
-            Stage stage = ticketViewController.getStage();
-            stage.setOnCloseRequest(event -> handleWindowCloseRequest(event));
+            updateSeatsLabel();
+            getStage().setOnCloseRequest(event -> handleWindowCloseRequest(event));
+            initializeSocket();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Stage getStage() {
+        return ticketViewController.getStage();
+    }
+
+    public void initializeSocket(){
+        try {
+            Socket socket = new Socket(PortConfig.host, PortConfig.ticketPort);
+            ObjectSocket objectSocket = new ObjectSocket(socket);
+            readTicketThread = new ReadTicketThread(session,this,objectSocket);
+            readTicketThread.start();
         } catch (IOException e) {
             AlertManager.showErrorAlert("Erreur lors de l'ouverture de la page des tickets", e);
             throw new CustomExceptions("Failed to open ticket page", e, ErrorCode.INITIALIZE_TICKETS_ERROR);
@@ -101,8 +119,7 @@ this.objectSocket = objectSocket;
     }
 
 
-    public void ticketsBoughtUpdateUI(){
-        System.out.println("j utilise ticketsBoughtUpdateUI");
+    public void updateSeatsLabel(){
         ticketViewController.updateAvailableAdultSeatsLabel(session.getNbRegularSeats()-nbSelectedAdultSeats-nbSelectedChildrenSeats);
         ticketViewController.updateAvailableChildrenSeatsLabel(session.getNbRegularSeats()-nbSelectedAdultSeats-nbSelectedChildrenSeats);
         ticketViewController.updateAvailableVIPSeatsLabel(session.getNbVIPSeats()-nbSelectedVIPSeats);
@@ -127,18 +144,15 @@ this.objectSocket = objectSocket;
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.YES) {
-                listener.onCloseTicketView(this);
-                ticketViewController.close(); // Ferme la fenêtre si l'utilisateur clique sur Oui
+                listener.closeTicketView();
             }
         });
     }
     @Override
     public void onButtonBuyClicked() throws CustomExceptions {
         try {
-            // Je me connect a UpdateSessionSeatsHandlerThread
-            // On envoie a UpdateSessionSeatsHandlerThread les places achetées
-            UpdateSessionEvent updateSessionEvent = new UpdateSessionEvent(new DTOBuy(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
-            objectSocket.write(updateSessionEvent);
+            UpdateSessionSeatsEvent updateSessionSeatsEvent = new UpdateSessionSeatsEvent(new PurchaseDTO(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
+            objectSocket.write(updateSessionSeatsEvent);
         } catch (IOException e) {
             AlertManager.showErrorAlert("Erreur lors de la connexion au serveur", e);
             throw new CustomExceptions("Failed to buy tickets", e, ErrorCode.BUY_TICKET_ERROR);
@@ -162,10 +176,21 @@ this.objectSocket = objectSocket;
     @Override
     public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
     @Override
-    public void onReturnButtonClicked(){ticketViewController.close();}
+    public void onReturnButtonClicked(){
+        listener.closeTicketView();
+    }
+
+    public void close() {
+        ticketViewController.close();
+        readTicketThread.closeSocket();
+    }
+
+    @Override
+    public void updateUITicketBought(Session session) {
+        updateSeatsLabel();
+    }
 
     public interface Listener {
-
-        void onCloseTicketView(TicketController ticketController);
+        void closeTicketView();
     }
 }

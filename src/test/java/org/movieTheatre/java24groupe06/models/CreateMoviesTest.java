@@ -2,10 +2,9 @@ package org.movieTheatre.java24groupe06.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.DAO.CreateMovies;
+import org.movieTheatre.java24groupe06.models.exceptions.CreateMoviesException;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class CreateMoviesTest {
     }
 
     @Test
-    public void buildMoviesListReturnsExpectedMovies() throws SQLException {
+    public void buildMoviesListReturnsExpectedMovies() throws  CreateMoviesException {
         List<Movie> movies = createMovies.buildMoviesList();
 
         // Adjust these assertions to match your test data

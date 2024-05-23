@@ -1,16 +1,13 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
-import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActorsDAO extends AbstractDAO {
 
-    public List<String> getActorsByMovieId(int movieId) throws SQLException {
+    public List<String> getActorsByMovieId(int movieId) throws SQLException, DataAccessException {
 
         String query = "SELECT a.FullName\n" +
                 "FROM Actors a\n" +

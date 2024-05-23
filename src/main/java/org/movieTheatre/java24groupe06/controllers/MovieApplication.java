@@ -2,9 +2,11 @@ package org.movieTheatre.java24groupe06.controllers;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.PortConfig;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
@@ -15,24 +17,20 @@ import static org.movieTheatre.java24groupe06.controllers.exceptions.CustomExcep
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener,ReadTicketThread.Listener{
+public class MovieApplication extends Application implements WelcomePageController.Listener, MovieDetailsController.Listener, TicketController.Listener{
     MovieDetailsController movieDetailsController;
     WelcomePageController welcomePageController;
     TicketController ticketController;
-    List<TicketController> ticketControllerList = new ArrayList<>();
     ObjectSocket objectSocket;
-
-    ReadTicketThread readTicketThread;
-
     @Override
     public void start(Stage stage) throws CustomExceptions{
         try {
-          Socket socket = new Socket("localhost",7999);
-          objectSocket = new ObjectSocket(socket);
+            PortConfig portConfig = new PortConfig();
+            portConfig.loadConfig();
+            Socket socket = new Socket(PortConfig.host, PortConfig.mainPort);
+            objectSocket = new ObjectSocket(socket);
         } catch (IOException e) {
             System.err.println("Error while connecting to server : " + e.getMessage());
         }
@@ -47,23 +45,17 @@ public class MovieApplication extends Application implements WelcomePageControll
     }
 
     @Override
-    public void closeMovieDetailsStage(Stage movieDetailsStage) {
-        movieDetailsStage.close();
+    public void closeMovieDetails(){
+        movieDetailsController.close();
     }
 
     @Override
-    public void createTicketStage(DTOCreateSession dtoCreateSession) throws CustomExceptions {
+    public void createTicketStage(CreateSessionDTO createSessionDTO) throws CustomExceptions {
         try {
-            RequestSessionEvent requestSessionEvent = new RequestSessionEvent(dtoCreateSession);
-            objectSocket.write(requestSessionEvent);
+            objectSocket.write(new RequestSessionEvent(createSessionDTO));
             Session session = objectSocket.read();
             ticketController = new TicketController(this, session,objectSocket);
-            ticketControllerList.add(ticketController);
             ticketController.initializeTicket();
-            Socket socket = new Socket("localhost", 8000);
-            ObjectSocket objectSocket2 = new ObjectSocket(socket);
-            readTicketThread = new ReadTicketThread(session,this,objectSocket2);
-            readTicketThread.start();
         } catch (CantLoadFXMLException e){
             AlertManager.showErrorAlert("Erreur lors du chargement de la page", e);
             throw new CustomExceptions("Error while creating ticket", e, ErrorCode.TICKET_CREATION_ERROR);
@@ -77,21 +69,11 @@ public class MovieApplication extends Application implements WelcomePageControll
     }
 
     @Override
-    public void onCloseTicketView(TicketController ticketController){
-        ticketControllerList.remove(ticketController);
-        readTicketThread.objectSocket.close();
-    }
+    public void closeTicketView(){
+        ticketController.close();
+}
 
     public static void main(String[] args) {
         launch(args);
     }
-
-    @Override
-    public void updateUITicketBought(Session session) {
-        for(TicketController ticketController :ticketControllerList ) {
-            if (session.equals(ticketController.getSession())){
-            ticketController.ticketsBoughtUpdateUI();
-            }
-        }
     }
-}

@@ -5,13 +5,13 @@ import org.movieTheatre.java24groupe06.models.Session;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class DTOBuy implements Serializable {
+public class PurchaseDTO implements Serializable {
     private Session session;
     private int nbRegularSeatsBuy;
     private int nbHandicapsSeatsBuy;
     private int nbVIPSeatsBuy;
 
-    public DTOBuy(Session session, int nbRegularSeatsBuy, int nbVIPSeatsBuy, int nbHandicapsSeatsBuy) {
+    public PurchaseDTO(Session session, int nbRegularSeatsBuy, int nbVIPSeatsBuy, int nbHandicapsSeatsBuy) {
         this.session = Objects.requireNonNull(session , "La session ne peut pas être nulle");
         if (nbRegularSeatsBuy < 0 || nbVIPSeatsBuy < 0 || nbHandicapsSeatsBuy < 0) {
             throw new IllegalArgumentException("Le nombre de places ne peut pas être négatif");

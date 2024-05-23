@@ -1,4 +1,4 @@
-package org.movieTheatre.java24groupe06.DataBase.Utils;
+package org.movieTheatre.java24groupe06.DataBaseSingleton;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -75,7 +75,6 @@ public class ConnectionSingletonDB implements Closeable {
         try{
             if(this.connection != null){
                 this.connection.close();
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -185,7 +185,7 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="returnButton" layoutX="57.0" layoutY="42.0" mnemonicParsing="false" onAction="#btnClicked" text="Retour">
+      <Button fx:id="returnButton" layoutX="57.0" layoutY="42.0" mnemonicParsing="false" onAction="#onReturnButtonClicked" text="Retour">
          <font>
             <Font size="20.0" />
          </font>

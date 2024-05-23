@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
+import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.ObjectSocket;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MovieDetailsController implements MovieDetailsViewController.Listener {
     private ObjectSocket objectSocket;
     private Listener listener;
+    private MovieDetailsViewController movieDetailsViewController;
 
     public MovieDetailsController(Listener listener, ObjectSocket objectSocket) {
         this.listener = listener;
@@ -24,9 +26,10 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     public void initializeMovieDetailsPage(Movie movie) throws CustomExceptions{
-        MovieDetailsViewController movieDetailsViewController = new MovieDetailsViewController(this, movie);
         try {
+            movieDetailsViewController = new MovieDetailsViewController(this, movie);
             movieDetailsViewController.openOnNewStage();
+            movieDetailsViewController.displayMovieDetails();
         } catch (IOException e) {
             AlertManager.showErrorAlert("L'ouverture de la page des détails des films a échouée", e);
             throw new CustomExceptions("Failed to open movie details page" ,e, ErrorCode.MOVIE_DETAIL_ERROR);
@@ -37,14 +40,15 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     @Override
-    public void previousBtnClicked(Stage stage) {
-        listener.closeMovieDetailsStage(stage);
+    public void previousBtnClicked() {
+        listener.closeMovieDetails();
     }
 
+
     @Override
-    public void sessionBtnClicked(DTOCreateSession dtoCreateSession) throws CustomExceptions {
+    public void sessionBtnClicked(CreateSessionDTO createSessionDTO) throws CustomExceptions {
         try{
-            listener.createTicketStage(dtoCreateSession);
+            listener.createTicketStage(createSessionDTO);
         }catch (CustomExceptions  e){
             e.printStackTrace();
             AlertManager.showErrorAlert("Failed to create ticket", e);
@@ -53,10 +57,9 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
     }
 
     @Override
-    public List<DTOCreateSession> getDTOSessionList(Movie movie) throws CustomExceptions {
+    public List<CreateSessionDTO> getDTOSessionList(Movie movie) throws CustomExceptions {
         try {
-            GetDTOSessionListEvent getDTOSessionListEvent = new GetDTOSessionListEvent(movie);
-            objectSocket.write(getDTOSessionListEvent);
+            objectSocket.write(new GetDTOSessionListEvent(movie));
             return objectSocket.read();
         } catch (IOException | ClassNotFoundException e) {
             AlertManager.showErrorAlert("Erreur lors de la récupéraction de la liste des sessions", e);
@@ -64,9 +67,12 @@ public class MovieDetailsController implements MovieDetailsViewController.Listen
         }
     }
 
-    public interface Listener {
-        void closeMovieDetailsStage(Stage stage);
+    public void close() {
+        movieDetailsViewController.close();
+    }
 
-        void createTicketStage(DTOCreateSession dtoCreateSession) throws CustomExceptions;
+    public interface Listener {
+        void closeMovieDetails();
+        void createTicketStage(CreateSessionDTO createSessionDTO) throws CustomExceptions;
     }
 }

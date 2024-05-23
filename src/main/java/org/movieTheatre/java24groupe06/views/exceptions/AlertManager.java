@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
+import org.movieTheatre.java24groupe06.models.exceptions.CreateMoviesException;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -50,4 +51,5 @@ public class AlertManager {
         Alert alert = new Alert(Alert.AlertType.ERROR, string);
         alert.showAndWait();
     }
+
 }

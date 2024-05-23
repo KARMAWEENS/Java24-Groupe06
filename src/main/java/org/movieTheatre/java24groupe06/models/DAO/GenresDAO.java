@@ -1,9 +1,7 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
-import org.movieTheatre.java24groupe06.DataBase.Utils.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.List;
 //  c est les memes juste string qui change
 public class GenresDAO extends AbstractDAO{
 
-    public List<String> getGenresByMovieId(int movieID) throws SQLException{
+    public List<String> getGenresByMovieId(int movieID) throws  DataAccessException {
         String query = String.format("SELECT g.genre\n" +
                 "FROM Genres g\n" +
                 "JOIN MoviesGenres mg ON g.genreID = mg.genreID\n" +

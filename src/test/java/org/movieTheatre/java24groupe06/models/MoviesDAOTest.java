@@ -3,7 +3,6 @@ package org.movieTheatre.java24groupe06.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.movieTheatre.java24groupe06.models.DAO.MoviesDAO;
-import org.movieTheatre.java24groupe06.models.Movie;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,7 +20,7 @@ public class MoviesDAOTest {
 
     @Test
     public void getDBReturnsMoviesWithCorrectAttributes() throws SQLException {
-        List<Movie.MovieBuilder> movieBuilders = moviesDAO.getDB();
+        List<Movie.MovieBuilder> movieBuilders = moviesDAO.getMoviesBuilderList();
 
         assertFalse(movieBuilders.isEmpty());
 
@@ -36,11 +35,9 @@ public class MoviesDAOTest {
         assertEquals(true, movie.getIsShowing());
     }
 
-
-
     @Test
     public void getDBReturnsOnlyMoviesThatAreShowing() throws SQLException {
-        List<Movie.MovieBuilder> movieBuilders = moviesDAO.getDB();
+        List<Movie.MovieBuilder> movieBuilders = moviesDAO.getMoviesBuilderList();
 
         for (Movie.MovieBuilder movieBuilder : movieBuilders) {
             assertTrue(movieBuilder.build().getIsShowing());
