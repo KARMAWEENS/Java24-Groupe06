@@ -38,7 +38,13 @@ public class ReadTicketThread extends Thread {
     }
 
     public void closeSocket() {
-        this.objectSocket.close();
+
+        try {
+            this.objectSocket.close();
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la fermeture du socket : " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public interface Listener{

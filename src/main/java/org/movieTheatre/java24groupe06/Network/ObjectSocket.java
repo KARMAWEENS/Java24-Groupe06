@@ -35,12 +35,10 @@ public class   ObjectSocket  {
         return (T) in.readObject();
     }
 
-    public void close() {
-        try {
+    public void close() throws IOException{
+
             this.in.close();
             this.out.close();
-        } catch (IOException e) {
-            // Ignore
-        }
+
     }
 }

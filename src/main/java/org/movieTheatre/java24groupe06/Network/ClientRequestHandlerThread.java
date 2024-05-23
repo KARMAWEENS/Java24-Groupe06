@@ -4,6 +4,7 @@ import org.movieTheatre.java24groupe06.Network.Event.GetDTOSessionListEvent;
 import org.movieTheatre.java24groupe06.Network.Event.GetMovieEvent;
 import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
 import org.movieTheatre.java24groupe06.Network.exceptions.ClassNotFoundExceptionHandler;
+import org.movieTheatre.java24groupe06.Network.exceptions.HandleExceptions;
 import org.movieTheatre.java24groupe06.Network.exceptions.SQLExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.exceptions.IOExceptionHandler;
 import org.movieTheatre.java24groupe06.Network.Event.UpdateSessionSeatsEvent;
@@ -32,7 +33,9 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
     }
 
     @Override
-    public void run() {
+    public void run()  {
+        HandleExceptions exceptionHandler = new HandleExceptions();
+
         try {
             while (true) {
                 Object object = objectSocket.read();
@@ -49,14 +52,18 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
                     updateSessionSeatsAndBroadcast(updateSessionSeatsEvent.getDtoBuy());
                 }
             }
-        } catch (ClassNotFoundException | IOException e) {
-            classNotFoundExceptionHandler.handle((ClassNotFoundException) e);
-            ioExceptionHandler.handle((IOException) e);
         } catch (SQLException e) {
-            sqlExceptionHandler.handle(e);
+            exceptionHandler.handleException("une erreur de Database a eu lieu", e);
+        } catch (IOException e) {
+            exceptionHandler.handleException("une erreur IO a eu lieu", e);
+        } catch (ClassNotFoundException e) {
+            exceptionHandler.handleException("La classe n'a pas été trouvé", e);
         }
     }
+
+
     private void initializeSessionHandlerThread(Session session) {
+        HandleExceptions exceptionHandler = new HandleExceptions();
         try {
           Socket socket = Server.ticketServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(socket);
@@ -64,7 +71,7 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
             sessionHandlerThread.start();
             currentTicketPageList.add(sessionHandlerThread);
         } catch (IOException e) {
-            ioExceptionHandler.handle(e);
+            exceptionHandler.handleException("une erreur IO a eu lieu", e);
         }
     }
 

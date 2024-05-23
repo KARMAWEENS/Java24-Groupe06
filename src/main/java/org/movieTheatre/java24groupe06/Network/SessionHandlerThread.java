@@ -1,6 +1,7 @@
 package org.movieTheatre.java24groupe06.Network;
 
 import org.movieTheatre.java24groupe06.Network.exceptions.ClassNotFoundExceptionHandler;
+import org.movieTheatre.java24groupe06.Network.exceptions.HandleExceptions;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
@@ -14,8 +15,7 @@ public class SessionHandlerThread extends Thread {
 
     ObjectSocket objectSocket;
     Listener listener;
-    ClassNotFoundExceptionHandler exceptionHandler = new ClassNotFoundExceptionHandler();
-
+    HandleExceptions exceptionHandler = new HandleExceptions();
 
     public SessionHandlerThread(Session session, ObjectSocket objectSocket, Listener listener) {
         this.session = session;
@@ -30,7 +30,7 @@ public class SessionHandlerThread extends Thread {
         } catch (IOException e) {
             this.listener.onConnectionLost(this);
         } catch (ClassNotFoundException e) {
-            exceptionHandler.handle(e);
+            exceptionHandler.handleException("La classe n'a pas été trouvé", e);
         }
     }
 
@@ -43,8 +43,10 @@ public class SessionHandlerThread extends Thread {
             SessionDAO sessionDAO = new SessionDAO();
             SeatsRoomLeft seatsRoomLeft = sessionDAO.getSeatsRoomLeftBySessionId(session);
             objectSocket.write(seatsRoomLeft);
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            exceptionHandler.handleException("une erreur de Database a eu lieu", e);
+        } catch (IOException e) {
+            exceptionHandler.handleException("une erreur IO a eu lieu", e);
         }
     }
     public interface Listener{
