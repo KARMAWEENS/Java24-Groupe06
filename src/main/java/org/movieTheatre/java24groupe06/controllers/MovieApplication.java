@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.movieTheatre.java24groupe06.models.DAO.DTOCreateSession;
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.PortConfig;
 import org.movieTheatre.java24groupe06.models.Session;
 import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 import org.movieTheatre.java24groupe06.Network.Event.RequestSessionEvent;
@@ -21,7 +22,10 @@ public class MovieApplication extends Application implements WelcomePageControll
     @Override
     public void start(Stage stage) {
         try {
-          Socket socket = new Socket("localhost",7999);
+            PortConfig portConfig = new PortConfig();
+            portConfig.loadConfig("src/main/resources/conf.txt");
+            System.out.println(PortConfig.mainPort);
+          Socket socket = new Socket(PortConfig.host, PortConfig.mainPort);
           objectSocket = new ObjectSocket(socket);
         } catch (IOException e) {
             System.err.println("Error while connecting to server : " + e.getMessage());

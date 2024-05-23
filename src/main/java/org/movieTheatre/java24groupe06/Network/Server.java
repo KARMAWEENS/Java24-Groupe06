@@ -1,5 +1,7 @@
 package org.movieTheatre.java24groupe06.Network;
 
+import org.movieTheatre.java24groupe06.models.PortConfig;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,8 +20,10 @@ public class Server {
     }
 
     private void go() throws IOException {
-        ServerSocket mainServerSocket = new ServerSocket(7999);
-         ticketServerSocket = new ServerSocket(8000);
+        PortConfig portConfig = new PortConfig();
+        portConfig.loadConfig("src/main/resources/conf.txt");
+        ServerSocket mainServerSocket = new ServerSocket(PortConfig.mainPort);
+         ticketServerSocket = new ServerSocket(PortConfig.ticketPort);
         while (true) {
             Socket client = mainServerSocket.accept();
             ObjectSocket objectSocket = new ObjectSocket(client);

@@ -75,7 +75,6 @@ public class ConnectionSingletonDB implements Closeable {
         try{
             if(this.connection != null){
                 this.connection.close();
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

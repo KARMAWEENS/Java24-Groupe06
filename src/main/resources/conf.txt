@@ -1,0 +1,3 @@
+mainPort=8000
+ticketPort=9000
+hostIP=localhost

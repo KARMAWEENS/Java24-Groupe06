@@ -11,15 +11,6 @@ import java.util.List;
 
 public abstract class AbstractDAO {
 
-    protected void closeResources(ResultSet rs, PreparedStatement stmt) {
-        try {
-            if (rs != null) rs.close();
-            if (stmt != null) stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     // Méthode générique pour obtenir une liste d'éléments
     protected <T> List<T> getListResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
