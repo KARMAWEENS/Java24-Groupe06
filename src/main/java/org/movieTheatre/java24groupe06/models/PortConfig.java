@@ -9,7 +9,9 @@ public class PortConfig {
     public static int ticketPort;
     public static String host;
 
-    public void loadConfig(String filePath) throws IOException {
+    private String filePath = "src/main/resources/conf.txt";
+
+    public void loadConfig() throws IOException {
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream(filePath)) {
             properties.load(input);

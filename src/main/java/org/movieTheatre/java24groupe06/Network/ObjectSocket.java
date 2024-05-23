@@ -36,9 +36,7 @@ public class   ObjectSocket  {
     }
 
     public void close() throws IOException{
-
             this.in.close();
             this.out.close();
-
     }
 }

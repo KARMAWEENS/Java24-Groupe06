@@ -1,6 +1,7 @@
 package org.movieTheatre.java24groupe06.Network;
 
 import org.movieTheatre.java24groupe06.Network.exceptions.HandleExceptions;
+import org.movieTheatre.java24groupe06.models.PortConfig;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,10 +23,15 @@ public class Server {
     }
 
     private void go() throws IOException {
-        ServerSocket mainServerSocket = new ServerSocket(7999);
-         ticketServerSocket = new ServerSocket(8000);
+        PortConfig portConfig = new PortConfig();
+        portConfig.loadConfig();
+        ServerSocket mainServerSocket = new ServerSocket(PortConfig.mainPort);
+         ticketServerSocket = new ServerSocket(PortConfig.ticketPort);
         while (true) {
+            System.out.println("j attends un client");
             Socket client = mainServerSocket.accept();
+            System.out.println("j ai accept un client");
+
             ObjectSocket objectSocket = new ObjectSocket(client);
             ClientRequestHandlerThread clientRequestHandlerThread = new ClientRequestHandlerThread(objectSocket);
             clientRequestHandlerThread.start();

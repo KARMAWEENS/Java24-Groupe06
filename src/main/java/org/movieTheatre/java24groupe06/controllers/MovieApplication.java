@@ -23,14 +23,20 @@ public class MovieApplication extends Application implements WelcomePageControll
     public void start(Stage stage) {
         try {
             PortConfig portConfig = new PortConfig();
-            portConfig.loadConfig("src/main/resources/conf.txt");
-            System.out.println(PortConfig.mainPort);
-          Socket socket = new Socket(PortConfig.host, PortConfig.mainPort);
-          objectSocket = new ObjectSocket(socket);
+            portConfig.loadConfig();
+
+            System.out.println("socket main port" + PortConfig.mainPort );
+            Socket socket = new Socket(PortConfig.host, PortConfig.mainPort);
+            System.out.println(PortConfig.host + "   " + PortConfig.mainPort);
+            System.out.println(socket);
+            objectSocket = new ObjectSocket(socket);
         } catch (IOException e) {
+
             System.err.println("Error while connecting to server : " + e.getMessage());
         }
+
         welcomePageController = new WelcomePageController(this,objectSocket);
+
         welcomePageController.initializeMainStage(stage);
     }
 
