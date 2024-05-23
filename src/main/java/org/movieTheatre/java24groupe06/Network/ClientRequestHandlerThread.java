@@ -14,6 +14,8 @@ import org.movieTheatre.java24groupe06.models.DAO.CreateSessionDTO;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.models.exceptions.CreateMoviesException;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -52,12 +54,14 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
                     updateSessionSeatsAndBroadcast(updateSessionSeatsEvent.getDtoBuy());
                 }
             }
-        } catch (SQLException e) {
-            exceptionHandler.handleException("une erreur de Database a eu lieu", e);
         } catch (IOException e) {
             exceptionHandler.handleException("une erreur IO a eu lieu", e);
         } catch (ClassNotFoundException e) {
             exceptionHandler.handleException("La classe n'a pas été trouvé", e);
+        } catch (CreateMoviesException e) {
+            exceptionHandler.handleException("une erreur de création de film a eu lieu", e);
+        } catch (DataAccessException e) {
+            exceptionHandler.handleException("une erreur d'accès aux données a eu lieu", e);
         }
     }
 
@@ -75,17 +79,17 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
         }
     }
 
-    public void sendMovieList() throws IOException {
+    public void sendMovieList() throws IOException, CreateMoviesException {
         CreateMovies createMovies = new CreateMovies();
         objectSocket.write(createMovies.buildMoviesList());
     }
 
-    public void sendDTOSessionList(Movie movie) throws SQLException, IOException {
+    public void sendDTOSessionList(Movie movie) throws DataAccessException, IOException {
         SessionDAO sessionDAO = new SessionDAO();
         objectSocket.write(sessionDAO.getDTOSessionList(movie));
     }
 
-    public Session getSession(CreateSessionDTO createSessionDTO) throws IOException, SQLException {
+    public Session getSession(CreateSessionDTO createSessionDTO) throws  DataAccessException {
         SessionDAO sessionDAO = new SessionDAO();
         return sessionDAO.getSessionBySessionId(createSessionDTO.getSessionID(), createSessionDTO.getMovie());
     }

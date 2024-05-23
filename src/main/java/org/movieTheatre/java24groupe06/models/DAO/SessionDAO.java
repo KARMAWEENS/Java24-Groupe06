@@ -4,18 +4,19 @@ import org.movieTheatre.java24groupe06.DataBaseSingleton.ConnectionSingletonDB;
 import org.movieTheatre.java24groupe06.models.Movie;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.sql.*;
 import java.util.List;
 
 public class SessionDAO extends AbstractDAO {
-    public List<CreateSessionDTO> getDTOSessionList(Movie movie) throws SQLException {
+    public List<CreateSessionDTO> getDTOSessionList(Movie movie) throws DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE movieID = %s", movie.getID());
         return getListResult(query, rs ->
                 new CreateSessionDTO(rs.getInt("SessionID"), movie, rs.getString("Time")));
     }
 
-    public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws SQLException {
+    public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws  DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",session.getSessionID());
         return getSingleResult(query, rs ->
                 new SeatsRoomLeft(
@@ -25,7 +26,7 @@ public class SessionDAO extends AbstractDAO {
                 ));
     }
 
-    public Session getSessionBySessionId(int sessionID, Movie movie) throws SQLException {
+    public Session getSessionBySessionId(int sessionID, Movie movie) throws  DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",sessionID);
         return  getSingleResult(query, rs ->
                 new Session(sessionID, movie,

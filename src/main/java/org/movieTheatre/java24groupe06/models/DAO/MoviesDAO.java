@@ -1,13 +1,14 @@
 package org.movieTheatre.java24groupe06.models.DAO;
 
 import org.movieTheatre.java24groupe06.models.Movie;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesDAO extends AbstractDAO{
-    public List<Movie.MovieBuilder> getMoviesBuilderList() throws SQLException {
+    public List<Movie.MovieBuilder> getMoviesBuilderList() throws DataAccessException {
         String query =String.format("SELECT * FROM Movies WHERE isShowing = true");
         return getListResult(query, rs -> new Movie.MovieBuilder()
                         .setTitle(rs.getString("title"))
