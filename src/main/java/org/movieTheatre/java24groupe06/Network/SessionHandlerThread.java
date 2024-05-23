@@ -5,6 +5,7 @@ import org.movieTheatre.java24groupe06.Network.exceptions.HandleExceptions;
 import org.movieTheatre.java24groupe06.models.DAO.SessionDAO;
 import org.movieTheatre.java24groupe06.models.SeatsRoomLeft;
 import org.movieTheatre.java24groupe06.models.Session;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,10 +44,11 @@ public class SessionHandlerThread extends Thread {
             SessionDAO sessionDAO = new SessionDAO();
             SeatsRoomLeft seatsRoomLeft = sessionDAO.getSeatsRoomLeftBySessionId(session);
             objectSocket.write(seatsRoomLeft);
-        } catch (SQLException e) {
-            exceptionHandler.handleException("une erreur de Database a eu lieu", e);
-        } catch (IOException e) {
+        }
+         catch (IOException e) {
             exceptionHandler.handleException("une erreur IO a eu lieu", e);
+        } catch (DataAccessException e) {
+            exceptionHandler.handleException("une erreur d'accès aux données a eu lieu", e);
         }
     }
     public interface Listener{

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.movieTheatre.java24groupe06.models.DAO.AbstractDAO;
 import org.movieTheatre.java24groupe06.models.DAO.AbstractDAO.RowMapper;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public class AbstractDAOTest {
     }
 
     @Test
-    public void getListResultReturnsCorrectData() throws SQLException {
+    public void getListResultReturnsCorrectData() throws  DataAccessException {
         String query = "SELECT * FROM Movies LIMIT 1";
         String result = abstractDAO.getSingleResultPublic(query, testMapper);
         assertNotNull(result);
@@ -32,7 +33,7 @@ public class AbstractDAOTest {
     }
 
     @Test
-    public void getSingleResultReturnsCorrectData() throws SQLException {
+    public void getSingleResultReturnsCorrectData() throws  DataAccessException {
         String query = "SELECT * FROM Genres LIMIT 1";
         String result = abstractDAO.getSingleResultPublic(query, testMapper);
 
@@ -41,7 +42,7 @@ public class AbstractDAOTest {
     }
 
     @Test
-    public void getSingleResultReturnsNullWhenNoData() throws SQLException {
+    public void getSingleResultReturnsNullWhenNoData() throws  DataAccessException {
         String query = "SELECT * FROM MoviesCasting WHERE 1=0"; // This query should return no results
         String result = abstractDAO.getSingleResultPublic(query, testMapper);
 

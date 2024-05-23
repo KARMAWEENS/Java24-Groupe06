@@ -2,6 +2,7 @@ package org.movieTheatre.java24groupe06.models.DAO;
 
 
 import org.movieTheatre.java24groupe06.DataBaseSingleton.ConnectionSingletonDB;
+import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ public abstract class AbstractDAO {
 
 
     // Méthode générique pour obtenir une liste d'éléments
-    protected <T> List<T> getListResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
+    protected <T> List<T> getListResult(String query, RowMapper<T> mapper, Object... params) throws  DataAccessException {
         List<T> results = new ArrayList<>();
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query, params);
@@ -28,7 +29,7 @@ public abstract class AbstractDAO {
     }
 
     // Méthode générique pour obtenir un simple élément
-    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) {
+    protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) throws DataAccessException {
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query, params);
              ResultSet rs = stmt.executeQuery()) {
