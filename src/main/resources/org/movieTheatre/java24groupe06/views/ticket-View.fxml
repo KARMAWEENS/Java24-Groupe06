@@ -15,13 +15,13 @@
          <children>
             <HBox fx:id="Hbox" alignment="CENTER_LEFT" centerShape="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="658.0" spacing="360.0" stylesheets="@CSSFiles/ticketStyle.css">
                <children>
-                  <VBox alignment="CENTER" prefHeight="92.0" prefWidth="150.0" spacing="10.0">
+                  <VBox alignment="CENTER" prefHeight="92.0" prefWidth="170.0" spacing="10.0">
                      <children>
                         <Label fx:id="priceAdult" text="20€">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin></Label>
-                        <Label fx:id="nbSelectedAdultSeats" text="Ticket Adulte" VBox.vgrow="ALWAYS">
+                        <Label fx:id="nbSelectedAdultSeats" text="0 Tickets Adultes" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font></Label>
@@ -65,10 +65,10 @@
             </HBox>
             <HBox fx:id="Hbox" alignment="CENTER_LEFT" centerShape="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="658.0" spacing="360.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0" spacing="10.0">
+                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="170.0" spacing="10.0">
                      <children>
                         <Label fx:id="priceChildren" text="10€" />
-                        <Label fx:id="nbSelectedChildrenSeats" text="Ticket Children" />
+                        <Label fx:id="nbSelectedChildrenSeats" text="0 Tickets Enfants" />
                      </children>
                      <HBox.margin>
                         <Insets left="40.0" right="40.0" />
@@ -101,10 +101,10 @@
             </HBox>
             <HBox fx:id="Hbox" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="360.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" centerShape="false" prefHeight="93.0" prefWidth="150.0" spacing="10.0">
+                  <VBox alignment="CENTER" centerShape="false" prefHeight="93.0" prefWidth="170.0" spacing="10.0">
                      <children>
                         <Label fx:id="priceVIP" text="30€" />
-                        <Label fx:id="nbSelectedVIPSeats" prefHeight="20.0" text="Ticket VIP">
+                        <Label fx:id="nbSelectedVIPSeats" prefHeight="20.0" text="0 Tickets VIP">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin></Label>
@@ -140,10 +140,10 @@
             </HBox>
             <HBox fx:id="Hbox" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="360.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0" spacing="10.0">
+                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="170.0" spacing="10.0">
                      <children>
                         <Label fx:id="pricedisabled" text="40€" />
-                        <Label fx:id="nbSelectedHandicapSeats" text="Ticket disabled" />
+                        <Label fx:id="nbSelectedHandicapSeats" prefWidth="142.0" text="0 Tickets Handicapés" />
                      </children>
                      <HBox.margin>
                         <Insets left="40.0" right="40.0" />

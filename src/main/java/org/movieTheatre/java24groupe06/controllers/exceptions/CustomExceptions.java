@@ -20,7 +20,8 @@ public class CustomExceptions extends Exception{
         INITIALIZE_TICKETS_ERROR,
         BUY_TICKET_ERROR,
         WELCOME_PAGE_ERROR,
-        SESSION_CREATION_ERROR
+        SESSION_CREATION_ERROR,
+        NO_MORE_PLACE
     }
 
     public static class ReadTicketException extends RuntimeException {

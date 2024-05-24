@@ -25,31 +25,22 @@ public class AlertManager {
         exception.printStackTrace();
     }
 
-    public void CantLoadPageAlert(CantLoadFXMLException e) {
-      //  e.printStackTrace();
-        e.getCause().printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page");
+
+    public static void showErrorAlert(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.setTitle("Error");
+        alert.setHeaderText("An error occurred");
+        alert.setContentText(message);
+
         alert.showAndWait();
     }
 
-    public void FileNotFoundExceptionAlert(FileNotFoundException e){
-        e.printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Impossible de charger l'image");
-        alert.showAndWait();
-    }
+    public static void TicketBoughtAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Votre achat a bien été effectué");
 
-    public void SQLExceptionAlert(SQLException e){
-        e.printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Impossible de recevoir les informations des films");
         alert.showAndWait();
     }
-    public void SQLExceptionAlert(){
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Problème lors de la récupération des données");
-        alert.showAndWait();
-    }
-    public void minorDbError(String string){
-        Alert alert = new Alert(Alert.AlertType.ERROR, string);
-        alert.showAndWait();
-    }
-
 }

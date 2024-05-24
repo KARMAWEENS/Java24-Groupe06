@@ -149,29 +149,82 @@ public class TicketController implements TicketViewController.Listener, ReadTick
     }
     @Override
     public void onButtonBuyClicked() throws CustomExceptions {
+        if(nbSelectedAdultSeats == 0 && nbSelectedChildrenSeats == 0 && nbSelectedVIPSeats == 0 && nbSelectedHandicapSeats == 0){
+            AlertManager.showErrorAlert("Vous n'avez pas sélectionné de tickets");
+            return;
+        }
         try {
             UpdateSessionSeatsEvent updateSessionSeatsEvent = new UpdateSessionSeatsEvent(new PurchaseDTO(session,nbSelectedAdultSeats+nbSelectedChildrenSeats,nbSelectedVIPSeats,nbSelectedHandicapSeats));
             objectSocket.write(updateSessionSeatsEvent);
+            resetTicketCount();
+            AlertManager.TicketBoughtAlert();
+            ticketViewController.updateTotalPriceLabel(0);
+            ticketViewController.resetCount();
         } catch (IOException e) {
             AlertManager.showErrorAlert("Erreur lors de la connexion au serveur", e);
             throw new CustomExceptions("Failed to buy tickets", e, ErrorCode.BUY_TICKET_ERROR);
         }
     }
 
+    private boolean areSeatsSelected(){
+        return !(
+        nbSelectedAdultSeats == 0 &&
+        nbSelectedChildrenSeats == 0 &&
+        nbSelectedVIPSeats == 0 &&
+        nbSelectedHandicapSeats == 0
+        );
+    }
+
+    private void resetTicketCount(){
+        setNbSelectedSelectedAdultSeats(0);
+        setNbSelectedChildrenSeats(0);
+        setNbSelectedVIPSeats(0);
+        setNbSelectedHandicapSeats(0);
+    }
+
+
     @Override
-    public void onButtonPlusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,true);}
+    public void onButtonPlusAdultClicked() {
+        int availableSeats = session.getNbRegularSeats() - nbSelectedAdultSeats - nbSelectedChildrenSeats;
+        if(availableSeats > 0){
+            updateTicketCountAndUI(TicketAdult.class,true);
+        }else{
+            AlertManager.showErrorAlert("Plus de place disponibles");
+        }
+    }
     @Override
     public void onButtonMinusAdultClicked() {updateTicketCountAndUI(TicketAdult.class,false);}
     @Override
-    public void onButtonPlusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,true);}
+    public void onButtonPlusChildrenClicked() {
+        int availableSeats = session.getNbRegularSeats() - nbSelectedAdultSeats - nbSelectedChildrenSeats;
+        if(availableSeats > 0){
+            updateTicketCountAndUI(TicketChildren.class,true);
+        } else {
+            AlertManager.showErrorAlert("Plus de place disponibles");
+        }
+    }
     @Override
     public void onButtonMinusChildrenClicked() {updateTicketCountAndUI(TicketChildren.class,false);}
     @Override
-    public void onButtonPlusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, true);}
+    public void onButtonPlusVIPClicked() {
+        int availableSeats = session.getNbVIPSeats() - nbSelectedVIPSeats;
+        if(availableSeats > 0){
+            updateTicketCountAndUI(TicketVIP.class,true);
+        } else {
+            AlertManager.showErrorAlert("Plus de place disponibles");
+        }
+    }
     @Override
     public void onButtonMinusVIPClicked() {updateTicketCountAndUI(TicketVIP.class, false);}
     @Override
-    public void onButtonPlusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, true);}
+    public void onButtonPlusDisabledClicked() {
+        int availableSeats = session.getNbHandicapsSeats() - nbSelectedHandicapSeats;
+        if(availableSeats > 0){
+            updateTicketCountAndUI(TicketHandicap.class,true);
+        } else {
+            AlertManager.showErrorAlert("Plus de place disponibles");
+        }
+    }
     @Override
     public void onButtonMinusDisabledClicked() {updateTicketCountAndUI(TicketHandicap.class, false);}
     @Override

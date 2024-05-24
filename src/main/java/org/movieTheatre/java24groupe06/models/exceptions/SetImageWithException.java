@@ -18,8 +18,7 @@ public interface SetImageWithException {
                 Image image = new Image(new FileInputStream("src/main/resources/DataBase/ErrorImg/1000_F_299617487_fPJ8v9Onthhzwnp4ftILrtSGKs1JCrbh.jpg"));
                 imageView.setImage(image);
             } catch (FileNotFoundException exception) {
-                AlertManager alertManager = new AlertManager();
-                alertManager.FileNotFoundExceptionAlert(exception);
+                AlertManager.showErrorAlert("Erreur lors du chargement de l'image", exception);
             }
         }
     }

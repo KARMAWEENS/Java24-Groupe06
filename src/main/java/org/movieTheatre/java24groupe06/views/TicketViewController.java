@@ -5,8 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.movieTheatre.java24groupe06.controllers.TicketController;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions;
 import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*;
+import org.movieTheatre.java24groupe06.models.tickets.Ticket;
+import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
 
@@ -74,6 +77,12 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         nbSelectedHandicapSeats.setText(nbTicketHandicap+" Tickets Handicapés");
     }
 
+    public void resetCount(){
+        updateTicketAdultLabel(0);
+        updateTicketChildrenLabel(0);
+        updateTicketVIPLabel(0);
+        updateTicketHandicapLabel(0);
+    }
 
     public void updateAvailableAdultSeatsLabel(int seatsAdultLeft){
         availableAdultSeats.setText(String.valueOf(seatsAdultLeft));

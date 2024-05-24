@@ -59,7 +59,6 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         super(listener);
         this.movie = movie;
     }
-    private AlertManager alertManager = new AlertManager();
     public void displayMovieDetails() throws CustomExceptions{
         try {
             setTextMovie(movie);
@@ -93,8 +92,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     public String checkList(List list, String listType) {
         if (list.isEmpty()) {
             String message = "Aucun " + listType + " trouvé";
-            AlertManager alertManager = new AlertManager();
-            alertManager.minorDbError(message);
+            AlertManager.showErrorAlert("Erreur lors de la récupération des données", new Exception(message));
             return message;
         } else {
             return parseList(list);

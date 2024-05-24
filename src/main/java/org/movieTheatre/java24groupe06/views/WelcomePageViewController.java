@@ -64,8 +64,7 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             setWidthListener(this, stage);
             displayGridMovies();
         } catch (CantLoadFXMLException e) {
-            AlertManager alertManager = new AlertManager();
-            alertManager.CantLoadPageAlert(e);
+            AlertManager.showErrorAlert("Erreur lors du chargement de la page", e);
         }
     }
     private void setWidthListener(WelcomePageViewController welcomePageViewController, Stage stage) {
@@ -74,8 +73,7 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
                 welcomePageViewController.onWidthChanged(newVal.intValue());
             } catch (CantLoadFXMLException e) {
                 // quasiment tt le temps unreachable sauf si le fichier devient inaccessible pdt le run de l app
-                AlertManager alertManager = new AlertManager();
-                alertManager.CantLoadPageAlert(e);
+                AlertManager.showErrorAlert("Erreur lors du chargement de la page", e);
             }
         });
     }
