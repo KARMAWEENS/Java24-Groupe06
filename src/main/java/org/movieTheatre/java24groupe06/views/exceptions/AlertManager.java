@@ -17,8 +17,8 @@ public class AlertManager {
 
     public static void showErrorAlert(String message, Exception exception) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setTitle("Error");
-        alert.setHeaderText("An error occurred");
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Une erreur est survenue");
         alert.setContentText(message);
 
         alert.showAndWait();
@@ -28,8 +28,8 @@ public class AlertManager {
 
     public static void showErrorAlert(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setTitle("Error");
-        alert.setHeaderText("An error occurred");
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Une erreur est survenue");
         alert.setContentText(message);
 
         alert.showAndWait();
