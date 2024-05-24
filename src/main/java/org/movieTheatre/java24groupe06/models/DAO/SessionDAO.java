@@ -48,6 +48,7 @@ public class SessionDAO extends AbstractDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour des places restantes: " + e.getMessage());
             e.printStackTrace();
         }
     }
