@@ -6,12 +6,19 @@ import org.movieTheatre.java24groupe06.models.tickets.TicketHandicap;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * The HandicapPackPromotion class provides methods for calculating the discount for a handicap pack promotion.
+ */
 public class HandicapPackPromotion implements IPromotion{
     final double reductionHandicapPack = 2.50;
     final int minAdultToGetPromotion = 1;
     final int minHandicapToGetPromotion = 1;
-
+    /**
+     * Retrieves the number of adult tickets.
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     @Override
     public double calculateDiscount(List<Ticket> tickets) {
         // Filter out tickets that have already been used for any promotion
@@ -33,7 +40,12 @@ public class HandicapPackPromotion implements IPromotion{
         }
         return 0;
     }
-
+    /**
+     * Retrieves the number of adult tickets.
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     private void markTicketsAsUsed(List<Ticket> tickets, Class<? extends Ticket> ticketType, int count) {
         tickets.stream()
                 .filter(ticketType::isInstance)

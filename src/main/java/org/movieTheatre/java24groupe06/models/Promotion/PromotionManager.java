@@ -4,7 +4,9 @@ import org.movieTheatre.java24groupe06.models.Promotion.IPromotion;
 import org.movieTheatre.java24groupe06.models.tickets.Ticket;
 
 import java.util.List;
-
+/**
+ * The PromotionManager class provides methods for managing promotions.
+ */
 public class PromotionManager  {
     double minPrice;
    private IPromotion[] promotions = new IPromotion[]{
@@ -14,7 +16,11 @@ public class PromotionManager  {
             new HandicapPackPromotion()
     };
     private List<Ticket> tickets;
-
+    /**
+     * Initializes a new instance of the PromotionManager class.
+     *
+     * @param tickets the list of tickets.
+     */
     public PromotionManager(List<Ticket> tickets) {
         this.tickets = tickets;
     }
@@ -26,6 +32,12 @@ public class PromotionManager  {
     }
 
 
+    /**
+     * Calculates the best price for the tickets.
+     *
+     * @param arr the array of promotions.
+     * @param currentIndex the current index.
+     */
     private void calculateBestPriceRecursive(IPromotion[] arr, int currentIndex) {
         if (currentIndex == arr.length - 1) {
             double priceForThisCombo = calculatePriceWithComboReduction(arr);
@@ -40,7 +52,12 @@ public class PromotionManager  {
             swap(arr, currentIndex, i);
         }
     }
-
+    /**
+     * Calculates the price with the combo reduction.
+     *
+     * @param promotions the array of promotions.
+     * @return the price with the combo reduction.
+     */
     private double calculatePriceWithComboReduction(IPromotion[] promotions) {
         tickets.stream().forEach(ticket -> ticket.setPromotionApplied(false));
         double price = calculateTotalPrice();
@@ -49,7 +66,11 @@ public class PromotionManager  {
         }
         return price;
     }
-
+    /**
+     * Calculates the total price of the tickets.
+     *
+     * @return the total price of the tickets.
+     */
     private double calculateTotalPrice() {
         return tickets.stream().mapToDouble(Ticket::getPrice).sum();
     }

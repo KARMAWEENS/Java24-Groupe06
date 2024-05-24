@@ -6,10 +6,19 @@ import org.movieTheatre.java24groupe06.models.tickets.TicketChildren;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The SchoolPackPromotion class provides methods for calculating the discount for a school pack promotion.
+ */
 public class SchoolPackPromotion implements IPromotion {
     final int minChildrenToGetPromotion = 15;
     final double reductionSchoolPack = 30;
 
+    /**
+     * Retrieves the number of  tickets.
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     @Override
     public double calculateDiscount(List<Ticket> tickets) {
         // Filter out tickets that have already been used for any promotion

@@ -1,5 +1,7 @@
 package org.movieTheatre.java24groupe06.models.DAO;
-
+/**
+ * The PartialMovieDTO class provides methods for creating a partial movie.
+ */
 public class PartialMovieDTO {
     private String title;
     private int duration;
@@ -35,7 +37,18 @@ public class PartialMovieDTO {
     }
     private boolean isShowing;
 
-
+    /**
+     * The constructor for the PartialMovieDTO class.
+     *
+     * @param title the title of the movie.
+     * @param duration the duration of the movie.
+     * @param ID the ID of the movie.
+     * @param synopsis the synopsis of the movie.
+     * @param releaseDate the release date of the movie.
+     * @param producer the producer of the movie.
+     * @param pathImg the path to the image of the movie.
+     * @param isShowing whether the movie is showing.
+     */
     public PartialMovieDTO(String title, int duration, int ID, String synopsis, String releaseDate, String producer, String pathImg, boolean isShowing) {
         checkNotNull(new Object[]{title, synopsis, releaseDate, producer, pathImg}, new String[]{"Title", "Synopsis", "Release date", "Producer", "Path image","duration","ID"});
         checkNotNegative(new int[]{duration, ID}, new String[]{"Duration", "ID"});
@@ -48,6 +61,11 @@ public class PartialMovieDTO {
         this.pathImg = pathImg;
         this.isShowing = isShowing;
     }
+    /**
+     * Retrieves the title of the movie.
+     *
+     * @return the title of the movie.
+     */
 
     private void checkNotNull(Object[] objs, String[] names) {
         StringBuilder errorMessage = new StringBuilder();
@@ -60,6 +78,11 @@ public class PartialMovieDTO {
             throw new IllegalArgumentException(errorMessage.toString());
         }
     }
+    /**
+     * Retrieves the duration of the movie.
+     *
+     * @return the duration of the movie.
+     */
     private void checkNotNegative(int[] values, String[] names) {
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < values.length; i++) {

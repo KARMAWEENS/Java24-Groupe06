@@ -6,7 +6,9 @@ import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+/**
+ * The SetImageWithException interface provides a method for setting an image with an exception.
+ */
 public interface SetImageWithException {
 
      default void setImage(ImageView imageView, String imagePath) {

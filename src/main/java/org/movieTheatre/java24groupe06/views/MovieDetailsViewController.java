@@ -19,7 +19,9 @@ import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
 import java.sql.SQLException;
 import java.util.List;
-
+/**
+ * The MovieDetailsViewController class provides methods for managing the movie details view controller.
+ */
 public class MovieDetailsViewController extends AbstractViewController<MovieDetailsViewController.Listener> implements SetImageWithException {
 
     private Movie movie;
@@ -49,16 +51,25 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     @FXML
     private GridPane gridPane;
 
-
+    /**
+     * The setPoster method sets the poster.
+     */
     @Override
     protected String getTitle() {
         return "Movies Details";
     }
-
+    /**
+     * The MovieDetailsViewController method is the constructor of the class.
+     * @param listener the listener.
+     * @param movie the movie.
+     */
     public MovieDetailsViewController(Listener listener, Movie movie) {
         super(listener);
         this.movie = movie;
     }
+    /**
+     * The setImage method sets the image.
+     */
     public void displayMovieDetails() throws CustomExceptions{
         try {
             setTextMovie(movie);
@@ -70,7 +81,9 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         }
         sessionButtonHBox.spacingProperty().bind(borderPane.widthProperty().divide(6));
     }
-
+    /**
+     * The setImageViewProprety method sets the image view property.
+     */
     private void setImageViewProprety() {
         //todo pas de chiffre magique a changer
         imageView.fitWidthProperty().bind(borderPane.widthProperty().divide(3));
@@ -78,7 +91,10 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         imageView.minWidth(235);
         imageView.minHeight(332);
     }
-
+    /**
+     * The setTextMovie method sets the text of the movie.
+     * @param movie the movie.
+     */
     private void setTextMovie(Movie movie) {
         title.setText(movie.getTitle());
         synopsis.setText(movie.getSynopsis());
@@ -88,7 +104,12 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         producer.setText(movie.getProducer());
         date.setText(movie.getReleaseDate());
     }
-
+    /**
+     * The checkList method checks the list.
+     * @param list the list.
+     * @param listType the list type.
+     * @return the message.
+     */
     public String checkList(List list, String listType) {
         if (list.isEmpty()) {
             String message = "Aucun " + listType + " trouvé";
@@ -98,7 +119,11 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
             return parseList(list);
         }
     }
-
+    /**
+     * The parseList method parses the list.
+     * @param list the list.
+     * @return the string.
+     */
     public String parseList(List<String> list) {
 
         StringBuilder genreStringList = new StringBuilder();
@@ -110,11 +135,15 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         }
         return genreStringList.toString();
     }
-
+    /**
+     * The btnClicked method is called when the button is clicked.
+     */
     public void btnClicked() {
         this.listener.previousBtnClicked();
     }
-
+    /**
+     * The createSessionButton method creates the session button.
+     */
     public void createSessionButton() throws SQLException, CustomExceptions {
         DTOSessionsList = listener.getDTOSessionList(movie);
         for (CreateSessionDTO createSessionDTO : DTOSessionsList) {
@@ -129,12 +158,17 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
             sessionButtonHBox.getChildren().add(sessionButton);
         }
     }
-
+    /**
+     * The getFXMLPath method returns the FXML path.
+     * @return the FXML path.
+     */
     @Override
     public String getFXMLPath() {
         return "movieDetails-view.fxml";
     }
-
+    /**
+     * The Listener interface provides methods for managing the listener.
+     */
     public interface Listener {
         void previousBtnClicked();
 

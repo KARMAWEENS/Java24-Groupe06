@@ -22,6 +22,11 @@ public class Movie implements Serializable {
     private String pathImg;
     private boolean isShowing;
 
+    /**
+     * Initializes a new instance of the Movie class.
+     *
+     * @param builder The MovieBuilder instance.
+     */
     private Movie(MovieBuilder builder) {
         this.title = builder.title;
         this.duration = builder.duration;

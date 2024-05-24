@@ -6,12 +6,20 @@ import org.movieTheatre.java24groupe06.models.tickets.TicketChildren;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * The FamilyPackPromotion class provides methods for calculating the discount for a family pack promotion.
+ */
 public class FamilyPackPromotion implements IPromotion {
     final double reductionFamilyPack =5;
     final int minAdultToGetPromotion =2;
     final int minChildrenToGetPromotion=2;
 
+        /**
+         * Retrieves the number of adult tickets.
+         *
+         * @param tickets the list of tickets.
+         * @return the number of adult tickets.
+         */
         @Override
         public double calculateDiscount(List<Ticket> tickets) {
 
@@ -35,7 +43,12 @@ public class FamilyPackPromotion implements IPromotion {
             }
             return 0;
         }
-
+    /**
+     * Retrieves the number of adult tickets.
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     private void markTicketsAsUsed(List<Ticket> tickets, Class<? extends Ticket> ticketType, int count) {
         tickets.stream()
                 .filter(ticketType::isInstance)

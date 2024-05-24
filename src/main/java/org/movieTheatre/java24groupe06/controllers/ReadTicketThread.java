@@ -12,18 +12,32 @@ import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * The ReadTicketThread class extends the Thread class and implements the Listener interface from the ReadTicketThread class.
+ * It serves as the controller for the reading of tickets, handling the reading of tickets from the server and updating the UI.
+ */
 public class ReadTicketThread extends Thread {
 
     private Session session;
     private Listener listener;
    private ObjectSocket objectSocket;
 
+    /**
+     * The constructor for the ReadTicketThread class.
+     *
+     * @param session the session for which tickets are to be read.
+     * @param listener the listener for the ticket reading thread.
+     * @param objectSocket the object socket for the ticket reading thread.
+     */
     public ReadTicketThread(Session session, Listener listener,ObjectSocket objectSocket) {
         this.session = session;
         this.listener = listener;
         this.objectSocket=objectSocket;
     }
 
+    /**
+     * The run method reads tickets from the server and updates the UI.
+     */
     @Override
     public void run() {
         try {
@@ -41,6 +55,9 @@ public class ReadTicketThread extends Thread {
         }
     }
 
+    /**
+     * The closeSocket method closes the socket.
+     */
     public void closeSocket() {
 
         try {
@@ -51,6 +68,9 @@ public class ReadTicketThread extends Thread {
         }
     }
 
+    /**
+     * The Listener interface provides a method for updating the UI when a ticket is bought.
+     */
     public interface Listener{
         void updateUITicketBought(Session session);
     }

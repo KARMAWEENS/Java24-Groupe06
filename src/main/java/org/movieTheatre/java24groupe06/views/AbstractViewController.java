@@ -12,22 +12,36 @@ import org.movieTheatre.java24groupe06.models.exceptions.CantLoadFXMLException;
 
 import java.io.IOException;
 import java.net.URL;
+/**
+ * The AbstractViewController class provides methods for managing the abstract view controller.
+ * @param <T> the type of the listener.
+ */
 
 public abstract class AbstractViewController<T> {
 
     private Parent root;
 
     protected Stage stage;
-
+    /**
+     * The getTitle method returns the title.
+     * @return the title.
+     */
     protected String getTitle() {
         return null;
     }
 
     protected T listener;
+    /**
+     * The AbstractViewController method is the constructor of the class.
+     * @param listener the listener.
+     */
     public AbstractViewController(T listener) {
         this.listener = listener;
     }
-
+    /**
+     * The getFXMLPath method returns the FXML path.
+     * @return the FXML path.
+     */
     public abstract String getFXMLPath();
     public Parent getRoot() throws IOException {
         if (this.root == null) {
@@ -38,6 +52,11 @@ public abstract class AbstractViewController<T> {
         }
         return this.root;
     }
+    /**
+     * The openOn method opens the view on the stage.
+     * @param stage the stage.
+     * @throws IOException if an I/O error occurs.
+     */
     public void openOn(Stage stage) throws IOException {
         Scene scene = new Scene(getRoot());
         stage.setScene(scene);
@@ -46,12 +65,20 @@ public abstract class AbstractViewController<T> {
         stage.setScene(scene);
         stage.show();
     }
+    /**
+     * The openOnNewStage method opens the view on a new stage.
+     * @throws IOException if an I/O error occurs.
+     */
     public void openOnNewStage() throws IOException {
         Stage newStage = new Stage();
         this.stage = newStage;
         this.stage.initModality(Modality.APPLICATION_MODAL); // Ajoutez cette ligne pour rendre la fenêtre modale
         openOn(newStage);
     }
+    /**
+     * The close method closes the view.
+     * @throws IllegalStateException if the view was never opened.
+     */
     public void close() throws IllegalStateException {
         if (this.stage != null) {
             this.stage.close();

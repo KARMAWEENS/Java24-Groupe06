@@ -9,11 +9,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * The Listener interface for the TicketController class. It provides methods for closing the ticket view.
+ */
 
 public abstract class AbstractDAO {
 
 
-    // Méthode générique pour obtenir une liste d'éléments
+    /**
+     * Retrieves a list of results from a query.
+     *
+     * @param query the SQL query to execute.
+     * @param mapper the RowMapper to use for mapping the ResultSet to objects.
+     * @param params the parameters to set in the PreparedStatement.
+     * @return a list of objects mapped from the ResultSet.
+     * @throws DataAccessException if an error occurs while executing the query.
+     */
     protected <T> List<T> getListResult(String query, RowMapper<T> mapper, Object... params) throws  DataAccessException {
         List<T> results = new ArrayList<>();
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
@@ -28,7 +39,15 @@ public abstract class AbstractDAO {
         return results;
     }
 
-    // Méthode générique pour obtenir un simple élément
+    /**
+     * Retrieves a single result from a query.
+     *
+     * @param query the SQL query to execute.
+     * @param mapper the RowMapper to use for mapping the ResultSet to an object.
+     * @param params the parameters to set in the PreparedStatement.
+     * @return the object mapped from the ResultSet.
+     * @throws DataAccessException if an error occurs while executing the query.
+     */
     protected <T> T getSingleResult(String query, RowMapper<T> mapper, Object... params) throws DataAccessException {
         try (ConnectionSingletonDB conn = ConnectionSingletonDB.getCurrent();
              PreparedStatement stmt = conn.prepareStatement(query, params);
@@ -42,6 +61,11 @@ public abstract class AbstractDAO {
         return null;
     }
 
+    /**
+     * The RowMapper interface provides a method for mapping a ResultSet to an object.
+     *
+     * @param <T> the type of object to map to.
+     */
     @FunctionalInterface
     public interface RowMapper<T> {
         T mapRow(ResultSet rs) throws SQLException;

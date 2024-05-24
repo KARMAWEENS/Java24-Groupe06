@@ -4,10 +4,17 @@ import org.movieTheatre.java24groupe06.models.tickets.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+    /**
+     * The GroupPackPromotion class provides methods for calculating the discount for a group pack promotion.
+     */
 public class GroupPackPromotion implements IPromotion {
     int nbPeopleNeededToGetPromotion = 5;
-
+    /**
+     * Retrieves the number of adult tickets.
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     @Override
     public double calculateDiscount(List<Ticket> tickets) {
         // Filter out tickets that have already been used for any promotion
@@ -30,7 +37,12 @@ public class GroupPackPromotion implements IPromotion {
 
         return discount/2;
     }
-
+    /**
+     * Retrieves the number of adult tickets.
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     private void markTicketsAsUsed(List<Ticket> tickets, Class<? extends Ticket> ticketType, int count) {
         tickets.stream()
                 .filter(ticketType::isInstance)

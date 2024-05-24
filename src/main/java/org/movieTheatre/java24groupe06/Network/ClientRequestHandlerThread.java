@@ -22,18 +22,25 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The ClientRequestHandlerThread class provides methods for managing the client request handler thread.
+ */
 public class ClientRequestHandlerThread extends Thread implements SessionHandlerThread.Listener {
     ObjectSocket objectSocket;
     public static List<SessionHandlerThread> currentTicketPageList = new ArrayList<>();
 
 
 
-
+    /**
+     * The constructor initializes the object socket.
+     * @param objectSocket
+     */
     public ClientRequestHandlerThread(ObjectSocket objectSocket) {
         this.objectSocket = objectSocket;
     }
-
+    /**
+     * The run method manages the client request handler thread.
+     */
     @Override
     public void run()  {
         HandleExceptions exceptionHandler = new HandleExceptions();
@@ -65,7 +72,10 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
         }
     }
 
-
+    /**
+     * The initializeSessionHandlerThread method initializes the session handler thread.
+     * @param session the session.
+     */
     private void initializeSessionHandlerThread(Session session) {
         HandleExceptions exceptionHandler = new HandleExceptions();
         try {
@@ -78,25 +88,41 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
             exceptionHandler.handleException("une erreur IO a eu lieu", e);
         }
     }
-
+    /**
+     * The sendMovieList method sends the movie list.
+     */
     public void sendMovieList() throws IOException, CreateMoviesException {
         CreateMovies createMovies = new CreateMovies();
         objectSocket.write(createMovies.buildMoviesList());
     }
-
+    /**
+     * The sendDTOSessionList method sends the DTO session list.
+     * @param movie the movie.
+     */
     public void sendDTOSessionList(Movie movie) throws DataAccessException, IOException {
         SessionDAO sessionDAO = new SessionDAO();
         objectSocket.write(sessionDAO.getDTOSessionList(movie));
     }
-
+    /**
+     * The getSession method gets the session.
+     * @param createSessionDTO the create session DTO.
+     * @return The session.
+     */
     public Session getSession(CreateSessionDTO createSessionDTO) throws  DataAccessException {
         SessionDAO sessionDAO = new SessionDAO();
         return sessionDAO.getSessionBySessionId(createSessionDTO.getSessionID(), createSessionDTO.getMovie());
     }
+    /**
+     * The sendSession method sends the session.
+     * @param session the session.
+     */
     public void sendSession(Session session) throws IOException {
         objectSocket.write(session);
     }
-
+    /**
+     * The updateSessionSeatsAndBroadcast method updates the session seats and broadcasts.
+     * @param purchaseDto the purchase DTO.
+     */
     public void updateSessionSeatsAndBroadcast(PurchaseDTO purchaseDto){
         SessionDAO sessionDAO = new SessionDAO();
         Session session = purchaseDto.getSession();
@@ -106,7 +132,10 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
         sessionDAO.updateSeats(session,nbRegularSeatsBuy,nbVIPSeatsBuy,nbHandicapsSeatsBuy);
         broadcast(session);
     }
-
+    /**
+     * The broadcast method broadcasts the session.
+     * @param session the session.
+     */
     public void broadcast(Session session) {
             for (SessionHandlerThread sessionHandlerThread : currentTicketPageList) {
                 if (sessionHandlerThread.getSession().equals(session)) {
@@ -114,7 +143,10 @@ public class ClientRequestHandlerThread extends Thread implements SessionHandler
                 }
             }
     }
-
+    /**
+     * The onConnectionLost method manages the connection lost.
+     * @param sessionHandlerThread the session handler thread.
+     */
     @Override
     public void onConnectionLost(SessionHandlerThread sessionHandlerThread) {
         currentTicketPageList.remove(sessionHandlerThread);

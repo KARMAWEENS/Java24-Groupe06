@@ -9,7 +9,9 @@ import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+/**
+ * The SessionHandlerThread class provides methods for managing the session handler thread.
+ */
 public class SessionHandlerThread extends Thread {
 
     private Session session;
@@ -23,7 +25,9 @@ public class SessionHandlerThread extends Thread {
         this.objectSocket = objectSocket;
         this.listener=listener;
     }
-
+    /**
+     * The run method manages the session handler thread.
+     */
     @Override
     public void run() {
         try {
@@ -34,11 +38,17 @@ public class SessionHandlerThread extends Thread {
             exceptionHandler.handleException("La classe n'a pas été trouvé", e);
         }
     }
-
+    /**
+     * The getSession method returns the session.
+     * @return the session.
+     */
     public Session getSession() {
         return this.session;
     }
-
+    /**
+     * The updateUI method updates the user interface.
+     * @param session the session.
+     */
     public void updateUI(Session session) {
         try {
             SessionDAO sessionDAO = new SessionDAO();
@@ -51,6 +61,9 @@ public class SessionHandlerThread extends Thread {
             exceptionHandler.handleException("une erreur d'accès aux données a eu lieu", e);
         }
     }
+    /**
+     * The Listener interface provides methods for managing the listener.
+     */
     public interface Listener{
         void onConnectionLost(SessionHandlerThread sessionHandlerThread);
     }

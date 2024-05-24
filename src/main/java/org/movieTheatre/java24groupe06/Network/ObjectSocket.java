@@ -8,7 +8,11 @@ public class   ObjectSocket  {
 
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
-
+    /**
+     * Create a new ObjectSocket from a socket
+     * @param socket The socket to create the ObjectSocket from
+     * @throws IOException If the socket cannot be created
+     */
     public ObjectSocket(Socket socket) throws IOException {
         this.out = new ObjectOutputStream(socket.getOutputStream());
         this.in = new ObjectInputStream(socket.getInputStream());
@@ -34,7 +38,10 @@ public class   ObjectSocket  {
     public <T> T read() throws IOException, ClassNotFoundException {
         return (T) in.readObject();
     }
-
+    /**
+     * Close the socket
+     * @throws IOException If the socket cannot be closed
+     */
     public void close() throws IOException{
             this.in.close();
             this.out.close();

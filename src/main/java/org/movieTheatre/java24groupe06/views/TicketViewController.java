@@ -11,6 +11,9 @@ import org.movieTheatre.java24groupe06.controllers.exceptions.CustomExceptions.*
 import org.movieTheatre.java24groupe06.models.tickets.Ticket;
 import org.movieTheatre.java24groupe06.views.exceptions.AlertManager;
 
+/**
+ * The TicketViewController class provides methods for managing the ticket view controller.
+ */
 public class TicketViewController extends AbstractViewController<TicketViewController.Listener>{
 
     @FXML
@@ -42,40 +45,65 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     @FXML
     private Label pricedisabled;
 
-    // a mettre dans abstrat
+   /**
+     * The TicketViewController method is the constructor of the class.
+     */
     public Stage getStage(){
         return stage;
     }
-
+    /**
+     * The TicketViewController method is the constructor of the class.
+     * @param listener the listener.
+     */
     public TicketViewController(Listener listener) {
         super(listener);
     }
-
+    /**
+     * The setTicket method sets the ticket.
+     */
     @Override
     protected String getTitle() {
         return "TicketsShop";
     }
+    /**
+     * The getFXMLPath method returns the FXML path.
+     * @return the FXML path.
+     */
     @Override
     public String getFXMLPath() {
         return "ticket-View.fxml";
     }
 
+
     public void updateTotalPriceLabel(double totalPrice){
         totalPriceLabel.setText("Total: "+totalPrice+"€");
     }
 
+
+
     public void updateTicketAdultLabel(int nbTicketAdult){
         nbSelectedAdultSeats.setText(nbTicketAdult+ "  Tickets Adultes");
     }
+
+
+
     public void updateTicketChildrenLabel(int nbTicketChildren){
         nbSelectedChildrenSeats.setText(nbTicketChildren+ "  Tickets Enfants");
     }
+
+
+
     public void updateTicketVIPLabel(int nbTicketVIP){
         nbSelectedVIPSeats.setText(nbTicketVIP+" Tickets VIP");
     }
+
+
+
     public void updateTicketHandicapLabel(int nbTicketHandicap){
         nbSelectedHandicapSeats.setText(nbTicketHandicap+" Tickets Handicapés");
     }
+
+
 
     public void resetCount(){
         updateTicketAdultLabel(0);
@@ -87,6 +115,7 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     public void updateAvailableAdultSeatsLabel(int seatsAdultLeft){
         availableAdultSeats.setText(String.valueOf(seatsAdultLeft));
     }
+
     public void updateAvailableChildrenSeatsLabel(int seatsChildrenLeft){
         availableChildrenSeats.setText(String.valueOf(seatsChildrenLeft));
     }

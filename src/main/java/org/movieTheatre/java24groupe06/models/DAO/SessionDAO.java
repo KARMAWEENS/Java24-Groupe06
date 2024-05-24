@@ -8,13 +8,21 @@ import org.movieTheatre.java24groupe06.models.exceptions.DataAccessException;
 
 import java.sql.*;
 import java.util.List;
-
+/**
+ * The SessionDAO class provides methods for accessing the Sessions table in the database.
+ */
 public class SessionDAO extends AbstractDAO {
     public List<CreateSessionDTO> getDTOSessionList(Movie movie) throws DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE movieID = %s", movie.getID());
         return getListResult(query, rs ->
                 new CreateSessionDTO(rs.getInt("SessionID"), movie, rs.getString("Time")));
     }
+    /**
+     * Retrieves a list of session DTOs for a given movie.
+     *
+     * @return a list of session DTOs.
+     * @throws DataAccessException if an error occurs while executing the query.
+     */
 
     public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws  DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",session.getSessionID());
@@ -25,6 +33,13 @@ public class SessionDAO extends AbstractDAO {
                         rs.getInt("VIPSeatsLeft")
                 ));
     }
+    /**
+     * Retrieves a session by its ID.
+     *
+     * @param sessionID the ID of the session to retrieve.
+     * @return the session with the given ID.
+     * @throws DataAccessException if an error occurs while executing the query.
+     */
 
     public Session getSessionBySessionId(int sessionID, Movie movie) throws  DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",sessionID);
@@ -36,6 +51,12 @@ public class SessionDAO extends AbstractDAO {
                                 rs.getInt("VIPSeatsLeft")),
                         rs.getString("Time")));
     }
+    /**
+     * Retrieves a list of sessions for a given movie.
+     *
+     * @return a list of sessions for the given movie.
+     * @throws DataAccessException if an error occurs while executing the query.
+     */
 
     public void updateSeats(Session session, int nbRegularSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {
         String query = "UPDATE Sessions SET regularSeatsLeft = regularSeatsLeft - ?, HandicapSeatsLeft = HandicapSeatsLeft - ?, VIPSeatsLeft = VIPSeatsLeft - ? WHERE SessionID = ?";

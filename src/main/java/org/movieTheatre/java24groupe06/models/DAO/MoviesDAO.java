@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The MoviesDAO class provides methods for accessing the Movies table in the database.
+ */
 public class MoviesDAO extends AbstractDAO{
     public List<Movie.MovieBuilder> getMoviesBuilderList() throws DataAccessException {
         String query =String.format("SELECT * FROM Movies WHERE isShowing = true");

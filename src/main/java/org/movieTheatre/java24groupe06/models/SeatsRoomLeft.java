@@ -1,7 +1,9 @@
 package org.movieTheatre.java24groupe06.models;
 
 import java.io.Serializable;
-
+/**
+ * The SeatsRoomLeft class provides methods for managing the number of seats left in a room.
+ */
 public class SeatsRoomLeft implements Serializable {
 
     public int getNbRegularSeats() {

@@ -1,14 +1,23 @@
 package org.movieTheatre.java24groupe06.models;
 
 import java.io.Serializable;
-
+/**
+ * The Session class provides methods for managing sessions.
+ */
 public class Session implements Serializable {
     private int ID;
     private Movie movie;
     private SeatsRoomLeft seatsRoomLeft;
     private String Time;
 
-
+    /**
+     * Initializes a new instance of the Session class.
+     *
+     * @param SessionID the session ID.
+     * @param movie the movie.
+     * @param seatsRoomLeft the seats left in the room.
+     * @param hours the hours.
+     */
     public Session(int SessionID, Movie movie, SeatsRoomLeft seatsRoomLeft, String hours){
         this.Time =hours;
         this.seatsRoomLeft = seatsRoomLeft;
