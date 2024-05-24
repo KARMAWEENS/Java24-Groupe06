@@ -52,7 +52,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
     private GridPane gridPane;
 
     /**
-     * The setPoster method sets the poster.
+     * getTitle method returns the title.
      */
     @Override
     protected String getTitle() {
@@ -68,7 +68,7 @@ public class MovieDetailsViewController extends AbstractViewController<MovieDeta
         this.movie = movie;
     }
     /**
-     * The setImage method sets the image.
+     * displayMovieDetails method displays the movie details.
      */
     public void displayMovieDetails() throws CustomExceptions{
         try {

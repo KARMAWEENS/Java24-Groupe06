@@ -3,7 +3,7 @@ package org.movieTheatre.java24groupe06.models.tickets;
 import org.movieTheatre.java24groupe06.models.Session;
 
 /**
- * The Ticket class provides methods for managing tickets.
+ * The TicketAdult class provides methods for managing adult tickets.
  */
 public class TicketAdult extends Ticket {
     public TicketAdult(Session session) {

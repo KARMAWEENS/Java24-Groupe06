@@ -220,9 +220,7 @@ public class TicketController implements TicketViewController.Listener, ReadTick
             throw new CustomExceptions("Failed to buy tickets", e, ErrorCode.BUY_TICKET_ERROR);
         }
     }
-    /**
-     * The onButtonPlusAdultClicked method handles the plus button click event for the adult ticket.
-     */
+
 
     private boolean areSeatsSelected(){
         return !(

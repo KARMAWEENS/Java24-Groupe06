@@ -14,15 +14,12 @@ public class SchoolPackPromotion implements IPromotion {
     final double reductionSchoolPack = 30;
 
     /**
-     * Retrieves the number of  tickets.
+     * calculate the discount for a school pack promotion.
      *
-     * @param tickets the list of tickets.
-     * @return the number of adult tickets.
      */
     @Override
     public double calculateDiscount(List<Ticket> tickets) {
-        // Filter out tickets that have already been used for any promotion
-      //  List<Ticket> eligibleTickets = getEligibleTickets(tickets);
+
 
         List<Ticket> eligibleTickets = tickets.stream()
                 .filter(ticket -> !ticket.isPromotionApplied())
@@ -33,17 +30,22 @@ public class SchoolPackPromotion implements IPromotion {
         int nbChildrenDiscountGroups = nbChildrenTickets / minChildrenToGetPromotion;
 
         if (nbChildrenDiscountGroups >= 1) {
-            // Calculate total discount
+
             double totalDiscount = nbChildrenDiscountGroups * reductionSchoolPack;
 
-            // Mark the required number of tickets as used
+
             markTicketsAsUsed(eligibleTickets, TicketChildren.class, nbChildrenDiscountGroups * minChildrenToGetPromotion);
             System.out.println("SchoolPackPromotion: "+ nbChildrenDiscountGroups);
             return totalDiscount;
         }
         return 0;
     }
-
+    /**
+     * mark tickets as used for promotion
+     *
+     * @param tickets the list of tickets.
+     * @return the number of adult tickets.
+     */
     private void markTicketsAsUsed(List<Ticket> tickets, Class<? extends Ticket> ticketType, int count) {
         tickets.stream()
                 .filter(ticketType::isInstance)

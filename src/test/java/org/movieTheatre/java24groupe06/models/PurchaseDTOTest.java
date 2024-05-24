@@ -8,10 +8,14 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+/**
+ * Test class for PurchaseDTO.
+ */
 public class PurchaseDTOTest {
     private Session session;
-
+    /**
+     * Sets up the test environment by initializing the Session instance.
+     */
     @BeforeEach
     public void setUp() {
         int id = 1;
@@ -31,7 +35,9 @@ public class PurchaseDTOTest {
         session = new Session(id, movie, seatsRoomLeft, date);
 
     }
-
+    /**
+     * Tests that the constructor sets all fields correctly.
+     */
     @Test
     public void constructorSetsAllFieldsCorrectly() {
         PurchaseDTO purchaseDto = new PurchaseDTO(session, 2, 1, 1);
@@ -41,12 +47,16 @@ public class PurchaseDTOTest {
         assertEquals(1, purchaseDto.getNbVIPSeatsBuy());
         assertEquals(1, purchaseDto.getNbHandicapsSeatsBuy());
     }
-
+    /**
+     * Tests that the constructor throws an exception when the session is null.
+     */
     @Test
     public void constructorThrowsExceptionWhenSessionIsNull() {
         assertThrows(NullPointerException.class, () -> new PurchaseDTO(null, 2, 1, 1));
     }
-
+    /**
+     * Tests that the constructor throws an exception when the number of seats is negative.
+     */
     @Test
     public void constructorThrowsExceptionWhenNumberOfSeatsIsNegative() {
         assertThrows(IllegalArgumentException.class, () -> new PurchaseDTO(session, -1, 1, 1));

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class GroupPackPromotion implements IPromotion {
     int nbPeopleNeededToGetPromotion = 5;
     /**
-     * Retrieves the number of adult tickets.
+     * calculate discount for group pack promotion
      *
      * @param tickets the list of tickets.
      * @return the number of adult tickets.
@@ -38,7 +38,7 @@ public class GroupPackPromotion implements IPromotion {
         return discount/2;
     }
     /**
-     * Retrieves the number of adult tickets.
+     * mark tickets as used for promotion
      *
      * @param tickets the list of tickets.
      * @return the number of adult tickets.

@@ -18,12 +18,12 @@ public class SessionDAO extends AbstractDAO {
                 new CreateSessionDTO(rs.getInt("SessionID"), movie, rs.getString("Time")));
     }
     /**
-     * Retrieves a list of session DTOs for a given movie.
-     *
-     * @return a list of session DTOs.
-     * @throws DataAccessException if an error occurs while executing the query.
-     */
-
+        * Retrieves the number of seats left for a given session.
+        *
+        * @param session the session.
+        * @return the number of seats left for the given session.
+        * @throws DataAccessException if an error occurs while executing the query.
+        */
     public SeatsRoomLeft getSeatsRoomLeftBySessionId(Session session) throws  DataAccessException {
         String query = String.format("SELECT * FROM Sessions WHERE SessionID =%s",session.getSessionID());
         return getSingleResult(query, rs ->
@@ -51,11 +51,13 @@ public class SessionDAO extends AbstractDAO {
                                 rs.getInt("VIPSeatsLeft")),
                         rs.getString("Time")));
     }
+
     /**
-     * Retrieves a list of sessions for a given movie.
-     *
-     * @return a list of sessions for the given movie.
-     * @throws DataAccessException if an error occurs while executing the query.
+     * Updates the number of seats left for a given session.
+     * @param session
+     * @param nbRegularSeats
+     * @param nbSelectedVIPSeats
+     * @param nbSelectedHandicapSeats
      */
 
     public void updateSeats(Session session, int nbRegularSeats, int nbSelectedVIPSeats, int nbSelectedHandicapSeats) {

@@ -14,12 +14,10 @@ public class FamilyPackPromotion implements IPromotion {
     final int minAdultToGetPromotion =2;
     final int minChildrenToGetPromotion=2;
 
-        /**
-         * Retrieves the number of adult tickets.
-         *
-         * @param tickets the list of tickets.
-         * @return the number of adult tickets.
-         */
+    /**
+     * calculate the discount for a family pack promotion.
+     *
+     */
         @Override
         public double calculateDiscount(List<Ticket> tickets) {
 
@@ -44,7 +42,7 @@ public class FamilyPackPromotion implements IPromotion {
             return 0;
         }
     /**
-     * Retrieves the number of adult tickets.
+     * mark tickets as used for promotion
      *
      * @param tickets the list of tickets.
      * @return the number of adult tickets.

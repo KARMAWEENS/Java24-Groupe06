@@ -46,7 +46,7 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     private Label pricedisabled;
 
    /**
-     * The TicketViewController method is the constructor of the class.
+     * The stage
      */
     public Stage getStage(){
         return stage;
@@ -58,8 +58,10 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
     public TicketViewController(Listener listener) {
         super(listener);
     }
+
     /**
-     * The setTicket method sets the ticket.
+     * The getTitle method returns the title.
+     * @return
      */
     @Override
     protected String getTitle() {
@@ -74,37 +76,54 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         return "ticket-View.fxml";
     }
 
-
+    /**
+     * update the total price label
+     * @param totalPrice
+     */
     public void updateTotalPriceLabel(double totalPrice){
         totalPriceLabel.setText("Total: "+totalPrice+"€");
     }
 
 
-
+    /**
+     * update the price of the adult ticket
+     * @param nbTicketAdult
+     */
     public void updateTicketAdultLabel(int nbTicketAdult){
         nbSelectedAdultSeats.setText(nbTicketAdult+ "  Tickets Adultes");
     }
 
 
-
+    /**
+     * update the price of the children ticket
+     * @param nbTicketChildren
+     */
     public void updateTicketChildrenLabel(int nbTicketChildren){
         nbSelectedChildrenSeats.setText(nbTicketChildren+ "  Tickets Enfants");
     }
 
 
-
+    /**
+     * update the price of the VIP ticket
+     * @param nbTicketVIP
+     */
     public void updateTicketVIPLabel(int nbTicketVIP){
         nbSelectedVIPSeats.setText(nbTicketVIP+" Tickets VIP");
     }
 
 
-
+    /**
+     * update the price of the handicap ticket
+     * @param nbTicketHandicap
+     */
     public void updateTicketHandicapLabel(int nbTicketHandicap){
         nbSelectedHandicapSeats.setText(nbTicketHandicap+" Tickets Handicapés");
     }
 
 
-
+    /**
+     * reset the count of the tickets
+     */
     public void resetCount(){
         updateTicketAdultLabel(0);
         updateTicketChildrenLabel(0);
@@ -112,19 +131,39 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         updateTicketHandicapLabel(0);
     }
 
+    /**
+     * update the available adults seats label
+     * @param seatsAdultLeft
+     */
     public void updateAvailableAdultSeatsLabel(int seatsAdultLeft){
         availableAdultSeats.setText(String.valueOf(seatsAdultLeft));
     }
-
+    /**
+     * update the available children seats label
+     * @param seatsChildrenLeft
+     */
     public void updateAvailableChildrenSeatsLabel(int seatsChildrenLeft){
         availableChildrenSeats.setText(String.valueOf(seatsChildrenLeft));
     }
+    /**
+     * update the available VIP seats label
+     * @param seatsVIPLeft
+     */
     public void updateAvailableVIPSeatsLabel(int seatsVIPLeft){
         availableVIPSeats.setText(String.valueOf(seatsVIPLeft));
     }
+    /**
+     * update the available handicap seats label
+     * @param seatsHandicapLeft
+     */
     public void updateAvailableHandicapSeatsLabel(int seatsHandicapLeft){
         availableHandicapSeats.setText(String.valueOf(seatsHandicapLeft));
     }
+
+    /**
+     * listener on the return button clicked
+     * @param event
+     */
     public void onReturnButtonClicked(ActionEvent event){
         listener.onReturnButtonClicked();
     }
@@ -159,7 +198,9 @@ public class TicketViewController extends AbstractViewController<TicketViewContr
         listener.onButtonBuyClicked();
     }
 
-
+    /**
+     * The Listener interface provides methods for managing the listener.
+     */
     public interface Listener {
         void onButtonPlusAdultClicked();
         void onButtonMinusAdultClicked();

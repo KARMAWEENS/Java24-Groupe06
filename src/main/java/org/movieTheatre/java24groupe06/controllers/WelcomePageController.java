@@ -59,10 +59,10 @@ public class WelcomePageController implements WelcomePageViewController.Listener
         }
     }
     /**
-     * The createDetailsMovieStage method creates a new stage for displaying movie details.
+     * The OnClickImage method handles the event when a movie image is clicked.
      *
-     * @param movie the movie for which details are to be displayed.
-     * @throws CustomExceptions if an error occurs while creating the stage.
+     * @param movie the movie that was clicked.
+     * @throws CustomExceptions if an error occurs while handling the event.
      */
     @Override
     public void OnClickImage(Movie movie) throws CustomExceptions{

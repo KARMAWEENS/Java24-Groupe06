@@ -19,7 +19,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
+/**
+ * The WelcomePageViewController class provides methods for managing the welcome page view controller.
+ */
 public class WelcomePageViewController extends AbstractViewController<WelcomePageViewController.Listener> implements Initializable, MainScenePosterTemplateController.Listener  {
     @FXML
     private ScrollPane scrollPane;
@@ -31,33 +33,60 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
     private int nbColumn;
     public int widthStage;
 
+    /**
+     * Title of the page
+     * @return
+     */
     @Override
     protected String getTitle() {
         return "Movie Theatre";
     }
 
+    /**
+     * getFXMLPath method returns the FXML path.
+     * @return
+     */
     @Override
     public String getFXMLPath() {
         return "welcomePage-View.fxml";
     }
-
+    /**
+     * The WelcomePageViewController method is the constructor of the class.
+     * @param listener the listener.
+     * @param moviesList the movies list.
+     * @param stage the stage.
+     */
     public WelcomePageViewController(Listener listener, List<Movie> moviesList, Stage stage) {
         super(listener);
         this.moviesList = moviesList;
         this.stage = stage;
     }
-
+    /**
+     * The setWidthStage method sets the width of the stage.
+     * @param width the width.
+     */
     private void setWidthStage(int width) {
         this.widthStage = width;
     }
-
+    /**
+     * The setRow method sets the row.
+     * @param width the width.
+     */
     private void setRow(int width) {
         this.nbRow = width;
     }
-
+    /**
+     * The setColumn method sets the column.
+     * @param width the width.
+     */
     private void setColumn(int width) {
         this.nbColumn = width;
     }
+    /**
+     * The initialize method initializes the controller.
+     * @param url the URL.
+     * @param resourceBundle the resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -67,6 +96,11 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             AlertManager.showErrorAlert("Erreur lors du chargement de la page", e);
         }
     }
+    /**
+     * The setWidthListener method sets the width listener.
+     * @param welcomePageViewController the welcome page view controller.
+     * @param stage the stage.
+     */
     private void setWidthListener(WelcomePageViewController welcomePageViewController, Stage stage) {
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
             try {
@@ -77,11 +111,18 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             }
         });
     }
-
+    /**
+     * The getWidthImage method returns the width of the image.
+     * @return the width of the image.
+     */
     private static int getWidthImage() {
         return MainScenePosterTemplateController.widthImage;
     }
-
+    /**
+     * The calculatedColumn method calculates the column.
+     * @param width the width.
+     * @return the column.
+     */
     private int calculatedColumn(int width) {
         return (int) Math.max((double) (width / getWidthImage()), 1);
     }
@@ -89,7 +130,9 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
     private int calculatedRow() {
         return (int) Math.ceil((double) moviesList.size() / nbColumn);
     }
-
+    /**
+     * The createPane method creates the pane.
+     */
     public void createPane() {
         GridPane gridPane = new GridPane(nbRow, nbColumn);
         this.gridPane = gridPane;
@@ -100,7 +143,11 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
         scrollPane.setFitToHeight(true);
         GridPane.setVgrow(gridPane, Priority.ALWAYS);
     }
-
+    /**
+     * The onWidthChanged method is called when the width is changed.
+     * @param width the width.
+     * @throws CantLoadFXMLException if an I/O error occurs.
+     */
     public void onWidthChanged(int width) throws CantLoadFXMLException {
         setWidthStage(width);
         if (calculatedColumn(width) != nbColumn) {
@@ -110,13 +157,18 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
             displayGridMovies();
         }    setStyleStage();
     }
-
+    /**
+     * The setStyleStage method sets the style of the stage.
+     */
     private void setStyleStage() {
         scrollPane.setPrefWidth(widthStage);
         gridPane.setPrefWidth(widthStage);
         gridPane.setAlignment(Pos.CENTER);
     }
-
+    /**
+     * The displayGridMovies method displays the grid of movies.
+     * @throws CantLoadFXMLException if an I/O error occurs.
+     */
     public void displayGridMovies() throws CantLoadFXMLException {
         createPane();
         int index = 0;
@@ -138,6 +190,9 @@ public class WelcomePageViewController extends AbstractViewController<WelcomePag
         }
     }
 
+    /**
+     * onClickImage method is called when the image is clicked.
+     */
     @Override
     public void OnClickImage(Movie movie) throws CustomExceptions{
         listener.OnClickImage(movie);

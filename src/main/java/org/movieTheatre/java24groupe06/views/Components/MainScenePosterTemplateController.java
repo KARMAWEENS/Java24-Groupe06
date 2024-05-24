@@ -39,7 +39,7 @@ public void setPoster() {
         listener.OnClickImage(movie);
     }
     /**
-     * The setImage method sets the image.
+     * getTitle method returns the title.
      */
     @Override
     protected String getTitle() {

@@ -14,10 +14,9 @@ public class HandicapPackPromotion implements IPromotion{
     final int minAdultToGetPromotion = 1;
     final int minHandicapToGetPromotion = 1;
     /**
-     * Retrieves the number of adult tickets.
+     * calculate the discount for a handicap pack promotion.
      *
-     * @param tickets the list of tickets.
-     * @return the number of adult tickets.
+     *
      */
     @Override
     public double calculateDiscount(List<Ticket> tickets) {
@@ -41,7 +40,7 @@ public class HandicapPackPromotion implements IPromotion{
         return 0;
     }
     /**
-     * Retrieves the number of adult tickets.
+     * mark tickets as used for promotion
      *
      * @param tickets the list of tickets.
      * @return the number of adult tickets.

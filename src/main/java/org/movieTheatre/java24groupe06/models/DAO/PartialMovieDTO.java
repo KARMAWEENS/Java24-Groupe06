@@ -61,12 +61,12 @@ public class PartialMovieDTO {
         this.pathImg = pathImg;
         this.isShowing = isShowing;
     }
-    /**
-     * Retrieves the title of the movie.
+   /**
+     * Checks if the given objects are not null.
      *
-     * @return the title of the movie.
+     * @param objs the objects to check.
+     * @param names the names of the objects.
      */
-
     private void checkNotNull(Object[] objs, String[] names) {
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < objs.length; i++) {
@@ -79,9 +79,10 @@ public class PartialMovieDTO {
         }
     }
     /**
-     * Retrieves the duration of the movie.
+     * Checks if the given values are not negative.
      *
-     * @return the duration of the movie.
+     * @param values the values to check.
+     * @param names the names of the values.
      */
     private void checkNotNegative(int[] values, String[] names) {
         StringBuilder errorMessage = new StringBuilder();
