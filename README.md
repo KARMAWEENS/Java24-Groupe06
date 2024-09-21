@@ -1,6 +1,6 @@
 ﻿# Java24-Groupe06
 
-Projet réalisé en collaboration avec Fache Pierre, Voiturier Matthias, Louis Goovers, Simon Busin
+Ce projet a été réalisé par Fache Pierre, Voiturier Matthias, Louis Goovers, Simon Busin
 
  Pour lancer le projet :
  lancer "Serveur"
